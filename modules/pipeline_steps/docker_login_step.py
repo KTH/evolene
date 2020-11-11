@@ -13,6 +13,6 @@ class DockerLoginStep(AbstractPipelineStep):
         return []
 
     def run_step(self, data):
-        #if (not environment.get_push_public()):
-        docker.login()
+        if (not environment.get_push_public()):
+            docker.login()
         return data
