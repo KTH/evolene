@@ -25,7 +25,7 @@ def on_npm_no_publish(application, version):
 
 def on_successful_private_push(image, size):
     message = (f'*{image}* pushed to KTH:s private :docker: '
-               f'registry, size {size}.')
+               f'registry ({environment.get_registry_host()}), size {size}.')
     send_to_slack(message, icon=':jenkins:')
 
 def on_successful_public_push(image, image_name, image_size):
