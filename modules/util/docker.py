@@ -5,6 +5,7 @@ from modules.util import process
 from modules.util import environment
 from modules.util.exceptions import PipelineException
 from modules.util import pipeline_data
+import logging
 
 def build(labels=None, build_args=None):
     build_cmd = 'docker build --quiet --pull'
@@ -61,10 +62,14 @@ def run_dry_run_compose(compose_test_file, data):
     return run_test(compose_test_file, data)
 
 def login():
+    log = logging.getLogger(__name__)
     host = environment.get_registry_host()
     user = environment.get_registry_user()
     pwd = environment.get_registry_password()
-    return process.run_with_output(f'docker login -u {user} -p {pwd} {host}', False)
+    log.info(f'docker login -u {user} -p XXX {host}')
+    retval = process.run_with_output(f'docker login -u {user} -p {pwd} {host}', False)
+    log.info(f'Login result:{retval}')
+    return retval
 
 def run_test(compose_test_file, data):
     image_id = data[pipeline_data.LOCAL_IMAGE_ID]
