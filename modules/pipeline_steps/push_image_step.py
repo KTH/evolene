@@ -52,12 +52,20 @@ class PushImageStep(AbstractPipelineStep):
         return (environment.get_registry_user(), environment.get_registry_password())
 
     def create_registry_url(self, data):
-        return 'https://{}/v2/{}/tags/list'.format(environment.get_registry_host(),
-                                                   data[pipeline_data.IMAGE_NAME])
+        registry_host = environment.get_registry_host()
+        image_name = data[pipeline_data.IMAGE_NAME]
+        if environment.get_push_azure():
+            return 'https://{}/acr/v1/{}/_tags'.format(registry_host, image_name)
+        else:
+            return 'https://{}/v2/{}/tags/list'.format(registry_host, image_name)
 
     def get_tags_from_response(self, response): #pragma: no cover
         try:
-            return response.json()['tags']
+            response = response.json()
+            if environment.get_push_azure():
+                return [ version['name'] for version in response['tags'] ]
+            else:
+                return response['tags']
         except ValueError as json_err:
             raise PipelineException('Could not parse JSON response ("{}") from registry API: {}'
                                     .format(response.text, json_err))

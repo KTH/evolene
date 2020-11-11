@@ -44,3 +44,13 @@ class PushImageStepTests(unittest.TestCase):
         data = {pipeline_data.IMAGE_VERSION: '1.2.0_1234', pipeline_data.IMAGE_NAME: 'kth-azure-app'}
         result = pis.create_registry_url(data)
         self.assertEqual(result, 'https://kthregistryv2.sys.kth.se/v2/kth-azure-app/tags/list')
+
+    def test_create_registry_url_azure(self):
+        pis = PushImageStep()
+        os.environ[environment.PUSH_AZURE] = "True"
+        os.environ[environment.REGISTRY_HOST] = 'kthregistryv2.sys.kth.se'
+        os.environ[environment.IMAGE_NAME] = 'kth-azure-app'
+        os.environ[environment.AZURE_REGISTRY_HOST] = 'testregistry.azurecr.io'
+        data = {pipeline_data.IMAGE_VERSION: '1.2.0_1234', pipeline_data.IMAGE_NAME: 'kth-azure-app'}
+        result = pis.create_registry_url(data)
+        self.assertEqual(result, 'https://testregistry.azurecr.io/acr/v1/kth-azure-app/_tags')
