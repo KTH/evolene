@@ -39,6 +39,9 @@ class ImageVersionStep(AbstractPipelineStep):
         if git.is_main_branch():
             return "{}".format(sem_ver)
 
+        if environment.get_branches_tag_as_main():
+            return "{}".format(sem_ver)
+
         return "{}-{}".format(git.slugify_branch(), sem_ver)
 
     def append_commit_hash(self, tag):

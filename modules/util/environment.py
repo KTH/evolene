@@ -23,7 +23,8 @@ EXPERIMENTAL = 'EXPERIMENTAL'
 SKIP_DRY_RUN = 'SKIP_DRY_RUN'
 PUSH_PUBLIC = 'PUSH_PUBLIC'
 PUSH_AZURE = 'PUSH_AZURE'
-ALSO_PUSH_BRANCHES_STARTING_WITH = 'ALSO_PUSH_BRANCHES_STARTING_WITH'
+BRANCHES_SAVE_STARTING_WITH = 'BRANCHES_SAVE_STARTING_WITH'
+BRANCHES_TAG_AS_MAIN = 'BRANCHES_TAG_AS_MAIN'
 AZURE_REGISTRY_HOST = 'AZURE_REGISTRY_HOST'
 AZURE_REGISTRY_USER = 'AZURE_REGISTRY_USER'
 AZURE_REGISTRY_PASSWORD = 'AZURE_REGISTRY_PASSWORD'
@@ -107,8 +108,11 @@ def get_push_public():
 def get_push_azure():
     return is_true(PUSH_AZURE)
 
-def get_also_push_branches_starting_with():
-    return os.environ.get(ALSO_PUSH_BRANCHES_STARTING_WITH)
+def get_branches_save_starting_with():
+    return os.environ.get(BRANCHES_SAVE_STARTING_WITH)
+
+def get_branches_tag_as_main():
+    return is_true(BRANCHES_TAG_AS_MAIN)
 
 def use_dry_run():
     if is_true(SKIP_DRY_RUN):

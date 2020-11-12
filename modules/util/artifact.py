@@ -16,7 +16,7 @@ def should_store():
     if git.is_main_branch():
         return True
 
-    if branch_starts_with(environment.get_also_push_branches_starting_with()):
+    if branch_starts_with(environment.get_branches_save_starting_with()):
         return True
 
     return False

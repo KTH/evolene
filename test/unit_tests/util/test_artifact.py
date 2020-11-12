@@ -13,15 +13,15 @@ class ArtifactsTests(unittest.TestCase):
 
     def test_get_2(self):
         os.environ[environment.GIT_BRANCH] = "freature/ns-34"
-        os.environ[environment.ALSO_PUSH_BRANCHES_STARTING_WITH] = "freature"
+        os.environ[environment.BRANCHES_SAVE_STARTING_WITH] = "freature"
         self.assertTrue(artifact.should_store())
-        del os.environ[environment.ALSO_PUSH_BRANCHES_STARTING_WITH]
+        del os.environ[environment.BRANCHES_SAVE_STARTING_WITH]
 
     def test_get_3(self):
         os.environ[environment.GIT_BRANCH] = "freature/ns-34"
-        os.environ[environment.ALSO_PUSH_BRANCHES_STARTING_WITH] = "pr-3"
+        os.environ[environment.BRANCHES_SAVE_STARTING_WITH] = "pr-3"
         self.assertFalse(artifact.should_store())
-        del os.environ[environment.ALSO_PUSH_BRANCHES_STARTING_WITH]
+        del os.environ[environment.BRANCHES_SAVE_STARTING_WITH]
 
     def test_get_4(self):
         os.environ[environment.GIT_BRANCH] = "freature/ns-34"

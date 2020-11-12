@@ -55,6 +55,17 @@ class ImageVersionStepTests(unittest.TestCase):
         excepted = "origin.a.feature.branch-2.3.2"
         self.assertEqual(feature_branch_version, excepted)
 
+    def test_format_feature_branch_as_main(self):
+        '''
+        If BRANCHES_TAG_AS_MAIN is true, do not prepend branch name
+        '''
+        ivs = ImageVersionStep()
+        os.environ[environment.BRANCHES_TAG_AS_MAIN] = 'True'
+        os.environ[environment.GIT_BRANCH] = 'origin/a-feature-branch'
+        main_branch_version = ivs.get_version('2.3.2')
+        excepted = "2.3.2"
+        self.assertEqual(main_branch_version, excepted)
+
     def test_format_feature_branchand_hash(self):
         os.environ[environment.GIT_COMMIT] = "12345ai87q23b4sud6fyae"
         ivs = ImageVersionStep()

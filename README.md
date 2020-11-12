@@ -334,9 +334,8 @@ You can configure your npm packages to publish to npm registy on every commit. T
 ```json
 {
   "version": "1.0.2",
-  "automaticPublish": "true",
+  "automaticPublish": "true"
 }
-
 ```
 
 Example: If you have version: 1.0.2, Evolene will look for the latest version 1.0, in this example 1.0.9. Increment patch version to 10, and push 1.0.10.
@@ -479,7 +478,29 @@ RUN echo MAVEN_SETTINGS >/usr/share/maven/conf/settings.xml
 ```
 
 # Handling of none master/main branches
-Only main branch (master) will be pushed to NPM or Docker registries. Other branches will build and tested. Just not the last step, published.
+
+The default behaiour is that only main branch (master or main) will be pushed to NPM or Docker registries. Other branches will build and tested. Just not the last step, saved to a artifact storage.
+
+## Save long lived branches to repository
+
+```bash
+BRANCHES_SAVE_STARTING_WITH="origin/feature-"
+```
+
+If you whould like to create an PR and install it. You set env to a string like `BRANCHES_SAVE_STARTING_WITH="origin/feature-` on the features build, this will save the built image (docker push). The version will include the branch name.
+
+In example if you build _my-project_ with version _2.3.2_ on branch _origin/a-feature-branch_ the result will be `my-project:origin.a.feature.branch-2.3.2_abcdefg`.
+
+### Tag long lived branches as main (enable semver update)
+
+```bash
+BRANCHES_SAVE_STARTING_WITH="origin/parallell-rewrite"
+BRANCHES_TAG_AS_MAIN="True"
+```
+
+If you need automatic semver update in Aspen for a long lived branch. You can set env `BRANCHES_TAG_AS_MAIN="True"` together with BRANCHES_SAVE_STARTING_WITH. This will change the standard version behaviour for branches and not include the branch name in the version. So instead of creating `my-project:origin.parallell.rewite-4.5.6_f23t56`, the result will look like its the branch was a main build `my-project:4.5.6_f23t56`.
+
+NOTE: This may cause version collisions if you save image from multiple branches to the same reposity.
 
 # Setup Evolene on Jenkins
 
