@@ -108,7 +108,7 @@ def get_push_azure():
     return is_true(PUSH_AZURE)
 
 def get_also_push_branches_starting_with():
-    return is_true(ALSO_PUSH_BRANCHES_STARTING_WITH)
+    return os.environ.get(ALSO_PUSH_BRANCHES_STARTING_WITH)
 
 def use_dry_run():
     if is_true(SKIP_DRY_RUN):
