@@ -33,6 +33,21 @@ class ImageVersionStepTests(unittest.TestCase):
         excepted = "2.3.2"
         self.assertEqual(feature_branch_version, excepted)
 
+    def test_format_main_master_branch(self):
+        ivs = ImageVersionStep()
+        os.environ[environment.GIT_BRANCH] = 'origin/master'
+        branch = ivs.get_version('2.3.2')
+        excepted = "2.3.2"
+        self.assertEqual(branch, excepted)
+
+    def test_format_main_main_branch(self):
+        ivs = ImageVersionStep()
+        os.environ[environment.GIT_BRANCH] = 'origin/main'
+        branch = ivs.get_version('2.3.2')
+        excepted = "2.3.2"
+        self.assertEqual(branch, excepted)
+
+
     def test_format_feature_branch(self):
         ivs = ImageVersionStep()
         os.environ[environment.GIT_BRANCH] = 'origin/a-feature-branch'
