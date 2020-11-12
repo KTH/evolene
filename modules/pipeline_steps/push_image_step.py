@@ -16,20 +16,19 @@ class PushImageStep(AbstractPipelineStep):
         return [environment.REGISTRY_HOST,
                 environment.REGISTRY_USER,
                 environment.REGISTRY_PASSWORD]
-
     def get_required_data_keys(self): #pragma: no cover
         return [pipeline_data.IMAGE_VERSION, pipeline_data.IMAGE_NAME]
 
     def run_step(self, data):
         
-        if not environment.is_main_branch():
-            self.log.info('Branch is not main branch, so no publish will be done.')
-            slack.send_to_slack(f'The built branch {environment.get_git_branch()} is not main branch, so no Docker push will be done.')
-            return data
-
         if not environment.get_push_public():
-            self.push_image(data)
-            self.verify_push(data)
+            if environment.is_main_branch():
+                self.push_image(data)
+                self.verify_push(data)
+            else:
+                self.log.info('Branch is not main branch, so no publish will be done.')
+                slack.send_to_slack((f'The built branch {data[pipeline_data.IMAGE_NAME]} *{environment.get_git_branch()}* '
+                                        'is not a main branch, so no Docker push will be done.'))
             
         return data
 

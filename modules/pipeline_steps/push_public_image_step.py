@@ -7,6 +7,7 @@ from modules.util import docker
 from modules.util import image_version_util
 from modules.util import slack
 
+
 class PushPublicImageStep(AbstractPipelineStep):
 
     def get_required_env_variables(self):
@@ -16,18 +17,17 @@ class PushPublicImageStep(AbstractPipelineStep):
         return [pipeline_data.IMAGE_NAME, pipeline_data.IMAGE_VERSION, pipeline_data.SEM_VER]
 
     def run_step(self, data):
-
-        if not environment.is_main_branch():
-            self.log.info('Branch is not main branch, so no publish will be done.')
-            slack.send_to_slack(f'The built branch {environment.get_git_branch()} is not main branch, so no Docker push will be done.')
-            return data
-
         if environment.get_push_public():
-            self.push_image(data)
-            self.push_image_only_semver(data)
-            self.push_latest(data)
-        else:
-            self.log.info('Skipping to push to public registry')
+            if environment.is_main_branch():
+                self.push_image(data)
+                self.push_image_only_semver(data)
+                self.push_latest(data)
+            else:
+                self.log.info(
+                    'Branch is not main branch, so no publish will be done.')
+                slack.send_to_slack(('fThe built branch {data[pipeline_data.IMAGE_NAME]} '
+                                     f' *{environment.get_git_branch()}* is not a main branch'
+                                     ', so no _Docker push_ will be done.'))
 
         return data
 
