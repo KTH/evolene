@@ -27,6 +27,6 @@ class ArtifactsTests(unittest.TestCase):
         os.environ[environment.GIT_BRANCH] = "freature/ns-34"
         self.assertTrue(artifact.branch_starts_with("freature"))
 
-    def test_get_4(self):
+    def test_get_5(self):
         os.environ[environment.GIT_BRANCH] = "freature/ns-34"
         self.assertFalse(artifact.branch_starts_with(None))
