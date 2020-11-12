@@ -4,6 +4,7 @@ from requests import get, HTTPError, ConnectTimeout, RequestException
 from requests.auth import HTTPBasicAuth
 from modules.pipeline_steps.abstract_pipeline_step import AbstractPipelineStep
 from modules.util import environment
+from modules.util import artifact
 from modules.util import pipeline_data
 from modules.util.exceptions import PipelineException
 from modules.util import docker
@@ -24,15 +25,15 @@ class PushImageStep(AbstractPipelineStep):
     def run_step(self, data):
 
         if not environment.get_push_public():
-            if environment.is_main_branch():
+            if artifact.should_store():
                 self.push_image(data)
                 self.verify_push(data)
             else:
                 self.log.info(
-                    'Branch is not main branch, so no publish will be done.')
+                    'Branch not to be publish.')
                 slack.send_to_slack((f'The :git: branch *{data[pipeline_data.IMAGE_NAME]} | '
                                      f' {environment.get_git_branch()}* '
-                                     'is not a main branch, so no Docker push will be done.'))
+                                     'is not a main branch, nor configured to be push to the private Docker registry.'))
 
         return data
 

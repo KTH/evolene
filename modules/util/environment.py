@@ -23,6 +23,7 @@ EXPERIMENTAL = 'EXPERIMENTAL'
 SKIP_DRY_RUN = 'SKIP_DRY_RUN'
 PUSH_PUBLIC = 'PUSH_PUBLIC'
 PUSH_AZURE = 'PUSH_AZURE'
+ALSO_PUSH_BRANCHES_STARTING_WITH = 'ALSO_PUSH_BRANCHES_STARTING_WITH'
 AZURE_REGISTRY_HOST = 'AZURE_REGISTRY_HOST'
 AZURE_REGISTRY_USER = 'AZURE_REGISTRY_USER'
 AZURE_REGISTRY_PASSWORD = 'AZURE_REGISTRY_PASSWORD'
@@ -71,12 +72,6 @@ def get_image_name():
 def get_git_commit():
     return os.environ.get(GIT_COMMIT)
 
-def get_git_commit_clamped(length=7):
-    commit_hash = get_git_commit()
-    if len(str(commit_hash)) > length:
-        commit_hash = commit_hash[:length]
-    return commit_hash
-
 def get_git_url():
     return os.environ.get(GIT_URL)
 def get_git_branch():
@@ -112,8 +107,8 @@ def get_push_public():
 def get_push_azure():
     return is_true(PUSH_AZURE)
 
-def get_experimental():
-    return is_true(EXPERIMENTAL)
+def get_also_push_branches_starting_with():
+    return is_true(ALSO_PUSH_BRANCHES_STARTING_WITH)
 
 def use_dry_run():
     if is_true(SKIP_DRY_RUN):
@@ -152,11 +147,3 @@ def get_env_with_default_value(name, default_value):
     if not value:
         return default_value
     return value.strip()
-
-def is_main_branch():
-    branch = get_git_branch()
-    if 'origin/master' in branch:
-        return True
-    if 'origin/main' in branch:
-        return True
-    return False

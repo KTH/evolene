@@ -3,6 +3,7 @@ __author__ = 'tinglev'
 import re
 from modules.pipeline_steps.abstract_pipeline_step import AbstractPipelineStep
 from modules.util import environment
+from modules.util import git
 from modules.util import image_version_util
 from modules.util import pipeline_data
 
@@ -17,7 +18,7 @@ class ImageVersionStep(AbstractPipelineStep):
     def run_step(self, data): # pragma: no cover
         data[pipeline_data.SEM_VER] = self.get_sem_ver(data[pipeline_data.IMAGE_VERSION],
                                                        self.get_patch_version(data))
-        data[pipeline_data.COMMIT_HASH] = environment.get_git_commit_clamped()
+        data[pipeline_data.COMMIT_HASH] = git.get_commit_clamped()
 
         data[pipeline_data.IMAGE_VERSION] = self.append_commit_hash(self.get_version(data[pipeline_data.SEM_VER]))
         return data
@@ -35,18 +36,11 @@ class ImageVersionStep(AbstractPipelineStep):
         return "{}.{}".format(major_minor, patch_version)
 
     def get_version(self, sem_ver):
-        if environment.is_main_branch():
+        if git.is_main_branch():
             return "{}".format(sem_ver)
 
-        return "{}-{}".format(slugify(environment.get_git_branch()), sem_ver)
+        return "{}-{}".format(git.slugify_branch(), sem_ver)
 
     def append_commit_hash(self, tag):
-        return '{}_{}'.format(tag, environment.get_git_commit_clamped())
-        
-def slugify(name):
-    """Take some name (any string) and return a version-slug-safe variant of it."""
-    # This could be done better with an external dependency,
-    # but branch-names are probably ascii anyway.
-    # "feature/slånbärsöl" will become "feature.sl.nb.rs.l", so it errs on the safe side.
-    # If the result is an empty string, substitute "unknown"
-    return re.sub('[^a-z0-9]+', '.', name.lower()).strip('.') or 'unknown'
+        return '{}_{}'.format(tag, git.get_commit_clamped())
+
