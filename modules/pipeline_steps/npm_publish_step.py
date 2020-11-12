@@ -36,7 +36,9 @@ class NpmPublishStep(AbstractPipelineStep):
 
         if not environment.is_main_branch():
             self.log.info('Branch is not main branch, so no npm publish will be done.')
-            slack.send_to_slack(f'The built branch {environment.get_git_branch()} is not main branch, so no npm publish will be done.')
+            slack.send_to_slack((f'The :git: branch *{data[pipeline_data.NPM_PACKAGE_NAME]} | '
+                                     f' {environment.get_git_branch()}* '
+                                     'is not a main branch, so no NPM publish will be done.'))
             return data
         
         if data[pipeline_data.NPM_VERSION_CHANGED]:
