@@ -2,8 +2,8 @@ __author__ = 'tinglev'
 
 import unittest
 import os
-from modules.util import artifact
 from modules.util import environment
+from modules.util import artifact
 
 class ArtifactsTests(unittest.TestCase):
 
@@ -23,3 +23,10 @@ class ArtifactsTests(unittest.TestCase):
         self.assertFalse(artifact.should_store())
         del os.environ[environment.ALSO_PUSH_BRANCHES_STARTING_WITH]
 
+    def test_get_4(self):
+        os.environ[environment.GIT_BRANCH] = "freature/ns-34"
+        self.assertTrue(artifact.branch_starts_with("freature"))
+
+    def test_get_4(self):
+        os.environ[environment.GIT_BRANCH] = "freature/ns-34"
+        self.assertFalse(artifact.branch_starts_with(None))

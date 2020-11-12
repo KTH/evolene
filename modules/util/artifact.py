@@ -4,7 +4,10 @@ from modules.util import environment
 from modules.util import git
 
 def branch_starts_with(pattern):
-    return environment.get_git_branch().startswith(pattern)
+    if pattern is None:
+        return False
+        
+    return str(environment.get_git_branch()).startswith(pattern)
 
 def should_store():
     '''
