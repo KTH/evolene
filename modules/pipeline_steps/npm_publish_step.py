@@ -34,8 +34,9 @@ class NpmPublishStep(AbstractPipelineStep):
 
         self.write_updated_package_json(data)
 
-        if environment.get_pull_request_test():
-            self.log.info('Env PULL_REQUEST_TEST is set so no npm publish will be done.')
+        if not environment.is_main_branch():
+            self.log.info('Branch is not main branch, so no npm publish will be done.')
+            slack.send_to_slack(f'The built branch {environment.get_git_branch()} is not main branch, so no npm publish will be done.')
             return data
         
         if data[pipeline_data.NPM_VERSION_CHANGED]:

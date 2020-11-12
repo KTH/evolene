@@ -30,7 +30,6 @@ NPM_USER = 'NPM_USER'
 NPM_PASSWORD = 'NPM_PASSWORD'
 NPM_EMAIL = 'NPM_EMAIL'
 DOCKER_BUILD_ARGS = 'DOCKER_BUILD_ARGS'
-PULL_REQUEST_TEST = 'PULL_REQUEST_TEST'
 SLIM = 'SLIM'
 SLIM_ENV = 'SLIM_ENV'
 
@@ -148,11 +147,16 @@ def get_docker_build_args():
         return [args.rstrip() for args in args.split(',')]
     return []
 
-def get_pull_request_test():
-    return os.environ.get(PULL_REQUEST_TEST)
-
 def get_env_with_default_value(name, default_value):
     value = os.environ.get(name)
     if not value:
         return default_value
     return value.strip()
+
+def is_main_branch():
+    branch = get_git_branch()
+    if 'origin/master' in branch:
+        return True
+    if 'origin/main' in branch:
+        return True
+    return False

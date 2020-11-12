@@ -21,12 +21,16 @@ class PushImageStep(AbstractPipelineStep):
         return [pipeline_data.IMAGE_VERSION, pipeline_data.IMAGE_NAME]
 
     def run_step(self, data):
-        # Skip pushing on pull request testing
-        if environment.get_pull_request_test():
+        
+        if not environment.is_main_branch():
+            self.log.info('Branch is not main branch, so no publish will be done.')
+            slack.send_to_slack(f'The built branch {environment.get_git_branch()} is not main branch, so no Docker push will be done.')
             return data
+
         if not environment.get_push_public():
             self.push_image(data)
             self.verify_push(data)
+            
         return data
 
     def verify_push(self, data):
