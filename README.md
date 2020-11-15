@@ -489,7 +489,7 @@ BRANCHES_SAVE_STARTING_WITH="origin/feature-"
 
 If you would like to use and save a branch other then main to a repository, you kan force Evolene to save the artifact by setting env `BRANCHES_SAVE_STARTING_WITH` on the branch build job on the CI server, and thereby overriding the default behaivour. This will save the built image (docker push). Note that the version will include the branch name.
 
-Eexample: If you build _my-project_ with version _2.3.2_ on a branch named _origin/a-feature-branchA_ and have env `BRANCHES_SAVE_STARTING_WITH="origin/feature-"`, the result will be that `my-project:origin.a.feature.branch.a-2.3.2_abcdefg` is save to the repository. This will also make every branch starting with "origin/feature-" to be saved.
+**Example:** If you build _my-project_ with version _2.3.2_ on a branch named _origin/a-feature-branchA_ and have env `BRANCHES_SAVE_STARTING_WITH="origin/feature-"`, the result will be that `my-project:origin.a.feature.branch.a-2.3.2_abcdefg` is save to the repository. This will also make every branch starting with "origin/feature-" to be saved.
 
 ### Tag long lived branches as main (enable semver update)
 
@@ -500,7 +500,7 @@ BRANCHES_TAG_AS_MAIN="True"
 
 If you need continuous delivery based on semver updates in Aspen for a long lived branch. You can set env `BRANCHES_TAG_AS_MAIN="True"` together with BRANCHES_SAVE_STARTING_WITH. This will change the standard version behaviour for none-main branches and remove the branch name in the version. So instead of creating `my-project:origin.parallell.rewite-4.5.6_f23t56`, the result will look like its the branch was a main build `my-project:4.5.6_f23t56`.
 
-NOTE: This may cause version collisions if you save image from multiple branches to the same reposity.
+**NOTE:** This may cause version collisions if you save image from multiple branches to the same reposity.
 
 # Setup Evolene on Jenkins
 
