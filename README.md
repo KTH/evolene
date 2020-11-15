@@ -479,7 +479,7 @@ RUN echo MAVEN_SETTINGS >/usr/share/maven/conf/settings.xml
 
 # Handling of none master/main branches
 
-The default behaiour is that only main branch (master or main) will be pushed to NPM or Docker registries. Other branches will build and tested. Just not the last step, saved to a artifact storage.
+The default behaiour is that only main branch (master or main) will be pushed to NPM or Docker registries. Other branches will build and tested, but not saved to a artifact storage like Docker Hub.
 
 ## Save long lived branches to repository
 
@@ -487,9 +487,9 @@ The default behaiour is that only main branch (master or main) will be pushed to
 BRANCHES_SAVE_STARTING_WITH="origin/feature-"
 ```
 
-If you whould like to create an PR and install it. You set env to a string like `BRANCHES_SAVE_STARTING_WITH="origin/feature-` on the features build, this will save the built image (docker push). The version will include the branch name.
+If you would like to use and save a branch other then main to a repository, You kan force Evolene to save the artifact by setting env `BRANCHES_SAVE_STARTING_WITH` on the branch build job on the CI server, and thereby overriding the default behaivour. This will save the built image (docker push). Note that the version will include the branch name.
 
-In example if you build _my-project_ with version _2.3.2_ on branch _origin/a-feature-branch_ the result will be `my-project:origin.a.feature.branch-2.3.2_abcdefg`.
+In example if you build _my-project_ with version _2.3.2_ on branch _origin/a-feature-branchA_ have `BRANCHES_SAVE_STARTING_WITH="origin/feature-"` the result will be `my-project:origin.a.feature.branch.a-2.3.2_abcdefg`. This will then make every branch starting with "origin/feature-" to be saved.
 
 ### Tag long lived branches as main (enable semver update)
 
@@ -498,7 +498,7 @@ BRANCHES_SAVE_STARTING_WITH="origin/parallell-rewrite"
 BRANCHES_TAG_AS_MAIN="True"
 ```
 
-If you need automatic semver update in Aspen for a long lived branch. You can set env `BRANCHES_TAG_AS_MAIN="True"` together with BRANCHES_SAVE_STARTING_WITH. This will change the standard version behaviour for branches and not include the branch name in the version. So instead of creating `my-project:origin.parallell.rewite-4.5.6_f23t56`, the result will look like its the branch was a main build `my-project:4.5.6_f23t56`.
+If you need continuous delivery based on semver updates in Aspen for a long lived branch. You can set env `BRANCHES_TAG_AS_MAIN="True"` together with BRANCHES_SAVE_STARTING_WITH. This will change the standard version behaviour for none-main branches and remove the branch name in the version. So instead of creating `my-project:origin.parallell.rewite-4.5.6_f23t56`, the result will look like its the branch was a main build `my-project:4.5.6_f23t56`.
 
 NOTE: This may cause version collisions if you save image from multiple branches to the same reposity.
 
