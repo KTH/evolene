@@ -487,9 +487,9 @@ The default behaiour is that only main branch (master or main) will be pushed to
 BRANCHES_SAVE_STARTING_WITH="origin/feature-"
 ```
 
-If you would like to use and save a branch other then main to a repository, You kan force Evolene to save the artifact by setting env `BRANCHES_SAVE_STARTING_WITH` on the branch build job on the CI server, and thereby overriding the default behaivour. This will save the built image (docker push). Note that the version will include the branch name.
+If you would like to use and save a branch other then main to a repository, you kan force Evolene to save the artifact by setting env `BRANCHES_SAVE_STARTING_WITH` on the branch build job on the CI server, and thereby overriding the default behaivour. This will save the built image (docker push). Note that the version will include the branch name.
 
-In example if you build _my-project_ with version _2.3.2_ on branch _origin/a-feature-branchA_ have `BRANCHES_SAVE_STARTING_WITH="origin/feature-"` the result will be `my-project:origin.a.feature.branch.a-2.3.2_abcdefg`. This will then make every branch starting with "origin/feature-" to be saved.
+Eexample: If you build _my-project_ with version _2.3.2_ on a branch named _origin/a-feature-branchA_ and have env `BRANCHES_SAVE_STARTING_WITH="origin/feature-"`, the result will be that `my-project:origin.a.feature.branch.a-2.3.2_abcdefg` is save to the repository. This will also make every branch starting with "origin/feature-" to be saved.
 
 ### Tag long lived branches as main (enable semver update)
 
