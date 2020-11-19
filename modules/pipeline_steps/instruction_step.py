@@ -30,7 +30,7 @@ class InstructionStep(AbstractPipelineStep):
         return False
 
     def get_change_message(self, instruction, data):
-        return "*{}*: In `/Dockerfile` change `{}` to: ```{}```".format(
+        return "*{}*: In `/Dockerfile` change `{}` to: ```\n{}\n```".format(
             image_version_util.get_image(data),
             instruction,
             self.get_change_to_instruction(instruction))

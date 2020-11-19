@@ -40,7 +40,7 @@ class DryRunStep(AbstractPipelineStep):
             raise PipelineException(str(ex), self.get_slack_message(ex, data))
 
     def get_slack_message(self, exception, data):
-        return '*{}* Compose dry run failed: \n```...\n{}```\n:jenkins: {}console'.format(
+        return '*{}* Compose dry run failed: \n```...\n{}```\n:jenkins: {}/console'.format(
             image_version_util.get_image(data),
             str(exception).replace('`', ' ')[-1000:],
             environment.get_build_url())

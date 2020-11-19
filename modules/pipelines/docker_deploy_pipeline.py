@@ -88,7 +88,7 @@ class DockerDeployPipeline(object):
         except PipelineException as p_ex:
             workspace = f'`{environment.get_project_root()}`'
             self.log.fatal('%s'.encode('UTF-8'), p_ex, exc_info=False)
-            slack.send_to_slack(f'<!channel> {workspace}: \n ```{p_ex.slack_message}```', username='Faild to build or test (Evolene)')
+            slack.send_to_slack(f'<!channel> {workspace}: \n ```\n{p_ex.slack_message}\n```', username='Faild to build or test (Evolene)')
             print_util.red("Such bad, very learning.")
             sys.exit(1)
         else:

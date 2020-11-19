@@ -72,7 +72,7 @@ class AbstractPipelineStep:
         workspace = environment.get_project_root()
         if workspace:
             if ex:
-                message = f'*{workspace}* \n{message} \n ```{str(ex)}```'
+                message = f'*{workspace}* \n{message} \n ```\n{str(ex)}\n```'
             else:
                 message = f'*`{workspace}`* {message}'
         slack.send_to_slack(message, username='Faild to build or test (Evolene)')

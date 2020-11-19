@@ -19,9 +19,9 @@ class InstructionStepTests(unittest.TestCase):
     def test_is_instruction_message_on_change(self):
         data = {pipeline_data.IMAGE_NAME: 'kth-azure-app', pipeline_data.IMAGE_VERSION: '1.0.0'}
         message = InstructionStep().get_change_message('ENTRYPOINT ["make", "main.cpp]', data)
-        self.assertEqual(message, '*kth-azure-app:1.0.0*: In `/Dockerfile` change `ENTRYPOINT ["make", "main.cpp]` to: ```CMD ["make", "main.cpp]```')
+        self.assertEqual(message, '*kth-azure-app:1.0.0*: In `/Dockerfile` change `ENTRYPOINT ["make", "main.cpp]` to: ```\nCMD ["make", "main.cpp]\n```')
 
     def test_is_instruction_message_on_no_change(self):
         data = {pipeline_data.IMAGE_NAME: 'kth-azure-app', pipeline_data.IMAGE_VERSION: '1.0.0'}
         message = InstructionStep().get_change_message('CMD ["make", "main.cpp]', data)
-        self.assertEqual(message, '*kth-azure-app:1.0.0*: In `/Dockerfile` change `CMD ["make", "main.cpp]` to: ```CMD ["make", "main.cpp]```')
+        self.assertEqual(message, '*kth-azure-app:1.0.0*: In `/Dockerfile` change `CMD ["make", "main.cpp]` to: ```\nCMD ["make", "main.cpp]\n```')
