@@ -122,6 +122,9 @@ def use_dry_run():
 def get_build_url():
     return os.environ.get(BUILD_URL)
 
+def get_console_url():
+    return f'{get_build_url()}console'
+
 def is_true(env_key):
     return is_true_value(os.environ.get(env_key))
 
