@@ -31,7 +31,5 @@ class PushAzureImageStep(AbstractPipelineStep):
             tag_with_registry = f"{environment.get_azure_registry_host()}/{tag}"
             docker.tag_image(data[pipeline_data.LOCAL_IMAGE_ID], tag_with_registry)
             docker.push(tag_with_registry)
-            slack.on_successful_azure_push(tag_with_registry,
-                                            data[pipeline_data.IMAGE_NAME],
-                                            data[pipeline_data.IMAGE_SIZE])
+            slack.on_successful_azure_push(tag_with_registry, data[pipeline_data.IMAGE_SIZE])
             self.log.info('Pushed image %s .', tag_with_registry)
