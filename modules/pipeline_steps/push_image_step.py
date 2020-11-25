@@ -64,18 +64,12 @@ class PushImageStep(AbstractPipelineStep):
     def create_registry_url(self, data):
         registry_host = environment.get_registry_host()
         image_name = data[pipeline_data.IMAGE_NAME]
-        if environment.get_push_azure():
-            return 'https://{}/acr/v1/{}/_tags'.format(registry_host, image_name)
-        else:
-            return 'https://{}/v2/{}/tags/list'.format(registry_host, image_name)
+        return 'https://{}/v2/{}/tags/list'.format(registry_host, image_name)
 
     def get_tags_from_response(self, response):  # pragma: no cover
         try:
             response = response.json()
-            if environment.get_push_azure():
-                return [version['name'] for version in response['tags']]
-            else:
-                return response['tags']
+            return response['tags']
         except ValueError as json_err:
             raise PipelineException('Could not parse JSON response ("{}") from registry API: {}'
                                     .format(response.text, json_err))
@@ -101,7 +95,9 @@ class PushImageStep(AbstractPipelineStep):
 
     def push_image(self, data):
         for tag in data[pipeline_data.IMAGE_TAGS]:
-            docker.push(tag)
-            self.log.info('Pushed image %s to KTH registry.', tag)
+            tag_with_registry = f"{environment.get_registry_host()}/{tag}"
+            docker.tag_image(data[pipeline_data.LOCAL_IMAGE_ID], tag_with_registry)
+            docker.push(tag_with_registry)
+            self.log.info('Pushed image %s to KTH registry.', tag_with_registry)
         slack.on_successful_private_push(image_version_util.get_image(data),
                                          data[pipeline_data.IMAGE_SIZE])

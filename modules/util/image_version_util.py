@@ -34,6 +34,3 @@ def get_latest_tag(data):
 
 def prepend_registry(image):
     return '{}/{}'.format(environment.get_registry_host(), image)
-
-def get_image_uri(image):
-    return prepend_registry(image)

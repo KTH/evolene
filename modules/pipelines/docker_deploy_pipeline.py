@@ -14,6 +14,7 @@ from modules.pipeline_steps.dry_run_step import DryRunStep
 from modules.pipeline_steps.test_image_step import TestImageStep
 from modules.pipeline_steps.tag_image_step import TagImageStep
 from modules.pipeline_steps.push_image_step import PushImageStep
+from modules.pipeline_steps.push_azure_image_step import PushAzureImageStep
 from modules.pipeline_steps.push_public_image_step import PushPublicImageStep
 from modules.pipeline_steps.repo_supervisor_step import RepoSupervisorStep
 from modules.pipeline_steps.unit_test_step import UnitTestStep
@@ -73,6 +74,7 @@ class DockerDeployPipeline(object):
             TagImageStep(),
             # Push the tagged image to a repository
             PushPublicImageStep(),
+            PushAzureImageStep(),
             PushImageStep(),
             DoneStep()
         ])

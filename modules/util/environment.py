@@ -51,21 +51,25 @@ def get_npm_password():
     return os.environ.get(NPM_PASSWORD)
 
 def get_registry_host():
-    if get_push_public():
-        return "docker.io/kthse"
-    if get_push_azure():
-        return os.environ.get(AZURE_REGISTRY_HOST)
     return os.environ.get(REGISTRY_HOST)
 
+def get_public_registry_host():
+    return "docker.io/kthse"
+
 def get_registry_user():
-    if get_push_azure():
-        return os.environ.get(AZURE_REGISTRY_USER)
     return os.environ.get(REGISTRY_USER)
 
 def get_registry_password():
-    if get_push_azure():
-        return os.environ.get(AZURE_REGISTRY_PASSWORD)
     return os.environ.get(REGISTRY_PASSWORD)
+
+def get_azure_registry_host():
+    return os.environ.get(AZURE_REGISTRY_HOST)
+
+def get_azure_registry_user():
+    return os.environ.get(AZURE_REGISTRY_USER)
+
+def get_azure_registry_password():
+    return os.environ.get(AZURE_REGISTRY_PASSWORD)
 
 def get_image_name():
     return os.environ.get(IMAGE_NAME)

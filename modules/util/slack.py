@@ -28,6 +28,11 @@ def on_successful_private_push(image, size):
                f'registry ({environment.get_registry_host()}), size {size}.')
     send_to_slack(message, icon=':jenkins:')
 
+def on_successful_azure_push(image, size):
+    message = (f'*{image}* pushed to Azure :cloud: :docker: '
+               f'registry ({environment.get_azure_registry_host()}), size {size}.')
+    send_to_slack(message, icon=':jenkins:')
+
 def on_successful_public_push(image, image_name, image_size):
     message = (
         f'*{image}* pushed to :docker: '

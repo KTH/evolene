@@ -1,5 +1,6 @@
 __author__ = 'tinglev'
 
+from modules.util.pipeline_data import LOCAL_IMAGE_ID
 import os
 import unittest
 from mock import MagicMock
@@ -20,22 +21,27 @@ class PushImageStepTests(unittest.TestCase):
     def test_push_image(self):
         pis = PushImageStep()
         docker.push = MagicMock()
+        docker.tag_image = MagicMock()
         slack.on_successful_private_push = MagicMock()
         os.environ[environment.REGISTRY_HOST] = 'kthregistryv2.sys.kth.se'
         data = {
             pipeline_data.IMAGE_VERSION: '1.2.0_1234',
             pipeline_data.IMAGE_NAME: 'kth-azure-app',
+            pipeline_data.LOCAL_IMAGE_ID: 'kth-azure-app',
             pipeline_data.IMAGE_TAGS: [
-                'reg.sys.kth.se/kth-azure-app:1.2.0',
-                'reg.sys.kth.se/kth-azure-app:1.2.0_123cas',
-                'reg.sys.kth.se/kth-azure-app:latest',
+                'kth-azure-app:1.2.0',
+                'kth-azure-app:1.2.0_123cas',
+                'kth-azure-app:latest',
             ],
             pipeline_data.IMAGE_SIZE: '100mb'
         }
         pis.push_image(data)
-        docker.push.assert_any_call('reg.sys.kth.se/kth-azure-app:1.2.0')
-        docker.push.assert_any_call('reg.sys.kth.se/kth-azure-app:1.2.0_123cas')
-        docker.push.assert_any_call('reg.sys.kth.se/kth-azure-app:latest')
+        docker.tag_image.assert_any_call('kth-azure-app', 'kthregistryv2.sys.kth.se/kth-azure-app:1.2.0')
+        docker.push.assert_any_call('kthregistryv2.sys.kth.se/kth-azure-app:1.2.0')
+        docker.tag_image.assert_any_call('kth-azure-app', 'kthregistryv2.sys.kth.se/kth-azure-app:1.2.0_123cas')
+        docker.push.assert_any_call('kthregistryv2.sys.kth.se/kth-azure-app:1.2.0_123cas')
+        docker.tag_image.assert_any_call('kth-azure-app', 'kthregistryv2.sys.kth.se/kth-azure-app:latest')
+        docker.push.assert_any_call('kthregistryv2.sys.kth.se/kth-azure-app:latest')
 
     def test_create_registry_url(self):
         pis = PushImageStep()
@@ -44,13 +50,3 @@ class PushImageStepTests(unittest.TestCase):
         data = {pipeline_data.IMAGE_VERSION: '1.2.0_1234', pipeline_data.IMAGE_NAME: 'kth-azure-app'}
         result = pis.create_registry_url(data)
         self.assertEqual(result, 'https://kthregistryv2.sys.kth.se/v2/kth-azure-app/tags/list')
-
-    def test_create_registry_url_azure(self):
-        pis = PushImageStep()
-        os.environ[environment.PUSH_AZURE] = "True"
-        os.environ[environment.REGISTRY_HOST] = 'kthregistryv2.sys.kth.se'
-        os.environ[environment.IMAGE_NAME] = 'kth-azure-app'
-        os.environ[environment.AZURE_REGISTRY_HOST] = 'testregistry.azurecr.io'
-        data = {pipeline_data.IMAGE_VERSION: '1.2.0_1234', pipeline_data.IMAGE_NAME: 'kth-azure-app'}
-        result = pis.create_registry_url(data)
-        self.assertEqual(result, 'https://testregistry.azurecr.io/acr/v1/kth-azure-app/_tags')

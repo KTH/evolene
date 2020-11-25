@@ -62,13 +62,17 @@ def run_dry_run_compose(compose_test_file, data):
     return run_test(compose_test_file, data)
 
 def login():
-    log = logging.getLogger(__name__)
     host = environment.get_registry_host()
     user = environment.get_registry_user()
     pwd = environment.get_registry_password()
-    log.info(f'docker login -u {user} -p XXX {host}')
     retval = process.run_with_output(f'docker login -u {user} -p {pwd} {host}', False)
-    log.info(f'Login result:{retval}')
+    return retval
+
+def login_azure():
+    host = environment.get_azure_registry_host()
+    user = environment.get_azure_registry_user()
+    pwd = environment.get_azure_registry_password()
+    retval = process.run_with_output(f'docker login -u {user} -p {pwd} {host}', False)
     return retval
 
 def run_test(compose_test_file, data):
