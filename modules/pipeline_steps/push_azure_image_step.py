@@ -16,7 +16,7 @@ class PushAzureImageStep(AbstractPipelineStep):
         return [pipeline_data.IMAGE_NAME, pipeline_data.IMAGE_VERSION, pipeline_data.SEM_VER]
 
     def run_step(self, data):
-        if environment.get_push_azure():
+        if environment.get_push_azure() and not environment.get_push_public():
             if artifact.should_store():
                 self.push_image(data)
             else:
