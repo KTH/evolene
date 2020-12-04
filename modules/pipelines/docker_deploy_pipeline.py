@@ -19,6 +19,7 @@ from modules.pipeline_steps.push_public_image_step import PushPublicImageStep
 from modules.pipeline_steps.repo_supervisor_step import RepoSupervisorStep
 from modules.pipeline_steps.unit_test_step import UnitTestStep
 from modules.pipeline_steps.integration_test_step import IntegrationTestStep
+from modules.pipeline_steps.dependecies_check import  DependeciesCheck
 from modules.pipeline_steps.from_image_step import FromImageStep
 from modules.pipeline_steps.celebrate_step import CelebrateStep
 from modules.pipeline_steps.docker_create_build_arg_step import DockerCreateBuildArgStep
@@ -44,6 +45,8 @@ class DockerDeployPipeline(object):
             ReadConfFileStep('docker.conf', [environment.IMAGE_NAME, pipeline_data.IMAGE_VERSION]),
             # Create new image version major.minor.path_githash
             ImageVersionStep(),
+            # Check old dependencies
+            #DependeciesCheck(),
             # Check Dockerfile exists
             DockerFileStep(),
             # Check Dockerfiles FROM statement

@@ -123,6 +123,9 @@ def use_dry_run():
         return False
     return True
 
+def use_experimental():
+    return is_true(EXPERIMENTAL)
+
 def get_build_url():
     return os.environ.get(BUILD_URL)
 
