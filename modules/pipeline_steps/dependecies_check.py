@@ -78,7 +78,7 @@ class DependeciesCheck(AbstractPipelineStep):
         self.log_and_slack(cmd_output, data)
 
     def log_and_slack(self, cmd_output, data):
-        self.log.info('New dependencies version(s) availibe: \n %s', cmd_output)
+        self.log.info('New dependencies version(s) available: \n %s', cmd_output)
         if environment.use_experimental():
             msg = (f'*{data[pipeline_data.IMAGE_NAME]}* <NPM Check Updates|https://www.npmjs.com/package/npm-check-updates> reported new version(s). \n ```{cmd_output}```')
             slack.send_to_slack(msg, icon=':jenkins:')
