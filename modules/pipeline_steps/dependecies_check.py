@@ -12,7 +12,7 @@ from modules.util import slack
 
 class DependeciesCheck(AbstractPipelineStep):
 
-    PACKAGE_JSON = 'package.json'
+    PACKAGE_JSON = '/package.json'
     IMAGE_NAME = 'kthse/npm-package-available'
 
     def get_required_env_variables(self):  # pragma: no cover
