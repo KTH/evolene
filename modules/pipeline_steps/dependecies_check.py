@@ -74,13 +74,15 @@ class DependeciesCheck(AbstractPipelineStep):
         # All is dandy
         if "All dependencies match the latest package" in cmd_output:
             return
-        
+
+        # Use only info after pattern "100%"
         information = cmd_output[cmd_output.index("100%"):]
-        
+
         self.log_and_slack(information, data)
 
     def log_and_slack(self, cmd_output, data):
-        self.log.info('New dependencies version(s) available: \n %s', cmd_output)
+        self.log.info(
+            'New dependencies version(s) available: \n %s', cmd_output)
         if environment.use_experimental():
             msg = (f'*{data[pipeline_data.IMAGE_NAME]}* <NPM Check Updates|https://www.npmjs.com/package/npm-check-updates> reported new version(s). \n ```{cmd_output}```')
             slack.send_to_slack(msg, icon=':jenkins:')
