@@ -4,10 +4,12 @@ import logging
 import requests
 from requests import HTTPError, ConnectTimeout, RequestException
 from modules.util import environment, pipeline_data
+from modules.util import text_cleaner
 
 def send_to_slack(message, icon=':jenkins:', username='Build Server (Evolene)'):
+    cleaned_message = text_cleaner.clean(message)
     for channel in environment.get_slack_channels():
-        body = get_payload_body(channel, message, icon, username)
+        body = get_payload_body(channel, cleaned_message, icon, username)
         call_slack_endpoint(body)
 
 def on_npm_publish(application, version, data):

@@ -9,7 +9,6 @@ from modules.util import file_util
 from modules.util.exceptions import PipelineException
 from modules.util import slack
 
-
 class DependeciesCheck(AbstractPipelineStep):
 
     PACKAGE_JSON = '/package.json'
@@ -76,15 +75,16 @@ class DependeciesCheck(AbstractPipelineStep):
             return
 
         # Use only info after pattern "100%"
-        information = cmd_output[cmd_output.index("100%"):]
+        upgrades_information = cmd_output[(cmd_output.index("100%") + len("100%")):]
+        upgrades_information = cmd_output[:(cmd_output.index("Run"))]
 
-        self.log_and_slack(information, data)
+        self.log_and_slack(upgrades_information, data)
 
-    def log_and_slack(self, cmd_output, data):
+    def log_and_slack(self, upgrades_information, data):
         self.log.info(
-            'New dependencies version(s) available: \n %s', cmd_output)
+            'New dependencies version(s) available: \n %s', upgrades_information)
         if environment.use_experimental():
-            msg = (f'*{data[pipeline_data.IMAGE_NAME]}* <NPM Check Updates|https://www.npmjs.com/package/npm-check-updates> reported new version(s). \n ```{cmd_output}```')
+            msg = (f'*{data[pipeline_data.IMAGE_NAME]}* <https://www.npmjs.com/package/npm-check-updates|NPM Check Updates> reported new version(s) available. \n ```{upgrades_information}```\n Run `ncu -u` in the root of your project to update.')
             slack.send_to_slack(msg, icon=':jenkins:')
 
     def check_dependencies(self):
