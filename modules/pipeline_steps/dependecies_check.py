@@ -74,8 +74,10 @@ class DependeciesCheck(AbstractPipelineStep):
         # All is dandy
         if "All dependencies match the latest package" in cmd_output:
             return
-
-        self.log_and_slack(cmd_output, data)
+        
+        information = cmd_output[cmd_output.index("100%"):]
+        
+        self.log_and_slack(information, data)
 
     def log_and_slack(self, cmd_output, data):
         self.log.info('New dependencies version(s) available: \n %s', cmd_output)
