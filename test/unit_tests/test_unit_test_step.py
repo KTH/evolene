@@ -5,5 +5,5 @@ from modules.pipeline_steps.unit_test_step import UnitTestStep
 
 class UnitTestStepTests(unittest.TestCase):
 
-    def test_regexp(self):
+    def test_filename(self):
         self.assertEqual(UnitTestStep.UNIT_TEST_COMPOSE_FILENAME, "/docker-compose-unit-tests.yml")

@@ -1,8 +1,8 @@
 __author__ = 'tinglev'
 
 import logging
-from modules.pipeline_steps.docker_login_step import DockerLoginStep
 import sys
+from modules.pipeline_steps.docker_login_step import DockerLoginStep
 from modules.pipeline_steps.docker_version import DockerVersion
 from modules.pipeline_steps.setup_step import SetupStep
 from modules.pipeline_steps.read_conf_step import ReadConfFileStep
@@ -19,7 +19,7 @@ from modules.pipeline_steps.push_public_image_step import PushPublicImageStep
 from modules.pipeline_steps.repo_supervisor_step import RepoSupervisorStep
 from modules.pipeline_steps.unit_test_step import UnitTestStep
 from modules.pipeline_steps.integration_test_step import IntegrationTestStep
-from modules.pipeline_steps.dependecies_check import  DependeciesCheck
+from modules.pipeline_steps.dependencies_check_step import DependenciesCheckStep
 from modules.pipeline_steps.from_image_step import FromImageStep
 from modules.pipeline_steps.celebrate_step import CelebrateStep
 from modules.pipeline_steps.docker_create_build_arg_step import DockerCreateBuildArgStep
@@ -27,7 +27,6 @@ from modules.pipeline_steps.done_step import DoneStep
 from modules.pipeline_steps.docker_slim_step import DockerSlimStep
 from modules.util.exceptions import PipelineException
 from modules.util import environment, print_util, slack, pipeline, pipeline_data
-from modules.pipeline_steps.docker_login_step import DockerLoginStep
 
 class DockerDeployPipeline(object):
 
@@ -46,7 +45,7 @@ class DockerDeployPipeline(object):
             # Create new image version major.minor.path_githash
             ImageVersionStep(),
             # Check old dependencies
-            DependeciesCheck(),
+            DependenciesCheckStep(),
             # Check Dockerfile exists
             DockerFileStep(),
             # Check Dockerfiles FROM statement

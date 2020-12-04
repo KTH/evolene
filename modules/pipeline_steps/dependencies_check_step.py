@@ -9,7 +9,7 @@ from modules.util import file_util
 from modules.util.exceptions import PipelineException
 from modules.util import slack
 
-class DependeciesCheck(AbstractPipelineStep):
+class DependenciesCheckStep(AbstractPipelineStep):
 
     PACKAGE_JSON = '/package.json'
     IMAGE_NAME = 'kthse/npm-package-available'
@@ -22,9 +22,9 @@ class DependeciesCheck(AbstractPipelineStep):
 
     def run_step(self, data):
 
-        if not file_util.is_file(DependeciesCheck.PACKAGE_JSON):
+        if not file_util.is_file(DependenciesCheckStep.PACKAGE_JSON):
             self.log.info('No file named "%s" found. No dependencies check will be done.',
-                          DependeciesCheck.PACKAGE_JSON)
+                          DependenciesCheckStep.PACKAGE_JSON)
             return data
 
         self.prepare()
@@ -37,14 +37,14 @@ class DependeciesCheck(AbstractPipelineStep):
         self.pull_image_if_missing()
 
     def check(self, data):
-        output = self.check_dependencies()
-        if output:
-            self.process_output(output, data)
+        ncu_output = self.check_dependencies()
+        if ncu_output:
+            self.process_output(ncu_output, data)
         else:
             self.log.info('Got no output from dep checker.')
 
     def pull_image_if_missing(self):
-        image_name = DependeciesCheck.IMAGE_NAME
+        image_name = DependenciesCheckStep.IMAGE_NAME
         image_grep_output = None
         try:
             image_grep_output = docker.grep_image_id(image_name)
@@ -60,25 +60,41 @@ class DependeciesCheck(AbstractPipelineStep):
             'Couldnt find local image "%s". Pulling from docker.io.', image_name)
         docker.pull(image_name)
 
-    def process_output(self, cmd_output, data):
+    def process_output(self, ncu_output, data):
 
         # The ncu package checker itself needs an upgrade. Skip informing. Pls upgarde the docker image.
-        if "Update available" in cmd_output:
+        if "Update available" in ncu_output:
             return
 
         # No deps in package.json
-        if "No dependencies" in cmd_output:
+        if "No dependencies" in ncu_output:
             return
 
         # All is dandy
-        if "All dependencies match the latest package" in cmd_output:
+        if "All dependencies match the latest package" in ncu_output:
             return
 
-        # Use only info after pattern "100%"
-        upgrades_information = cmd_output[(cmd_output.index("100%") + len("100%")):]
-        upgrades_information = cmd_output[:(cmd_output.index("Run"))]
+        self.log_and_slack(self.clean(ncu_output), data)
+    
+    def clean(self, cmd_output):
+        '''
+        Checking /package.json
+        [] 0/13 0%[] 1/13 7%[] 3/13 23%[] 6/13 46%[] 61%[] 69%[] 11/13 84%[] 12/13 92%[] 13/13 100%
+        mocha  ^8.2.0  →  ^8.2.1
 
-        self.log_and_slack(upgrades_information, data)
+        Run  ncu -u  in the root of your project to update
+        '''
+        index_progressbar_end = cmd_output.index("100%") + len("100%")
+        upgrades_information = cmd_output[index_progressbar_end:]
+
+        index_upgrade_info_start = upgrades_information.index("Run")
+        upgrades_information = upgrades_information[:index_upgrade_info_start]
+        upgrades_information = upgrades_information.replace('            ', '')
+        upgrades_information = upgrades_information.replace('  ', ' ')
+
+        return upgrades_information
+
+
 
     def log_and_slack(self, upgrades_information, data):
         self.log.info(
@@ -88,7 +104,7 @@ class DependeciesCheck(AbstractPipelineStep):
             slack.send_to_slack(msg, icon=':jenkins:')
 
     def check_dependencies(self):
-        image_name = DependeciesCheck.IMAGE_NAME
+        image_name = DependenciesCheckStep.IMAGE_NAME
         cmd = f'docker run --tty --rm -v ${{WORKSPACE}}/package.json:/package.json {image_name}'
         try:
             return process.run_with_output(cmd)
