@@ -41,6 +41,8 @@ class DependeciesCheck(AbstractPipelineStep):
         output = self.check_dependencies()
         if output:
             self.process_output(output, data)
+        else:
+            self.log.info('Got no output from dep checker.')
 
     def pull_image_if_missing(self):
         image_name = DependeciesCheck.IMAGE_NAME
@@ -83,7 +85,7 @@ class DependeciesCheck(AbstractPipelineStep):
 
     def check_dependencies(self):
         image_name = DependeciesCheck.IMAGE_NAME
-        cmd = f'docker run --rm -v ${{WORKSPACE}}/package.json:/package.json {image_name}'
+        cmd = f'docker run --tty --rm -v ${{WORKSPACE}}/package.json:/package.json {image_name}'
         try:
             return process.run_with_output(cmd)
         except PipelineException as pipeline_ex:
