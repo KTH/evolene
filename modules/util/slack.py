@@ -23,19 +23,13 @@ def on_npm_no_publish(application, version):
                f'https://www.npmjs.com/package/{application}')
     send_to_slack(message, icon=':jenkins:')
 
-def on_successful_private_push(image, size):
-    message = (f'*{image}* pushed to KTH:s private :docker: '
-               f'registry ({environment.get_registry_host()}), size {size}.')
-    send_to_slack(message, icon=':jenkins:')
-
-def on_successful_azure_push(image, size):
-    message = (f'*{image}* pushed to Azure :cloud: :docker: '
-               f'registry ({environment.get_azure_registry_host()}), size {size}.')
+def on_successful_private_push(name, size):
+    message = (f'*{name}* pushed to :kth: private registry, size {size}.')
     send_to_slack(message, icon=':jenkins:')
 
 def on_successful_public_push(name, image_name, image_size):
     message = (
-        f'*{name}* pushed to :docker: '
+        f'*{name}* pushed to :docker: public registry '
         f'https://hub.docker.com/r/kthse/{image_name}/tags/, '
         f'size {image_size}.'
     )
