@@ -46,7 +46,7 @@ class DockerDeployPipeline(object):
             # Create new image version major.minor.path_githash
             ImageVersionStep(),
             # Check old dependencies
-            #DependeciesCheck(),
+            DependeciesCheck(),
             # Check Dockerfile exists
             DockerFileStep(),
             # Check Dockerfiles FROM statement

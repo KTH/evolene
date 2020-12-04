@@ -24,7 +24,7 @@ def on_npm_no_publish(application, version):
     send_to_slack(message, icon=':jenkins:')
 
 def on_successful_private_push(name, size):
-    message = (f'*{name}* pushed to :kth: private registry, size {size}.')
+    message = (f'*{name}* pushed to :key: private registry, size {size}.')
     send_to_slack(message, icon=':jenkins:')
 
 def on_successful_public_push(name, image_name, image_size):
