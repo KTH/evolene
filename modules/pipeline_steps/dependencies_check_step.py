@@ -100,7 +100,7 @@ class DependenciesCheckStep(AbstractPipelineStep):
         self.log.info(
             'New dependencies version(s) available: \n %s', upgrades_information)
         if environment.use_experimental():
-            msg = (f'*{data[pipeline_data.IMAGE_NAME]}* <https://www.npmjs.com/package/npm-check-updates|NPM Check Updates> reported new version(s) available. \n ```{upgrades_information}```\n Run `ncu -u` in the root of your project to update.')
+            msg = (f'*{data[pipeline_data.IMAGE_NAME]}* <https://www.npmjs.com/package/npm-check-updates|NPM Check Updates> reported new version(s) available. \n ```{upgrades_information}``` \n Run `ncu -u` in the root of your project to update.')
             slack.send_to_slack(msg, icon=':jenkins:')
 
     def check_dependencies(self):
