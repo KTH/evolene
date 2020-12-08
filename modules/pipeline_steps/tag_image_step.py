@@ -15,6 +15,12 @@ class TagImageStep(AbstractPipelineStep):
         return [pipeline_data.LOCAL_IMAGE_ID, pipeline_data.IMAGE_VERSION, pipeline_data.IMAGE_NAME]
 
     def run_step(self, data): #pragma: no cover
+        '''
+        Tag images build with semver like "appname:1.2.3_abcdefg"
+
+        If PUSH_PUBLIC=True then also tag image without git hash "appname:1.2.3"
+        '''
+
         if pipeline_data.IMAGE_TAGS not in data:
             data[pipeline_data.IMAGE_TAGS] = []
         
@@ -22,9 +28,6 @@ class TagImageStep(AbstractPipelineStep):
         self.tag(image_version_util.get_image(data), data)
         
         if environment.get_push_public():
-            '''
-            Only publicly push images get shortend tags.
-            '''
             # Default tagging appname:1.2.3
             self.tag(image_version_util.get_image_only_semver(data), data)
             # Default tagging appname:latest
