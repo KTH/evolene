@@ -17,4 +17,5 @@ class NpmDependenciesStep(AbstractPipelineStep):
         return [pipeline_data.PACKAGE_JSON]
 
     def run_step(self, data):
-        return npm_dependencies.run(data)
+        npm_dependencies.run(data[pipeline_data.NPM_PACKAGE_NAME])
+        return data

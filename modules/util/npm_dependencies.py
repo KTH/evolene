@@ -5,7 +5,6 @@ import logging
 from modules.util import docker
 from modules.util import process
 from modules.util import environment
-from modules.util import pipeline_data
 from modules.util import file_util
 from modules.util.exceptions import PipelineException
 from modules.util import slack
@@ -15,25 +14,22 @@ log = logging.getLogger(__name__)
 PACKAGE_JSON = '/package.json'
 IMAGE_NAME = 'kthse/npm-package-available'
 
-def run(data):
+def run(name):
 
     if not file_util.is_file(PACKAGE_JSON):
         log.info('No file named "%s" found. No dependencies check will be done.', PACKAGE_JSON)
-        return data
 
     prepare()
 
-    check(data)
-
-    return data
+    check(name)
 
 def prepare():
     pull_image_if_missing()
 
-def check(data):
+def check(name):
     ncu_output = check_dependencies()
     if ncu_output:
-        process_output(ncu_output, data)
+        process_output(ncu_output, name)
     else:
         log.info('Got no output from dep checker.')
 
@@ -52,7 +48,7 @@ def pull_image():
     log.debug('Couldnt find local image "%s". Pulling from docker.io.', IMAGE_NAME)
     docker.pull(IMAGE_NAME)
 
-def process_output(ncu_output, data):
+def process_output(ncu_output, name):
 
     # The ncu package checker itself needs an upgrade. Skip informing. Pls upgarde the docker image.
     if "Update available" in ncu_output:
@@ -66,7 +62,7 @@ def process_output(ncu_output, data):
     if "All dependencies match the latest package" in ncu_output:
         return
 
-    log_and_slack(clean(ncu_output), data)
+    log_and_slack(clean(ncu_output), name)
 
 def clean(cmd_output):
     '''
@@ -87,11 +83,11 @@ def clean(cmd_output):
 
     return upgrades_information
 
-def log_and_slack(upgrades_information, data):
+def log_and_slack(upgrades_information, name):
     log.info('New dependencies version(s) available: \n %s', upgrades_information)
 
     if environment.use_experimental():
-        msg = (f'*{data[pipeline_data.IMAGE_NAME]}* <https://www.npmjs.com/package/npm-check-updates|NPM Check Updates> reported new version(s) available. ``` {upgrades_information} ``` Run `ncu -u` in the root of your project to update.')
+        msg = (f'*{name}* <https://www.npmjs.com/package/npm-check-updates|NPM Check Updates> reported new version(s) available. ``` {upgrades_information} ``` Run `ncu -u` in the root of your project to update.')
         slack.send_to_slack(msg, icon=':jenkins:')
 
 def check_dependencies():

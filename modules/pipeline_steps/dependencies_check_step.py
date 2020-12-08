@@ -19,4 +19,5 @@ class DependenciesCheckStep(AbstractPipelineStep):
         return [pipeline_data.IMAGE_NAME, pipeline_data.IMAGE_VERSION]
 
     def run_step(self, data):
-        return npm_dependencies.run(data)
+        npm_dependencies.run(data[pipeline_data.IMAGE_NAME])
+        return data
