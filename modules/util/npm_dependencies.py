@@ -77,11 +77,9 @@ def clean(cmd_output):
 
     index_upgrade_info_start = upgrades_information.index("Run")
     upgrades_information = upgrades_information[:index_upgrade_info_start]
-    upgrades_information = upgrades_information.replace('            ', '')
-    upgrades_information = upgrades_information.replace('  ', ' ')
+    upgrades_information = upgrades_information.replace('\n\n', '')
     upgrades_information = upgrades_information.replace('\n', '')
-
-    return upgrades_information
+    return upgrades_information.strip()
 
 def log_and_slack(upgrades_information, name):
     log.info('New dependencies version(s) available: \n %s', upgrades_information)
