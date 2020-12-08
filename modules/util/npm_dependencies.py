@@ -77,8 +77,10 @@ def clean(cmd_output):
 
     index_upgrade_info_start = upgrades_information.index("Run")
     upgrades_information = upgrades_information[:index_upgrade_info_start]
+    upgrades_information = upgrades_information.replace('            ', '')
     upgrades_information = upgrades_information.replace('\n\n', '')
     upgrades_information = upgrades_information.replace('\n', '')
+    upgrades_information = upgrades_information.replace('  ', ' ')
     return upgrades_information.strip()
 
 def log_and_slack(upgrades_information, name):

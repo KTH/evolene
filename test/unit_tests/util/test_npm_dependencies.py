@@ -49,4 +49,4 @@ class NpmDependenciesTests(unittest.TestCase):
             '''
         cleaned = npm_dependencies.clean(ncu_output)
         
-        self.assertEqual('mocha  ^8.2.0  →  ^8.2.1', cleaned)
+        self.assertEqual('mocha ^8.2.0 → ^8.2.1', cleaned)
