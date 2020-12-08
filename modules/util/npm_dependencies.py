@@ -87,7 +87,7 @@ def log_and_slack(upgrades_information, name):
     log.info('New dependencies version(s) available: \n %s', upgrades_information)
 
     if environment.use_experimental():
-        msg = (f'*{name}* <https://www.npmjs.com/package/npm-check-updates|NPM Check Updates> reported new version(s) available. ``` {upgrades_information} ``` Run `ncu -u` in the root of your project to update.')
+        msg = (f'*{name}* <https://www.npmjs.com/package/npm-check-updates|npm check updates> reported new version(s) available.```{upgrades_information}```Run `ncu -u` in the root of your project to update.')
         slack.send_to_slack(msg, icon=':jenkins:')
 
 def check_dependencies():
