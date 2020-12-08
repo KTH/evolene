@@ -12,6 +12,7 @@ from modules.pipeline_steps.npm_version_step import NpmVersionStep
 from modules.pipeline_steps.npm_package_name_step import NpmPackageNameStep
 from modules.pipeline_steps.npm_build_environment_to_file_step import NpmBuildEnvironmentToFileStep
 from modules.pipeline_steps.npm_version_changed_step import NpmVersionChangedStep
+from modules.pipeline_steps.npm_dependencies_check_step import NpmDependenciesStep
 from modules.pipeline_steps.start_nvm_step import StartNvmStep
 from modules.pipeline_steps.init_node_environment_step import InitNodeEnvironmentStep
 from modules.pipeline_steps.npm_package_lock_step import NpmPackageLockStep
@@ -21,6 +22,7 @@ from modules.pipeline_steps.install_nvm_step import InstallNvmStep
 from modules.pipeline_steps.npm_author_policy import NpmAuthorPolicy
 from modules.pipeline_steps.npm_install_step import NpmInstallStep
 from modules.pipeline_steps.done_step import DoneStep
+
 from modules.util.exceptions import PipelineException
 from modules.util import print_util, slack, pipeline_data, pipeline, environment
 
@@ -50,6 +52,8 @@ class NpmPipeline(object):
             NpmPackageNameStep(),
             # Check if the latest published version differs from this one
             NpmVersionChangedStep(),
+            # Check old dependencies and inform
+            NpmDependenciesStep(),
             # Login to npm
             NpmLoginStep(),
             # Create our package.lock file
