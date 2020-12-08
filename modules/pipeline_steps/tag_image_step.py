@@ -3,7 +3,6 @@ __author__ = 'tinglev'
 from modules.pipeline_steps.abstract_pipeline_step import AbstractPipelineStep
 from modules.util import pipeline_data
 from modules.util import environment
-from modules.util import docker
 from modules.util import image_version_util
 
 class TagImageStep(AbstractPipelineStep):
