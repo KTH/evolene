@@ -25,8 +25,12 @@ def on_npm_no_publish(application, version):
                f'https://www.npmjs.com/package/{application}')
     send_to_slack(message, icon=':jenkins:')
 
-def on_successful_private_push(name, size):
+def on_successful_private_push_old(name, size):
     message = (f'*{name}* pushed to :key: private registry, size {size}.')
+    send_to_slack(message, icon=':jenkins:')
+
+def on_successful_private_push(name, size):
+    message = (f'*{name}* pushed to :key: :azure: private registry, size {size}.')
     send_to_slack(message, icon=':jenkins:')
 
 def on_successful_public_push(name, image_name, image_size):
