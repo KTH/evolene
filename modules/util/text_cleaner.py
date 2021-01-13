@@ -6,8 +6,8 @@ def clean(text):
     error = remove_possible_npm_standard_msg(error)
     error = remove_possible_ansi_colors(error)
     error = remove_docker_compose_output(error)
-
-    return str(error).replace('`', ' ')[-1000:]
+    return error
+    #return str(error).replace('`', ' ')[-1000:]
 
 def remove_possible_npm_standard_msg(error):
     '''
