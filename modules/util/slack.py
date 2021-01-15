@@ -47,7 +47,7 @@ def on_warning(message):
 def get_payload_body(channel, text, icon, username='Build Server (Evolene)'):
     body = {
         "channel": channel,
-        "text": text,
+        "text": f'{text} ',
         "username": username,
         "icon_emoji": icon
     }
