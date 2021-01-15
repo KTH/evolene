@@ -66,7 +66,7 @@ class RepoSupervisorStep(AbstractPipelineStep):
     def _log_warning_and_send_to_slack(self, filenames, data):
         self.log.info('Found suspicious string in files "%s"', filenames)
         msg = (':rotating_light: <!here> *Possible password or token* in the following *{}* file(s). \n'
-               'If ok, remove the warning by adding the file, or catalog to `/.scanignore`. ```{}```'
+               'If ok, remove the warning by adding the file, or catalog to `/.scanignore`. \n``` {} ```'
                .format(
                    data[pipeline_data.IMAGE_NAME],
                    self.format_filnames(filenames)))
