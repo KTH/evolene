@@ -1,12 +1,10 @@
-s__author__ = 'tinglev'
-import re
+__author__ = 'tinglev'
+
 from modules.pipeline_steps.abstract_pipeline_step import AbstractPipelineStep
 from modules.util import environment
 from modules.util import docker
-from modules.util.exceptions import PipelineException
 from modules.util import file_util
 from modules.util import image_version_util
-from modules.util import text_cleaner
 
 
 class UnitTestStep(AbstractPipelineStep):
@@ -41,5 +39,6 @@ class UnitTestStep(AbstractPipelineStep):
         except Exception as ex:
              self.handle_step_error(
                     f'\n:rotating_light: <!here> {image_version_util.get_image(data)} *unit test(s) failed*, see <{environment.get_console_url()}|:jenkins: Jenkins console log here>.',
-                    text_cleaner.clean(ex),
+                    ex,
+
                 )

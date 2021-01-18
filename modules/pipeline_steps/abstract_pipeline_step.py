@@ -71,11 +71,9 @@ class AbstractPipelineStep:
     def report_error_to_slack(self, message, ex):
         workspace = environment.get_project_root()
         if workspace:
-            if ex:
-                message = f'*{workspace}* \n{message} \n ```\n{str(ex)}\n```'
-            else:
-                message = f'*`{workspace}`* {message}'
-        slack.send_to_slack(message, username='Faild to build or test (Evolene)')
+            text = f'*{workspace}* \n{message}'
+
+        slack.send(text=text, snippet=ex, username='Faild to build repository on Build Server (Evolene)')
 
     def run_pipeline_step(self, data):
         if not self.step_environment_ok():
