@@ -21,18 +21,19 @@ def send_to_slack(message, icon=':jenkins:', username='Build Server (Evolene)', 
         body = get_payload_body(channel, cleaned_message, icon, username)
         call_slack_endpoint(body)
 
-def on_npm_publish(application, version, data):
-    message = (f'*{application}* version *{version}* was successfully published to '
-               f'https://www.npmjs.com/package/{application}')
+def on_npm_publish(package_name, version, data):
+    text = (f'*{package_name}* version *{version}* was successfully published to '
+               f'https://www.npmjs.com/package/{package_name}')
     if pipeline_data.IGNORED_CRITICALS in data:
         criticals = data[pipeline_data.IGNORED_CRITICALS]
-        message = f'{message} - WARNING! This build had {criticals} ignored criticals!'
-    send_to_slack(message, icon=':npm:')
+        text = f'{text} - WARNING! This build had {criticals} ignored criticals!'
+    
+    send(text, icon=":npm:")
 
-def on_npm_no_publish(application, version):
-    message = (f'*{application} {version}* already exists on :npm: '
-               f'https://www.npmjs.com/package/{application}')
-    send_to_slack(message, icon=':jenkins:')
+def on_npm_no_publish(package_name, version):
+    text = (f'*{package_name} {version}* already exists on :npm: '
+               f'https://www.npmjs.com/package/{package_name}')
+    send(text=text)
 
 def on_successful_private_push_old(name, size):
     message = (f'*{name}* pushed to :key: private registry, size {size}.')
