@@ -6,8 +6,17 @@ from requests import HTTPError, ConnectTimeout, RequestException
 from modules.util import environment, pipeline_data
 from modules.util import text_cleaner
 
-def send_to_slack(message, icon=':jenkins:', username='Build Server (Evolene)'):
-    cleaned_message = text_cleaner.clean(message)
+def send(text="", snippet=None, icon=':jenkins:', username='Build Server (Evolene)'):
+    message = text
+    if snippet:
+        message = f'{message} ```{text_cleaner.clean(snippet)}```'
+    for channel in environment.get_slack_channels():
+        body = get_payload_body(channel, message, icon, username)
+        call_slack_endpoint(body)
+
+def send_to_slack(message, icon=':jenkins:', username='Build Server (Evolene)', clean=True):
+    if clean:
+        cleaned_message = text_cleaner.clean(message)
     for channel in environment.get_slack_channels():
         body = get_payload_body(channel, cleaned_message, icon, username)
         call_slack_endpoint(body)
