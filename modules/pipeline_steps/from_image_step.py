@@ -69,7 +69,7 @@ class FromImageStep(AbstractPipelineStep):
                        "please upgrade! See https://hub.docker.com/r/kthse/{}/tags for :docker: images."
                        .format(image_version_util.get_image(data), from_line, self.get_base_image_name(from_line)))
             self.log.warning(message)
-            slack.on_warning(message)
+            slack.warning(message)
 
         return data
 
@@ -110,7 +110,7 @@ class FromImageStep(AbstractPipelineStep):
 
         if message:
             self.log.warning(message)
-            slack.on_warning(message)
+            slack.warning(message)
 
     def is_valid_tag_for_image_name(self, from_line, image_name):
 

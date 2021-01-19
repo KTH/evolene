@@ -20,7 +20,7 @@ class CelebrateStep(AbstractPipelineStep):
     def do_we_have_a_reason_to_party(self, data):
         message = self.get_party_message(data)
         if message:
-            slack.send_to_slack(self.get_party_message(data), icon=":parrot_party:")
+            slack.send(self.get_party_message(data), icon=":parrot_party:")
 
     def get_party_message(self, data):
         build_nr = int(str(environment.get_build_number()))

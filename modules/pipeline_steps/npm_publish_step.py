@@ -39,10 +39,11 @@ class NpmPublishStep(AbstractPipelineStep):
         self.write_updated_package_json(data)
 
         if not artifact.should_store():
-            self.log.info('Branch not to be publish.')
-            slack.send_to_slack((f'The :git: branch *{data[pipeline_data.NPM_PACKAGE_NAME]} | '
+            self.log.info('Branch not to be publish to NPM.')
+            slack.send((f'The :git: branch *{data[pipeline_data.NPM_PACKAGE_NAME]} | '
                                  f' {environment.get_git_branch()}* '
-                                 'is not a main branch, nor configured to be push to a NPM registry.'))
+                                 'is not a main branch, nor configured to be push to the NPM registry.'))
+
             return data
 
         if data[pipeline_data.NPM_VERSION_CHANGED]:

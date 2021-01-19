@@ -20,10 +20,10 @@ class PushAzureImageStep(AbstractPipelineStep):
             if artifact.should_store():
                 self.push_image(data)
             else:
-                self.log.info('Branch not to be publish.')
-                slack.send_to_slack((f'The :git: branch *{data[pipeline_data.IMAGE_NAME]} | '
-                                     f' {environment.get_git_branch()}* '
-                                     'is not a main branch, nor configured to be push to Azure Registry.'))
+                self.log.info('Branch not to be publish to Azure CR.')
+                slack.send((f'The :git: branch *{data[pipeline_data.IMAGE_NAME]}* | '
+                                     f' *{environment.get_git_branch()}* '
+                                     'is not pushed to Azure Registry. It is not the main branch, nor configured to be push.'))
         return data
 
     def push_image(self, data):

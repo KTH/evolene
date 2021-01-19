@@ -30,10 +30,10 @@ class PushImageStep(AbstractPipelineStep):
                 self.verify_push(data)
             else:
                 self.log.info(
-                    'Branch not to be publish.')
-                slack.send_to_slack((f'The :git: branch *{data[pipeline_data.IMAGE_NAME]} | '
-                                     f' {environment.get_git_branch()}* '
-                                     'is not a main branch, nor configured to be push to the private Docker registry.'))
+                    'Branch not to be publish to Docker Hub.')
+                slack.send((f'The :git: branch *{data[pipeline_data.IMAGE_NAME]}* | '
+                                     f' *{environment.get_git_branch()}* '
+                                     'is not pushed to Docker Hub. It is not the main branch, nor configured to be push.'))
 
         return data
 

@@ -14,12 +14,8 @@ def send(text, snippet=None, icon=':jenkins:', username='Build Server (Evolene)'
         body = get_payload_body(channel, message, icon, username)
         call_slack_endpoint(body)
 
-def send_to_slack(message, icon=':jenkins:', username='Build Server (Evolene)', clean=True):
-    if clean:
-        cleaned_message = text_cleaner.clean(message)
-    for channel in environment.get_slack_channels():
-        body = get_payload_body(channel, cleaned_message, icon, username)
-        call_slack_endpoint(body)
+def warning(text):
+    text(text, icon=':warning:')
 
 def on_npm_publish(package_name, version, data):
     text = (f'*{package_name}* version *{version}* was successfully published to '
@@ -36,23 +32,20 @@ def on_npm_no_publish(package_name, version):
     send(text=text)
 
 def on_successful_private_push_old(name, size):
-    message = (f'*{name}* pushed to :key: private registry, size {size}.')
-    send_to_slack(message, icon=':jenkins:')
+    text = (f'*{name}* pushed to :key: private registry, size {size}.')
+    send(text, icon=':jenkins:')
 
 def on_successful_private_push(name, size):
-    message = (f'*{name}* pushed to :key: :azure: private registry, size {size}.')
-    send_to_slack(message, icon=':jenkins:')
+    text = (f'*{name}* pushed to :key: :azure: private registry, size {size}.')
+    send(text, icon=':jenkins:')
 
 def on_successful_public_push(name, image_name, image_size):
-    message = (
+    text = (
         f'*{name}* pushed to :docker: public registry '
         f'https://hub.docker.com/r/kthse/{image_name}/tags/, '
         f'size {image_size}.'
     )
-    send_to_slack(message, icon=':jenkins:')
-
-def on_warning(message):
-    send_to_slack(message, icon=':warning:')
+    send(text, icon=':jenkins:')
 
 def get_payload_body(channel, text, icon, username='Build Server (Evolene)'):
     body = {
