@@ -6,7 +6,7 @@ from requests import HTTPError, ConnectTimeout, RequestException
 from modules.util import environment, pipeline_data
 from modules.util import text_cleaner
 
-def send(text="", snippet=None, icon=':jenkins:', username='Build Server (Evolene)'):
+def send(text, snippet=None, icon=':jenkins:', username='Build Server (Evolene)'):
     message = text
     if snippet:
         message = f'{message} ```{text_cleaner.clean(snippet)}```'
