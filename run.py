@@ -29,9 +29,9 @@ def select_and_run_pipeline():
 
     if has_docker_conf is False and has_npm_conf is False:
         workspace = environment.get_project_root()
-        message = f'No docker.conf or npm.conf found for project {workspace}'
-        slack.send_to_slack(message)
-        logger.error(message)
+        text = f'Could not fins any `/docker.conf` or `/npm.conf` in repository *{workspace}*.'
+        slack.send(text)
+        logger.error(text)
         sys.exit(1)
 
 def main():
