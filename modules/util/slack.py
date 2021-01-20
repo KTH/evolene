@@ -15,7 +15,7 @@ def send(text, snippet=None, icon=':jenkins:', username='Build Server (Evolene)'
         call_slack_endpoint(body)
 
 def warning(text):
-    text(text, icon=':warning:')
+    send(text, icon=':warning:')
 
 def on_npm_publish(package_name, version, data):
     text = (f'*{package_name}* version *{version}* was successfully published to '
