@@ -65,7 +65,7 @@ class FromImageStep(AbstractPipelineStep):
         if self.validate(from_line, data):
             self.log.debug("'FROM:' statement '%s' in Dockerfile is valid.", from_line)
         else:
-            text = (":warning: *{}s* Dockerfile is based on an old `{}` image, "
+            text = (":warning: *{}'s* Dockerfile is based on an old `{}` image, "
                        "please upgrade! See https://hub.docker.com/r/kthse/{}/tags for :docker: images."
                        .format(image_version_util.get_image(data), from_line, self.get_base_image_name(from_line)))
             self.log.warning(text)
