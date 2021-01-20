@@ -65,11 +65,11 @@ class FromImageStep(AbstractPipelineStep):
         if self.validate(from_line, data):
             self.log.debug("'FROM:' statement '%s' in Dockerfile is valid.", from_line)
         else:
-            text = ("*{}s* Dockerfile is based on an old `{}` image, "
+            text = (":warning: *{}s* Dockerfile is based on an old `{}` image, "
                        "please upgrade! See https://hub.docker.com/r/kthse/{}/tags for :docker: images."
                        .format(image_version_util.get_image(data), from_line, self.get_base_image_name(from_line)))
             self.log.warning(text)
-            slack.warning(text)
+            slack.send(text)
 
         return data
 
@@ -91,13 +91,13 @@ class FromImageStep(AbstractPipelineStep):
     def get_change_image_message(image_name, data):
 
         if str(image_name) == "kth-nodejs-web":
-            return ("*{}*: Please change to `FROM kthse/kth-nodejs:sem_ver`. "
+            return (":warning: *{}*: Please change to `FROM kthse/kth-nodejs:sem_ver`. "
                     "Image _kth-nodejs-web_ is depricated. "
                     "Info: https://gita.sys.kth.se/Infosys/kth-nodejs".format(
                         image_version_util.get_image(data)))
 
         if str(image_name) == "kth-nodejs-api":
-            return ("*{}*: Please change to `FROM kthse/kth-nodejs:sem_ver`. "
+            return (":warning: *{}*: Please change to `FROM kthse/kth-nodejs:sem_ver`. "
                     "Image _kth-nodejs-api_ is depricated. "
                     "Info: https://gita.sys.kth.se/Infosys/kth-nodejs".format(
                         image_version_util.get_image(data)))
@@ -110,7 +110,7 @@ class FromImageStep(AbstractPipelineStep):
 
         if message:
             self.log.warning(message)
-            slack.warning(message)
+            slack.send(message)
 
     def is_valid_tag_for_image_name(self, from_line, image_name):
 

@@ -16,12 +16,13 @@ IMAGE_NAME = 'kthse/npm-package-available'
 
 def run(name):
 
-    if not file_util.is_file(PACKAGE_JSON):
+    if file_util.is_file(PACKAGE_JSON):
+        prepare()
+        check(name)
+    else:
         log.info('No file named "%s" found. No dependencies check will be done.', PACKAGE_JSON)
 
-    prepare()
 
-    check(name)
 
 def prepare():
     pull_image_if_missing()
@@ -31,7 +32,7 @@ def check(name):
     if ncu_output:
         process_output(ncu_output, name)
     else:
-        log.info('Got no output from dep checker.')
+        log.debug('Got no output from dep checker.')
 
 def pull_image_if_missing():
     image_grep_output = None

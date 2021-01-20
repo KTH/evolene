@@ -14,9 +14,6 @@ def send(text, snippet=None, icon=':jenkins:', username='Build Server (Evolene)'
         body = get_payload_body(channel, message, icon, username)
         call_slack_endpoint(body)
 
-def warning(text):
-    send(text, icon=':warning:')
-
 def on_npm_publish(package_name, version, data):
     text = (f'*{package_name}* version *{version}* was successfully published to '
                f'https://www.npmjs.com/package/{package_name}')
