@@ -356,6 +356,16 @@ module.exports = {
 }
 ```
 
+# Get Slack notifications where new NPM package are available
+If you set NPM_UPDATES_AVAILABLE to true. Evolene will inform you about
+packages in you _package.json_ that have updates. It makes it easier to
+keep your dependencies up to date and hopefully make your code easier
+to maintain, since this helps changes come in smaller increments.
+Evolene always outputs this informatin in the build log, even if you
+choose not to see it in Slack.
+
+`NPM_UPDATES_AVAILABLE=True $EVOLENE_DIRECTORY/run.sh`
+
 ## Environment variables for setting up NPM publish on Jenkins
 
 - NPM_USER - The user to use for npm publish
