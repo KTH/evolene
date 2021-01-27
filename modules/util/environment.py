@@ -31,6 +31,7 @@ AZURE_REGISTRY_PASSWORD = 'AZURE_REGISTRY_PASSWORD'
 NPM_USER = 'NPM_USER'
 NPM_PASSWORD = 'NPM_PASSWORD'
 NPM_EMAIL = 'NPM_EMAIL'
+NPM_UPDATES_AVAILABLE = 'NPM_UPDATES_AVAILABLE'
 DOCKER_BUILD_ARGS = 'DOCKER_BUILD_ARGS'
 SLIM = 'SLIM'
 SLIM_ENV = 'SLIM_ENV'
@@ -125,6 +126,13 @@ def use_dry_run():
 
 def use_experimental():
     return is_true(EXPERIMENTAL)
+
+def use_update_available():
+    '''
+    Inform users that there are update available
+    for packages in package.json
+    '''
+    return is_true(NPM_UPDATES_AVAILABLE)
 
 def get_build_url():
     return os.environ.get(BUILD_URL)

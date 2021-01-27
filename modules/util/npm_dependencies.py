@@ -22,8 +22,6 @@ def run(name):
     else:
         log.info('No file named "%s" found. No dependencies check will be done.', PACKAGE_JSON)
 
-
-
 def prepare():
     pull_image_if_missing()
 
@@ -87,7 +85,7 @@ def clean(cmd_output):
 def log_and_slack(upgrades_information, name):
     log.info('New dependencies version(s) available: \n %s', upgrades_information)
 
-    if environment.use_experimental():
+    if environment.use_update_available():
         text = (f'*{name}* <https://www.npmjs.com/package/npm-check-updates|npm check updates> reported new version(s) available. Run `ncu -u` in the root of your project to update.')
         slack.send(text, snippet=upgrades_information, icon=':jenkins:')
 
