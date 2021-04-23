@@ -1,9 +1,17 @@
 version: '3'
 
+#
+# Build and test inside Docker.
+#
+# To run unit tests without installating Python or dependencies, run:
+# 
+#   ID=$(docker build -q .) && LOCAL_IMAGE_ID=$ID docker-compose -f docker-compose-unit-tests.yml up --abort-on-container-exit --always-recreate-deps
+#
 services:
   web:
     image: $LOCAL_IMAGE_ID
     volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./test:/repo/test
       - ./run_tests.sh:/repo/run_tests.sh
       

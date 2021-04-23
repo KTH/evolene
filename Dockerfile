@@ -9,10 +9,11 @@ WORKDIR /repo
 
 RUN apk update && \
     apk upgrade && \
+    apk add --no-cache bash \
+    docker musl-dev libffi-dev libressl-dev libxml2 libxslt libxslt-dev && \
     apk add py-pip && \
-    apk add libxml2 libxslt && \
     rm -rf /var/cache/apk/*
-    
+        
 COPY Pipfile Pipfile
 
 ENV LANG=en_US.UTF-8 \
