@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  web:
+    image: $LOCAL_IMAGE_ID
+    volumes:
+      - ./test:/repo/test
+      - ./run_tests.sh:/repo/run_tests.sh
+      
+    command: /bin/sh -c "/repo/run_tests.sh"
+    tty: true
