@@ -26,4 +26,9 @@ RUN pipenv install
 COPY ["modules",  "modules"]
 COPY ["run.py", "run.py"]
 
+ENV EVOLENE_DIRECTORY /repo
+
+RUN mkdir src
+WORKDIR /src
+
 CMD ["pipenv", "run", "python", "-u", "run.py"]
