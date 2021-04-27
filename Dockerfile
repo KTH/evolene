@@ -29,6 +29,6 @@ COPY ["run.py", "run.py"]
 ENV EVOLENE_DIRECTORY /repo
 
 RUN mkdir src
-WORKDIR /src
+WORKDIR /repo
 
-CMD ["pipenv", "run", "python", "-u", "run.py"]
+CMD ["/bin/sh", "-c", "/repo/run_github_actions.sh"]
