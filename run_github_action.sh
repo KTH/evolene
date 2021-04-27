@@ -8,7 +8,9 @@ BUILD_NUMBER=$(date +%s)
 #!/bin/sh
 
 # Print the version
+echo "__________________________"
 cat $EVOLENE_DIRECTORY/docker.conf
+echo "__________________________"
 
 # CD into the repository directory containing the source code to build (not Evolene).
 cd /src
