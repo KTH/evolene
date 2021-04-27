@@ -6,9 +6,7 @@ WORKDIR /repo
 
 RUN apk update && \
     apk upgrade && \
-    apk add --no-cache bash \
-    docker musl-dev libffi-dev libressl-dev libxml2 libxslt libxslt-dev && \
-    apk add py-pip && \
+    apk add --no-cache bash gcc libc-dev libxslt-dev libxslt py-pip docker && \
     rm -rf /var/cache/apk/*
         
 COPY Pipfile Pipfile
@@ -23,11 +21,10 @@ RUN pipenv install
 COPY ["modules",  "modules"]
 COPY ["run.py", "run.py"]
 COPY ["run_github_action.sh", "run_github_action.sh"]
+COPY ["docker.conf",  "docker.conf"]
 
 ENV EVOLENE_DIRECTORY /repo
 
 RUN mkdir src
-
-WORKDIR /src
 
 CMD ["/bin/sh", "-c", "/repo/run_github_action.sh"]

@@ -6,16 +6,16 @@ url = "https://pypi.python.org/simple"
 verify_ssl = true
 
 [dev-packages]
-green       = ">=2.16"
-coverage    = ">=4.5"
-mock        = ">=3.0"
-pylint      = ">=2.3"
+green       = ">=2.2"
+coverage    = ">=5.5"
+mock        = ">=4.0"
+pylint      = ">=2.8"
 autopep8 = "*"
 
 [packages]
-requests    = ">=2.21"
-coloredlogs = ">=10.0"
-setuptools  = ">=41.0"
+requests    = ">=2.25"
+coloredlogs = ">=15.0"
+setuptools  = ">=56.0"
 
 [requires]
 python_version = "3"
