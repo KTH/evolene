@@ -1,9 +1,6 @@
 FROM kthse/kth-python:3.8.0
 
-RUN mkdir /repo && \
-    mkdir /repo/secrets && \
-    mkdir /repo/certs && \
-    mkdir -p /root/.ssh
+RUN mkdir /repo
 
 WORKDIR /repo
 
@@ -30,6 +27,7 @@ COPY ["run_github_action.sh", "run_github_action.sh"]
 ENV EVOLENE_DIRECTORY /repo
 
 RUN mkdir src
-WORKDIR /repo
+
+WORKDIR /src
 
 CMD ["/bin/sh", "-c", "/repo/run_github_action.sh"]
