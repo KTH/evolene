@@ -25,10 +25,11 @@ RUN pipenv install
 
 COPY ["modules",  "modules"]
 COPY ["run.py", "run.py"]
+COPY ["run_github_action.sh", "run_github_action.sh"]
 
 ENV EVOLENE_DIRECTORY /repo
 
 RUN mkdir src
 WORKDIR /repo
 
-CMD ["/bin/sh", "-c", "/repo/run_github_actions.sh"]
+CMD ["/bin/sh", "-c", "/repo/run_github_action.sh"]
