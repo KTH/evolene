@@ -1,9 +1,7 @@
 # Lägga dessa i en github actions.py enviro?
 EVOLENE_DIRECTORY=/repo
-PROJECT_ROOT=$EVOLENE_DIRECTORY
+WORKSPACE=$EVOLENE_DIRECTORY
 BUILD_NUMBER=$(date +%s) 
-
-
 
 #!/bin/sh
 
@@ -16,5 +14,5 @@ echo "\n__________________________\n"
 cd /src
 
 # Run Evolene on the repository code.
-PROJECT_ROOT=$EVOLENE_DIRECTORY EVOLENE_DIRECTORY=$EVOLENE_DIRECTORY PIPENV_PIPFILE=$EVOLENE_DIRECTORY/Pipfile \
+WORKSPACE=$EVOLENE_DIRECTORY EVOLENE_DIRECTORY=$EVOLENE_DIRECTORY PIPENV_PIPFILE=$EVOLENE_DIRECTORY/Pipfile \
     pipenv run python $EVOLENE_DIRECTORY/run.py
