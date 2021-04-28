@@ -1,6 +1,8 @@
 # Lägga dessa i en github actions.py enviro?
 EVOLENE_DIRECTORY=/repo
 WORKSPACE=$EVOLENE_DIRECTORY
+echo "-- $GIT_COMMIT"
+
 # REGISTRY_HOST=${{ secrets.EVOLENE_REGISTRY_HOST }}
 # REGISTRY_USER=${{ secrets.EVOLENE_REGISTRY_USER }}
 # REGISTRY_PASSWORD=${{ secrets.EVOLENE_REGISTRY_PASSWORD }}
