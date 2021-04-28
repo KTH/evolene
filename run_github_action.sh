@@ -6,13 +6,13 @@ BUILD_NUMBER=$(date +%s)
 #!/bin/sh
 
 # Print the version
-echo "\n__________________________"
+echo "__________________________"
 cat $EVOLENE_DIRECTORY/docker.conf
-echo "\n__________________________\n"
+echo "__________________________"
 
 # CD into the repository directory containing the source code to build (not Evolene).
 cd /src
 
 # Run Evolene on the repository code.
-WORKSPACE=$EVOLENE_DIRECTORY EVOLENE_DIRECTORY=$EVOLENE_DIRECTORY PIPENV_PIPFILE=$EVOLENE_DIRECTORY/Pipfile \
+BUILD_NUMBER=$BUILD_NUMBER WORKSPACE=$EVOLENE_DIRECTORY EVOLENE_DIRECTORY=$EVOLENE_DIRECTORY PIPENV_PIPFILE=$EVOLENE_DIRECTORY/Pipfile \
     pipenv run python $EVOLENE_DIRECTORY/run.py
