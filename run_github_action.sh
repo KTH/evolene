@@ -18,14 +18,18 @@ WORKSPACE=/src
 #!/bin/sh
 
 # Print the version
+echo ""
 echo "__________________________"
 cat $EVOLENE_DIRECTORY/docker.conf
+echo ""
 echo "__________________________"
+echo ""
 
 # CD into the repository directory containing the source code to build (not Evolene).
 #echo "Change directory to '$WORKSPACE'"
 #cd $WORKSPACE
 
+echo $WORKSPACE
 cd /src 
 ls -la 
 
