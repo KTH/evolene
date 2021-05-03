@@ -81,8 +81,8 @@ def run_test(compose_test_file, data):
     list_dir = process.run_with_output('pwd')
     print(f'---------------\n {list_dir} \n-----------------')
     image_id = data[pipeline_data.LOCAL_IMAGE_ID]
-    cmd_test = (f'LOCAL_IMAGE_ID={image_id} '
-           f'cd {file_util.get_project_root()} && docker-compose --file {compose_test_file} up '
+    cmd_test = (f'cd {file_util.get_project_root()} && LOCAL_IMAGE_ID={image_id} '
+           f'docker-compose --file {compose_test_file} up '
            f'--build '
            f'--abort-on-container-exit '
            f'--always-recreate-deps '
