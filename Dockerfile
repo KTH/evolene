@@ -27,5 +27,6 @@ COPY ["docker.conf",  "docker.conf"]
 ENV EVOLENE_DIRECTORY /repo
 
 RUN mkdir src
+WORKDIR /src
 
 CMD ["/bin/sh", "-c", "/repo/run_github_action.sh"]
