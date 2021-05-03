@@ -8,16 +8,25 @@ from modules.util import pipeline_data
 from modules.util import file_util
 import logging
 
+
+log = logging.getLogger(__name__)
+
 def build(labels=None, build_args=None):
-    build_cmd = 'docker build --quiet --pull'
+    flags = ' --pull'
+    #build_local_image_id = 'docker build --quiet --pull'
     root = environment.get_project_root()
     if labels:
         for label in labels:
-            build_cmd = f'{build_cmd} --label {label}'
+            flags = f'{flags} --label {label}'
     if build_args:
         for arg in build_args:
-            build_cmd = f'{build_cmd} --build-arg {arg}'
-    return process.run_with_output(f'{build_cmd} {root}')
+            flags = f'{flags} --build-arg {arg}'
+    
+    # Build 
+    log.info(process.run_with_output(f'docker build  {flags} {root}'))
+    
+    # Rerun build to get a local image id.
+    return process.run_with_output(f'docker build --quiet {flags} {root}')
 
 def grep_image_id(image_id):
     try:
