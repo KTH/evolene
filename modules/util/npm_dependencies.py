@@ -90,7 +90,7 @@ def log_and_slack(upgrades_information, name):
         slack.send(text, snippet=upgrades_information, icon=':jenkins:')
 
 def check_dependencies():
-    package_json =  file_util.read_as_string(PACKAGE_JSON)
+    package_json =  file_util.get_absolue_path(PACKAGE_JSON)
     image_name = IMAGE_NAME
     # Mount the local package.json file into the Docker instance
     cmd = f'docker run --tty --rm -v {package_json}:/package.json {image_name}'
