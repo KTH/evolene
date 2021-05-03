@@ -90,8 +90,10 @@ def log_and_slack(upgrades_information, name):
         slack.send(text, snippet=upgrades_information, icon=':jenkins:')
 
 def check_dependencies():
+    package_json =  file_util.read_as_string(PACKAGE_JSON)
     image_name = IMAGE_NAME
-    cmd = f'docker run --tty --rm -v ${{WORKSPACE}}/package.json:/package.json {image_name}'
+    # Mount the local package.json file into the Docker instance
+    cmd = f'docker run --tty --rm -v {package_json}:/package.json {image_name}'
     try:
         return process.run_with_output(cmd)
     except PipelineException as pipeline_ex:
