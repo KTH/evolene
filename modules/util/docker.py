@@ -12,7 +12,7 @@ import logging
 log = logging.getLogger(__name__)
 
 def build(labels=None, build_args=None):
-    flags = ' --pull'
+    flags = '--pull'
     #build_local_image_id = 'docker build --quiet --pull'
     root = environment.get_project_root()
     if labels:
@@ -23,7 +23,7 @@ def build(labels=None, build_args=None):
             flags = f'{flags} --build-arg {arg}'
     
     # Build 
-    log.info(process.run_with_output(f'docker build  {flags} {root}'))
+    log.info(process.run_with_output(f'docker build {flags} {root}'))
     
     # Rerun build to get a local image id.
     return process.run_with_output(f'docker build --quiet {flags} {root}')
