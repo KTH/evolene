@@ -23,7 +23,9 @@ cat $EVOLENE_DIRECTORY/docker.conf
 echo "__________________________"
 
 # CD into the repository directory containing the source code to build (not Evolene).
+echo "Change directory to '$WORKSPACE'"
 cd $WORKSPACE
+ls -la 
 
 # Run Evolene on the repository code.
 #GIT_COMMIT=$GIT_COMMIT \
