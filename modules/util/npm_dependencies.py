@@ -93,10 +93,6 @@ def check_dependencies():
     package_json =  file_util.get_absolue_path(PACKAGE_JSON)
     image_name = IMAGE_NAME
 
-    print(f'package_json: {package_json}' )
-    pwd = process.run_with_output('pwd')
-    print(f'---------------\n {pwd} \n-----------------')
-
     # Mount the local package.json file into the Docker instance
     cmd = f'docker run --tty --rm -v {package_json}:/package.json {image_name}'
     try:

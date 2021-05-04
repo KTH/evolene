@@ -19,19 +19,18 @@ WORKSPACE=/src
 
 # Print the version
 echo ""
-echo "__________________________"
+echo "*****************************************************************"
+echo "* Uses Evolene Ci/CD environment https://github.com/kth/evolene *"
+echo "*****************************************************************"
+
 cat $EVOLENE_DIRECTORY/docker.conf
 echo ""
-echo "__________________________"
+echo "*****************************************************************"
 echo ""
 
 # CD into the repository directory containing the source code to build (not Evolene).
-#echo "Change directory to '$WORKSPACE'"
-#cd $WORKSPACE
-
-echo $WORKSPACE
-cd /src 
-ls -la 
+echo "Change directory to '$WORKSPACE'"
+cd $WORKSPACE
 
 # Run Evolene on the repository code.
 #GIT_COMMIT=$GIT_COMMIT \
@@ -48,5 +47,5 @@ ls -la
 #BUILD_NUMBER=$(date +%s)  \
 #WORKSPACE=$EVOLENE_DIRECTORY \
 #EVOLENE_DIRECTORY=$EVOLENE_DIRECTORY \
-PIPENV_PIPFILE=$EVOLENE_DIRECTORY/Pipfile \
-pipenv run python $EVOLENE_DIRECTORY/run.py
+
+PIPENV_PIPFILE=$EVOLENE_DIRECTORY/Pipfile pipenv run python $EVOLENE_DIRECTORY/run.py
