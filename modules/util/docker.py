@@ -86,9 +86,6 @@ def login_azure():
     return retval
 
 def run_test(compose_test_file, data):
-    print(f'Compose file: {compose_test_file}' )
-    list_dir = process.run_with_output('pwd')
-    print(f'---------------\n {list_dir} \n-----------------')
     image_id = data[pipeline_data.LOCAL_IMAGE_ID]
     cmd_test = (f'cd {file_util.get_project_root()} && LOCAL_IMAGE_ID={image_id} '
            f'docker-compose --file {compose_test_file} up '

@@ -7,10 +7,10 @@ def is_main_branch():
     
     branch = environment.get_git_branch()
     
-    if 'origin/master' in branch:
+    if 'master' in branch:
         return True
     
-    if 'origin/main' in branch:
+    if 'main' in branch:
         return True
 
     return False
