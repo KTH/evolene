@@ -88,7 +88,7 @@ def login_azure():
 def run_test(compose_test_file, data):
     image_id = data[pipeline_data.LOCAL_IMAGE_ID]
     cmd_test = (f'cd {file_util.get_project_root()} && LOCAL_IMAGE_ID={image_id} '
-           f'{environment.get_tests_secrets()} docker-compose --file {compose_test_file} up '
+           f'{environment.get_tests_secrets()} T=A docker-compose --file {compose_test_file} up '
            f'--build '
            f'--abort-on-container-exit '
            f'--always-recreate-deps '
