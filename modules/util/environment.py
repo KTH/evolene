@@ -19,6 +19,7 @@ REGISTRY_HOST = 'REGISTRY_HOST'
 REGISTRY_USER = 'REGISTRY_USER'
 REGISTRY_PASSWORD = 'REGISTRY_PASSWORD'
 EVOLENE_DIRECTORY = 'EVOLENE_DIRECTORY'
+EVOLENE_TEST_SECRETS = 'EVOLENE_TEST_SECRETS'
 EXPERIMENTAL = 'EXPERIMENTAL'
 SKIP_DRY_RUN = 'SKIP_DRY_RUN'
 PUSH_PUBLIC = 'PUSH_PUBLIC'
@@ -157,6 +158,12 @@ def is_true_value(value, true_values=[ "yes", "true" ]):
 
 def get_time():
     return datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
+
+def get_tests_secrets():
+    secrets = os.environ.get(EVOLENE_TEST_SECRETS)
+    if secrets:
+        return secrets.replace('\n', ' ')
+    return ""
 
 def get_docker_build_args():
     args = os.environ.get(DOCKER_BUILD_ARGS)

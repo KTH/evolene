@@ -24,3 +24,21 @@ class EnvironmentTests(unittest.TestCase):
         os.environ[environment.GIT_COMMIT] = '1234'
         result = git.get_commit_clamped()
         self.assertEqual(result, '1234')
+
+    def test_test_secrets(self):
+
+        result = environment.get_tests_secrets()
+        self.assertEqual(result, '')
+
+
+        os.environ[environment.EVOLENE_TEST_SECRETS] = 'KEY_1=a KEY_2=b'
+        result = environment.get_tests_secrets()
+        self.assertEqual(result, 'KEY_1=a KEY_2=b')
+
+        # Simultate a multiline input.
+        multi_line ="""KEY_1=a
+KEY_2=b"""
+
+        os.environ[environment.EVOLENE_TEST_SECRETS] = multi_line
+        result = environment.get_tests_secrets()
+        self.assertEqual(result, 'KEY_1=a KEY_2=b')
