@@ -16,7 +16,9 @@ def run_with_output(cmd, log_cmd=True):
 
     except subprocess.CalledProcessError as cpe:
         if cpe.output:
-            raise PipelineException(cpe.output.decode('utf-8'))
+            print(PipelineException(cpe.output))
+            #raise PipelineException(cpe.output.decode('utf-8'))
+            raise PipelineException("cpe.output error")
         raise PipelineException(f"{str(cpe)}")
     except:
         raise PipelineException(
