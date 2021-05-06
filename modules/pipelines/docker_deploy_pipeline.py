@@ -33,6 +33,8 @@ class DockerDeployPipeline(object):
     def __init__(self):
         self.log = logging.getLogger(__name__)
 
+        self.print_header()
+
         self.pipeline_steps = pipeline.create_pipeline_from_array([
             # Print Docker version
             DockerVersion(),
@@ -107,3 +109,14 @@ class DockerDeployPipeline(object):
                 step = step.next_step
         except PipelineException as p_ex:
             self.log.fatal('Caught exception: %s', p_ex, exc_info=True)
+
+    def print_header(self):
+        print_util.black("                                                    ")
+        print_util.pink("  ______                   _                         ")
+        print_util.pink(" |  ____|                 | |                        ")
+        print_util.pink(" | |__    __   __   ___   | |   ___   _ __     ___   ")
+        print_util.pink(" |  __|   \ \ / /  / _ \  | |  / _ \ | '_ \   / _ \  ")
+        print_util.pink(" | |____   \ V /  | (_) | | | |  __/ | | | | |  __/  ")
+        print_util.pink(" |______|   \_/    \___/  |_|  \___| |_| |_|  \___|  ")
+        print_util.black("                                                    ")
+        print_util.black("                                                    ")
