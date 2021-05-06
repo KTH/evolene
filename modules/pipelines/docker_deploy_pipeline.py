@@ -33,8 +33,6 @@ class DockerDeployPipeline(object):
     def __init__(self):
         self.log = logging.getLogger(__name__)
 
-        self.print_header()
-
         self.pipeline_steps = pipeline.create_pipeline_from_array([
             # Print Docker version
             DockerVersion(),
@@ -84,6 +82,7 @@ class DockerDeployPipeline(object):
         ])
 
     def run_pipeline(self):
+        self.print_header()
         self.verify_environment()
         self.run_steps()
 
