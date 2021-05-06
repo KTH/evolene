@@ -20,13 +20,12 @@ WORKSPACE=/src
 # Print the version
 echo ""
 
-echo "\033[95m*****************************************************************\033[0m"
-echo "\033[95m*   Evolene Ci/CD environment https://github.com/kth/evolene    *\033[0m"
-echo "\033[95m*****************************************************************\033[0m"
-
-cat $EVOLENE_DIRECTORY/docker.conf
+echo "*****************************************************************"
+echo "*   Evolene Ci/CD environment https://github.com/kth/evolene    *"
+echo "*****************************************************************"
+cat $EVOLENE_DIRECTORY/version.conf
 echo ""
-echo "\033[95m*****************************************************************\033[0m"
+echo "*****************************************************************"
 echo ""
 
 # CD into the repository directory containing the source code to build (not Evolene).
