@@ -23,6 +23,7 @@ COPY ["modules",  "modules"]
 COPY ["run.py", "run.py"]
 COPY ["run_github_action.sh", "run_github_action.sh"]
 COPY ["docker.conf",  "docker.conf"]
+COPY ["version.conf",  "version.conf"]
 
 ENV EVOLENE_DIRECTORY /repo
 
