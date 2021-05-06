@@ -28,8 +28,7 @@ echo ""
 echo "*****************************************************************"
 echo ""
 
-# CD into the repository directory containing the source code to build (not Evolene).
-echo "Change directory to '$WORKSPACE'"
+# CD into the repository directory containing the source code to build (not Evolenes).
 cd $WORKSPACE
 
 # Run Evolene on the repository code.
