@@ -91,11 +91,11 @@ def get_git_commiter_name():
 def get_project_root():
     return os.environ.get(PROJECT_ROOT)
 
-def get_github_workspace():
+def get_docker_mount_root():
     path = os.environ.get(GITHUB_WORKSPACE)
     if path:
         return path
-    return ""
+    return get_project_root().rstrip('/')
 
 def get_build_number():
     return os.environ.get(BUILD_NUMBER)

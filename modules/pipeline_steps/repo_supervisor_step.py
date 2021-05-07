@@ -93,10 +93,10 @@ class RepoSupervisorStep(AbstractPipelineStep):
         return False
 
     def _run_supervisor(self, image_name):
-        project_root = file_util.get_project_root()
+
         mounted_dir = RepoSupervisorStep.REPO_MOUNTED_DIR
 
-        cmd = (f'docker run --rm -v {project_root}:{mounted_dir} {image_name} /bin/bash -c "source ~/.bashrc && JSON_OUTPUT=1 node /opt/repo-supervisor/dist/cli.js {mounted_dir}"')
+        cmd = (f'docker run --rm -v {environment.get_docker_mount_root()}:{mounted_dir} {image_name} /bin/bash -c "source ~/.bashrc && JSON_OUTPUT=1 node /opt/repo-supervisor/dist/cli.js {mounted_dir}"')
         
         try:
             return process.run_with_output(cmd)
