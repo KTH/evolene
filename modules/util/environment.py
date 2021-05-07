@@ -10,6 +10,7 @@ GIT_COMMIT = 'GIT_COMMIT'
 GIT_BRANCH = 'GIT_BRANCH'
 GIT_COMMITTER_NAME = 'GIT_COMMITTER_NAME'
 GIT_URL = 'GIT_URL'
+GITHUB_WORKSPACE = 'GITHUB_WORKSPACE'
 BUILD_NUMBER = 'BUILD_NUMBER'
 BUILD_URL = 'BUILD_URL'
 BUILD_INFORMATION_OUTPUT_FILE = 'BUILD_INFORMATION_OUTPUT_FILE'
@@ -89,6 +90,12 @@ def get_git_commiter_name():
 
 def get_project_root():
     return os.environ.get(PROJECT_ROOT)
+
+def get_github_workspace():
+    path = os.environ.get(GITHUB_WORKSPACE)
+    if path:
+        return path
+    return ""
 
 def get_build_number():
     return os.environ.get(BUILD_NUMBER)
