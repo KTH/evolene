@@ -21,6 +21,9 @@ def read_as_string(relative_file_path):
 def get_absolue_path(relative_file_path):
     return '{}{}'.format(get_project_root(), relative_file_path)
 
+def get_docker_mounted_path(relative_file_path):
+    return '{}{}'.format(environment.get_docker_mount_root(), relative_file_path) 
+
 def get_project_root():
     return environment.get_project_root().rstrip('/')
 

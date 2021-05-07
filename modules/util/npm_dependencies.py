@@ -91,6 +91,8 @@ def log_and_slack(upgrades_information, name):
 
 def check_dependencies():
     package_json =  file_util.get_absolue_path(PACKAGE_JSON)
+    if environment.is_run_inside_docker():
+        package_json = file_util.get_docker_mounted_path(PACKAGE_JSON)
     image_name = IMAGE_NAME
 
     # Mount the local package.json file into the Docker instance

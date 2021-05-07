@@ -97,6 +97,10 @@ def get_docker_mount_root():
         return path
     return get_project_root().rstrip('/')
 
+def is_run_inside_docker():
+    return os.environ.get(GITHUB_WORKSPACE)
+    
+
 def get_build_number():
     return os.environ.get(BUILD_NUMBER)
 
