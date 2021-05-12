@@ -2,6 +2,7 @@ __author__ = 'tinglev'
 
 from modules.pipeline_steps.abstract_pipeline_step import AbstractPipelineStep
 from modules.util import process
+from modules.util import environment
 from modules.util.exceptions import PipelineException
 
 class StartNvmStep(AbstractPipelineStep):
@@ -17,7 +18,9 @@ class StartNvmStep(AbstractPipelineStep):
 
     def run_step(self, data):
         try:
-            result = process.run_with_output('. /var/lib/jenkins/.nvm/nvm.sh && nvm --version')
+            #result = process.run_with_output('. /var/lib/jenkins/.nvm/nvm.sh && nvm --version')
+            result = process.run_with_output(f'. {environment.get_home()}/.nvm/nvm.sh && nvm --version')
+            
         except PipelineException as pipeline_ex:
             self.handle_step_error('Could not verify nvm version on jenkins', pipeline_ex)
         self.log.debug('nvm version is: "%s"', result.strip())

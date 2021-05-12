@@ -14,6 +14,7 @@ GITHUB_WORKSPACE = 'GITHUB_WORKSPACE'
 BUILD_NUMBER = 'BUILD_NUMBER'
 BUILD_URL = 'BUILD_URL'
 BUILD_INFORMATION_OUTPUT_FILE = 'BUILD_INFORMATION_OUTPUT_FILE'
+HOME = 'HOME'
 SLACK_WEB_HOOK = 'EVOLENE_SLACK_WEB_HOOK'
 SLACK_CHANNELS = 'SLACK_CHANNELS'
 REGISTRY_HOST = 'REGISTRY_HOST'
@@ -148,6 +149,9 @@ def use_update_available():
 
 def get_build_url():
     return os.environ.get(BUILD_URL)
+
+def get_home():
+    return os.environ.get("HOME")
 
 def get_console_url():
     return f'{get_build_url()}console'

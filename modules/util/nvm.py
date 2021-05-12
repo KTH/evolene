@@ -5,7 +5,7 @@ from modules.util import pipeline_data
 from modules.util import process
 from modules.util import environment
 
-NVM_DIR = f'{os.environ.get("HOME")}/.nvm/nvm.sh'
+NVM_DIR = f'{environment.get_home()}/.nvm/nvm.sh'
 
 def get_nvm_source():
     return f'. {NVM_DIR}'
