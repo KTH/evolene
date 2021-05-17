@@ -32,7 +32,7 @@ class NpmLoginStep(AbstractPipelineStep):
             # try:
             #     cmd = f'NPM_USER="${environment.get_npm_user()}" NPM_PASSWORD="${environment.get_npm_password()}" NPM_EMAIL="${environment.get_npm_email()}" {environment.get_evolene_directory()}/npm_login.sh'
             #     result = process.run_with_output(cmd, False)
-            #     self.log.info(f'Logged in to NPM. {result}')
+            self.log.info(f'Logged in to NPM in run_github_actions.')
             # except PipelineException as docker_ex:
             #     self.handle_step_error('NPM login failed. Exception when trying to get auth token from npm via docker')
             
