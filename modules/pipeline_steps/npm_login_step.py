@@ -34,7 +34,7 @@ class NpmLoginStep(AbstractPipelineStep):
                 f'-e NPM_USER="{environment.get_npm_user()}" '
                 f'-e NPM_PASS="{environment.get_npm_password()}" '
                 f'-e NPM_EMAIL="{environment.get_npm_email()}" '
-                f'-v {get_output_file()}:/root/.npmrc:ro '
+                f'-v {self.get_output_file()}:/root/.npmrc:ro '
                 f'{self.get_docker_image()} '
                 f'> {self.get_output_file()}')
         else:
