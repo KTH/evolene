@@ -26,6 +26,7 @@ COPY ["run.py", "run.py"]
 COPY ["run_github_action.sh", "run_github_action.sh"]
 COPY ["docker.conf",  "docker.conf"]
 COPY ["version.conf",  "version.conf"]
+COPY ["npm_login.sh",  "npm_login.sh"]
 
 RUN cat $HOME/.nvm/nvm.sh
 
