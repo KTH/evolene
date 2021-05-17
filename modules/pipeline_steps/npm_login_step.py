@@ -26,29 +26,34 @@ class NpmLoginStep(AbstractPipelineStep):
         return 'bravissimolabs/generate-npm-authtoken'
 
     def run_step(self, data):
+        # npm login doesn't support non-interactive login, so we'll do this
+        # through a docker image
 
-        result = "Not set."
-        
         if environment.is_run_inside_docker():
-            self.log.info('Already  logged in to NPM in run_github_actions.')
+            cmd = (f'docker run '
+                f'-e NPM_USER="{environment.get_npm_user()}" '
+                f'-e NPM_PASS="{environment.get_npm_password()}" '
+                f'-e NPM_EMAIL="{environment.get_npm_email()}" '
+                f'-v {get_output_file()}:/root/.npmrc:ro '
+                f'{self.get_docker_image()} '
+                f'> {self.get_output_file()}')
         else:
-            # npm login doesn't support non-interactive login, so we'll do this
-            # through a docker image
             cmd = (f'docker run '
                 f'-e NPM_USER="{environment.get_npm_user()}" '
                 f'-e NPM_PASS="{environment.get_npm_password()}" '
                 f'-e NPM_EMAIL="{environment.get_npm_email()}" '
                 f'{self.get_docker_image()} '
                 f'> {self.get_output_file()}')
-            try:
-                result = process.run_with_output(cmd, False)
-            except PipelineException as docker_ex:
-                self.handle_step_error(
-                    'NPM login failed. Exception when trying to get auth token from npm via docker',
-                    docker_ex
-                )
+        try:
+            result = process.run_with_output(cmd, False)
+            self.log.debug('Output from npm login was: "%s"', result)
+        except PipelineException as docker_ex:
+            self.handle_step_error(
+                'NPM login failed. Exception when trying to get auth token from npm via docker',
+                docker_ex
+            )
             
-        self.log.debug('Output from npm login was: "%s"', result)
+        
         try:
             result = nvm.exec_npm_command(data, 'whoami')
         except PipelineException as npm_ex:
