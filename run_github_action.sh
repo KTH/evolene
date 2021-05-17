@@ -49,15 +49,15 @@ cd $WORKSPACE
 
 # If its a npm pkg to build run npm login.
 if [ -f "$WORKSPACE/npm.conf" ]; then
-    $EVOLENE_DIRECTORY/npm_login.sh
+    $EVOLENE_DIRECTORY/npm_login.sh > /dev/null 2>&1
     echo "Logged into NPM."
-    cat $WORKSPACE/npm.conf
 fi
 
+echo ""
+echo "*****************************************************************"
+echo ""
 npm whoami
-
-if [ -f "~/.npmrc" ]; then
-    echo "~/.npmrc exists."
-fi
+echo ""
+echo "*****************************************************************"
 
 PIPENV_PIPFILE=$EVOLENE_DIRECTORY/Pipfile pipenv run python $EVOLENE_DIRECTORY/run.py
