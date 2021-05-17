@@ -28,22 +28,13 @@ class NpmLoginStep(AbstractPipelineStep):
     def run_step(self, data):
         # npm login doesn't support non-interactive login, so we'll do this
         # through a docker image
+        cmd = (f'docker run '
+            f'-e NPM_USER="{environment.get_npm_user()}" '
+            f'-e NPM_PASS="{environment.get_npm_password()}" '
+            f'-e NPM_EMAIL="{environment.get_npm_email()}" '
+            f'{self.get_docker_image()} '
+            f'> {self.get_output_file()}')
 
-        if environment.is_run_inside_docker():
-            cmd = (f'docker run '
-                f'-e NPM_USER="{environment.get_npm_user()}" '
-                f'-e NPM_PASS="{environment.get_npm_password()}" '
-                f'-e NPM_EMAIL="{environment.get_npm_email()}" '
-                f'-v {self.get_output_file()}:/root/.npmrc:ro '
-                f'{self.get_docker_image()} '
-                f'> {self.get_output_file()}')
-        else:
-            cmd = (f'docker run '
-                f'-e NPM_USER="{environment.get_npm_user()}" '
-                f'-e NPM_PASS="{environment.get_npm_password()}" '
-                f'-e NPM_EMAIL="{environment.get_npm_email()}" '
-                f'{self.get_docker_image()} '
-                f'> {self.get_output_file()}')
         try:
             result = process.run_with_output(cmd, False)
             self.log.debug('Output from npm login was: "%s"', result)
