@@ -5,6 +5,7 @@ from modules.util import environment
 from modules.util import process
 from modules.util.exceptions import PipelineException
 from modules.util import nvm
+from modules.util import environment
 
 class NpmLoginStep(AbstractPipelineStep):
 
@@ -25,21 +26,38 @@ class NpmLoginStep(AbstractPipelineStep):
         return 'bravissimolabs/generate-npm-authtoken'
 
     def run_step(self, data):
-        # npm login doesn't support non-interactive login, so we'll do this
-        # through a docker image
-        cmd = (f'docker run '
-               f'-e NPM_USER="{environment.get_npm_user()}" '
-               f'-e NPM_PASS="{environment.get_npm_password()}" '
-               f'-e NPM_EMAIL="{environment.get_npm_email()}" '
-               f'{self.get_docker_image()} '
-               f'> {self.get_output_file()}')
-        try:
-            result = process.run_with_output(cmd, False)
-        except PipelineException as docker_ex:
-            self.handle_step_error(
-                'NPM login failed. Exception when trying to get auth token from npm via docker',
-                docker_ex
-            )
+
+        if environment.is_run_inside_docker():
+            cmd = f'USERNAME="${environment.get_npm_user()}" PASSWORD="${environment.get_npm_password()}" EMAIL="${environment.get_npm_email()}" /usr/bin/expect '
+            
+            login_promt = """<<EOD
+            spawn npm login 
+            expect {
+            "Username:" {send "$USERNAME\r"; exp_continue}
+            "Password:" {send "$PASSWORD\r"; exp_continue}
+            "Email: (this IS public)" {send "$EMAIL\r"; exp_continue}
+            }
+            EOD """
+
+            result = process.run_with_output(cmd + "\n" + login_promt, False)
+
+        else:
+            # npm login doesn't support non-interactive login, so we'll do this
+            # through a docker image
+            cmd = (f'docker run '
+                f'-e NPM_USER="{environment.get_npm_user()}" '
+                f'-e NPM_PASS="{environment.get_npm_password()}" '
+                f'-e NPM_EMAIL="{environment.get_npm_email()}" '
+                f'{self.get_docker_image()} '
+                f'> {self.get_output_file()}')
+            try:
+                result = process.run_with_output(cmd, False)
+            except PipelineException as docker_ex:
+                self.handle_step_error(
+                    'NPM login failed. Exception when trying to get auth token from npm via docker',
+                    docker_ex
+                )
+            
         self.log.debug('Output from npm login was: "%s"', result)
         try:
             result = nvm.exec_npm_command(data, 'whoami')
