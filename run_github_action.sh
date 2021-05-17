@@ -48,9 +48,10 @@ cd $WORKSPACE
 #EVOLENE_DIRECTORY=$EVOLENE_DIRECTORY \
 
 # If its a npm pkg to build run npm login.
-if [ -f "WORKSPACE/npm.conf" ]; then
-    $EVOLENE_DIRECTORY/npm_login.sh > /dev/null 2>&1
-    echo "Logged into NPM."
-fi
+#if [ -f "WORKSPACE/npm.conf" ]; then
+$EVOLENE_DIRECTORY/npm_login.sh > /dev/null 2>&1
+echo "Logged into NPM."
+cat WORKSPACE/npm.conf
+#fi
 
 PIPENV_PIPFILE=$EVOLENE_DIRECTORY/Pipfile pipenv run python $EVOLENE_DIRECTORY/run.py
