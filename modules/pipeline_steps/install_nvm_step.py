@@ -19,6 +19,7 @@ class InstallNvmStep(AbstractPipelineStep):
         return []
 
     def run_step(self, data):
+        # TODO: https://github.com/nvm-sh/nvm#verify-installation
         if os.path.isfile(nvm.NVM_DIR):
             self.log.info('nvm is already installed, continuing')
         else:

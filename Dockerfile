@@ -6,7 +6,7 @@ WORKDIR /repo
 
 RUN apk update && \
     apk upgrade && \
-    apk add --no-cache expect bash gcc libc-dev libxslt-dev libxslt py-pip docker make libffi-dev linux-headers llvm10 cargo openssl-dev build-base openssh git curl npm && \
+    apk add --no-cache bash gcc libc-dev libxslt-dev libxslt py-pip docker make libffi-dev linux-headers llvm10 cargo openssl-dev build-base openssh git curl && \
     rm -rf /var/cache/apk/*
         
 COPY Pipfile Pipfile
@@ -26,7 +26,6 @@ COPY ["run.py", "run.py"]
 COPY ["run_github_action.sh", "run_github_action.sh"]
 COPY ["docker.conf",  "docker.conf"]
 COPY ["version.conf",  "version.conf"]
-COPY ["npm_login.sh",  "npm_login.sh"]
 
 RUN cat $HOME/.nvm/nvm.sh
 
