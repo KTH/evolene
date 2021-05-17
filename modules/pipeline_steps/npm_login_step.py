@@ -29,7 +29,7 @@ class NpmLoginStep(AbstractPipelineStep):
 
         if environment.is_run_inside_docker():
 
-            cmd = f'NPM_USERNAME="${environment.get_npm_user()}" NPM_PASSWORD="${environment.get_npm_password()}" NPM_EMAIL="${environment.get_npm_email()}" {environment.get_docker_mount_root()}/npm_login.sh'
+            cmd = f'NPM_USERNAME="${environment.get_npm_user()}" NPM_PASSWORD="${environment.get_npm_password()}" NPM_EMAIL="${environment.get_npm_email()}" {environment.get_evolene_directory()}/npm_login.sh'
             result = process.run_with_output(cmd, False)
             self.log.info('Logged in to NPM.')
             
