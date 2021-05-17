@@ -49,7 +49,7 @@ cd $WORKSPACE
 
 # If its a npm pkg to build run npm login.
 if [ -f "$WORKSPACE/npm.conf" ]; then
-    $EVOLENE_DIRECTORY/npm_login.sh > /dev/null 2>&1
+    $EVOLENE_DIRECTORY/npm_login.sh
     echo "Logged into NPM."
     cat $WORKSPACE/npm.conf
 fi
