@@ -28,7 +28,9 @@ class NpmLoginStep(AbstractPipelineStep):
     def run_step(self, data):
 
         if environment.is_run_inside_docker():
-            cmd = f'USERNAME="${environment.get_npm_user()}" PASSWORD="${environment.get_npm_password()}" EMAIL="${environment.get_npm_email()}" /usr/bin/expect '
+
+            #cmd = f'USERNAME="${environment.get_npm_user()}" PASSWORD="${environment.get_npm_password()}" EMAIL="${environment.get_npm_email()}" /usr/bin/expect '
+            cmd = f'USERNAME="username" PASSWORD="pwd" EMAIL="email" /usr/bin/expect '
             
             login_promt = """<<EOD
             spawn npm login 
@@ -39,7 +41,11 @@ class NpmLoginStep(AbstractPipelineStep):
             }
             EOD """
 
-            result = process.run_with_output(cmd + "\n" + login_promt, False)
+            full_cmd = cmd + "\n" + login_promt
+
+            self.log.info(full_cmd)
+
+            result = process.run_with_output(full_cmd, False)
 
         else:
             # npm login doesn't support non-interactive login, so we'll do this
