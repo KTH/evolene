@@ -54,4 +54,6 @@ echo "Logged into NPM."
 cat WORKSPACE/npm.conf
 #fi
 
+npm whoami
+
 PIPENV_PIPFILE=$EVOLENE_DIRECTORY/Pipfile pipenv run python $EVOLENE_DIRECTORY/run.py
