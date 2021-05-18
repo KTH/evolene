@@ -8,13 +8,16 @@ from modules.util import environment
 NVM_DIR = f'{environment.get_home()}/.nvm/nvm.sh'
 
 def get_nvm_source():
-    return f'. {NVM_DIR}'
+    if environment.is_run_inside_docker():
+        return ""
+
+    return f'. {NVM_DIR} && '
 
 def get_nvm_exec_base(data):
     nvm_source = get_nvm_source()
     conf_version = data[pipeline_data.NPM_CONF_NODE_VERSION]
     return (
-        f'{nvm_source} && '
+        f'{nvm_source}'
         f'nvm exec --silent {conf_version}'
     )
 
