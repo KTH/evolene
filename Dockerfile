@@ -26,9 +26,8 @@ COPY ["docker.conf",  "docker.conf"]
 COPY ["version.conf",  "version.conf"]
 
 RUN apk add -U curl bash ca-certificates openssl ncurses coreutils python2 make gcc g++ libgcc linux-headers grep util-linux binutils findutils
-RUN export NVM_DIR=/.nvm
-RUN mkdir /.nvm
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | NVM_DIR=/.nvm bash
+RUN mkdir /$HOME/.nvm
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 
 
 ENV EVOLENE_DIRECTORY /repo
