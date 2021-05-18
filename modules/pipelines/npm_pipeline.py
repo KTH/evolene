@@ -54,12 +54,12 @@ class NpmPipeline(object):
             NpmVersionChangedStep(),
             # Check old dependencies and inform
             NpmDependenciesStep(),
+            # Run npm install
+            NpmInstallStep(),
             # Login to npm
             NpmLoginStep(),
             # Create our package.lock file
             NpmPackageLockStep(),
-            # Run npm install
-            NpmInstallStep(),
             # Run npm test
             NpmTestStep(),
             # Write information about the build to a file in the package.
