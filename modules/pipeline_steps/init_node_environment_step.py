@@ -4,6 +4,7 @@ from modules.pipeline_steps.abstract_pipeline_step import AbstractPipelineStep
 from modules.util import pipeline_data
 from modules.util.exceptions import PipelineException
 from modules.util import nvm
+from modules.util import file_util
 
 class InitNodeEnvironmentStep(AbstractPipelineStep):
 
@@ -39,6 +40,7 @@ class InitNodeEnvironmentStep(AbstractPipelineStep):
 
     def install_version(self, version):
         try:
+            file_util.overwite('/.nvmrc', version)
             nvm.exec_nvm_command(f'install {version}')
         except PipelineException as pipeline_ex:
             self.handle_step_error(
