@@ -29,7 +29,6 @@ RUN apk add -U curl bash ca-certificates openssl ncurses coreutils python2 make 
 RUN mkdir /$HOME/.nvm
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 
-
 ENV EVOLENE_DIRECTORY /repo
 
 RUN mkdir src
