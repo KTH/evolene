@@ -1,7 +1,10 @@
 __author__ = 'tinglev'
 
 import os
+import logging
 from modules.util import environment
+
+log = logging.getLogger(__name__)
 
 def get_lines(relative_file_path):
     result = []
@@ -35,7 +38,7 @@ def is_directory(relative_file_path):
     return os.path.isdir(path)
 
 def overwite(relative_file_path, content):
-    print('Path write: {}'.format(get_absolue_path(relative_file_path)))
+    log.info('Path write: {}'.format(get_absolue_path(relative_file_path)))
 
     with open(get_absolue_path(relative_file_path), 'w+') as output_file:
         output_file.write(content)
