@@ -18,7 +18,22 @@ class InstallNvmStep(AbstractPipelineStep):
     def get_required_data_keys(self):
         return []
 
+
+    def is_installed(self):
+        result = False
+        try:
+            response = process.run_with_output("command -v nvm")
+            if "nvm" in response:
+                result = True
+        except PipelineException as install_ex:
+            self.handle_step_error('Error checking if NVM is installed.', install_ex)
+        return result
+
+
     def run_step(self, data):
+
+        self.log.info(f'Is NVM installed (check using command -v nvm) {self.is_installed()}')
+
         # TODO: https://github.com/nvm-sh/nvm#verify-installation
         if os.path.isfile(nvm.NVM_DIR):
             self.log.info('nvm is already installed, continuing')
