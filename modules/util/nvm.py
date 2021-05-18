@@ -46,5 +46,5 @@ def exec_npm_command(data, command, flags=''):
 def exec_nvm_command(command):
     nvm_source = get_nvm_source()
     return process.run_with_output(
-        f'{nvm_source} && nvm {command}'
+        f'{nvm_source}nvm {command}'
     ).strip()
