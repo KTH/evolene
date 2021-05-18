@@ -6,8 +6,12 @@ from modules.util import process
 from modules.util import environment
 
 NVM_DIR = f'{environment.get_home()}/.nvm/nvm.sh'
+NVM_DIR_DOCKER = f'/.nvm/nvm.sh'
+
 
 def get_nvm_source():
+    if environment.is_run_inside_docker():
+        return f'. {NVM_DIR_DOCKER}'
     return f'. {NVM_DIR}'
 
 def get_nvm_exec_base(data):

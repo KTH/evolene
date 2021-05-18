@@ -19,11 +19,16 @@ RUN pipenv install
 RUN pipenv install pip
 RUN pip install docker-compose
 
-COPY ["modules",  "modules"]
+COPY ["modules",  "modules"]d
 COPY ["run.py", "run.py"]
 COPY ["run_github_action.sh", "run_github_action.sh"]
 COPY ["docker.conf",  "docker.conf"]
 COPY ["version.conf",  "version.conf"]
+
+RUN apk add -U curl bash ca-certificates openssl ncurses coreutils python2 make gcc g++ libgcc linux-headers grep util-linux binutils findutils
+RUN export NVM_DIR=/
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | NVM_DIR=/ bash
+
 
 ENV EVOLENE_DIRECTORY /repo
 
