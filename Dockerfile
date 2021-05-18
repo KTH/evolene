@@ -19,15 +19,11 @@ RUN pipenv install
 RUN pipenv install pip
 RUN pip install docker-compose
 
-RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.38.0/install.sh | bash
-
 COPY ["modules",  "modules"]
 COPY ["run.py", "run.py"]
 COPY ["run_github_action.sh", "run_github_action.sh"]
 COPY ["docker.conf",  "docker.conf"]
 COPY ["version.conf",  "version.conf"]
-
-RUN cat $HOME/.nvm/nvm.sh
 
 ENV EVOLENE_DIRECTORY /repo
 
