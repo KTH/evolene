@@ -32,7 +32,7 @@ class InstallNvmStep(AbstractPipelineStep):
 
     def run_step(self, data):
 
-        self.log.info(f'Is NVM installed (check using command -v nvm) {self.is_installed()}')
+        #self.log.info(f'Is NVM installed (check using command -v nvm) {self.is_installed()}')
 
         # TODO: https://github.com/nvm-sh/nvm#verify-installation
         if os.path.isfile(nvm.NVM_DIR):
