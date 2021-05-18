@@ -25,8 +25,8 @@ class InstallNvmStep(AbstractPipelineStep):
             response = process.run_with_output("command -v nvm")
             if "nvm" in response:
                 result = True
-        except PipelineException as install_ex:
-            self.handle_step_error('Error checking if NVM is installed.', install_ex)
+        except Exception as err:
+            self.handle_step_error('Error checking if NVM is installed.', err)
         return result
 
 
