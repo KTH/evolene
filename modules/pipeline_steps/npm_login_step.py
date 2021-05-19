@@ -6,7 +6,7 @@ from modules.util import process
 from modules.util.exceptions import PipelineException
 from modules.util import nvm
 from modules.util import environment
-
+from modules.util import file_util
 class NpmLoginStep(AbstractPipelineStep):
 
     def __init__(self):
@@ -20,10 +20,10 @@ class NpmLoginStep(AbstractPipelineStep):
         return []
 
     def get_output_file(self):
-        return '~/.npmrc'
+        return f'{environment.get_home()}/.npmrc'
 
     def get_docker_image(self):
-        return 'bravissimolabs/generate-npm-authtoken'
+        return 'kthse/generate-npm-authtoken:1.0.0'
 
     def run_step(self, data):
         # npm login doesn't support non-interactive login, so we'll do this
@@ -32,19 +32,17 @@ class NpmLoginStep(AbstractPipelineStep):
             f'-e NPM_USER="{environment.get_npm_user()}" '
             f'-e NPM_PASS="{environment.get_npm_password()}" '
             f'-e NPM_EMAIL="{environment.get_npm_email()}" '
-            f'{self.get_docker_image()} '
-            f'> {self.get_output_file()}')
-
+            f'{self.get_docker_image()} ')
         try:
-            result = process.run_with_output(cmd, False)
-            self.log.debug('Output from npm login was: "%s"', result)
+            npm_token = process.run_with_output(cmd, False)
+            file_util.overwite_absolute(self.get_output_file(), npm_token)
+            self.log.info(f'NPM token written to {self.get_output_file()}')
+
         except PipelineException as docker_ex:
             self.handle_step_error(
                 'NPM login failed. Exception when trying to get auth token from npm via docker',
                 docker_ex
             )
-            
-        
         try:
             result = nvm.exec_npm_command(data, 'whoami')
         except PipelineException as npm_ex:
