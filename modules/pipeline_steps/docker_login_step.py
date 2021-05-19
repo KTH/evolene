@@ -3,6 +3,7 @@ __author__ = 'tinglev'
 from modules.util import docker
 from modules.pipeline_steps.abstract_pipeline_step import AbstractPipelineStep
 from modules.util import environment
+from modules.util import file_util
 
 class DockerLoginStep(AbstractPipelineStep):
 
@@ -19,6 +20,8 @@ class DockerLoginStep(AbstractPipelineStep):
         if environment.is_run_inside_docker():
             self.log.info('Logging in to Docker Hub.')
             docker.login_public()
+            self.log.info(file_util.read_as_string_absolute('/root/.docker/config.json'))
+            
 
         if (not environment.get_push_public()):
             self.log.info('Logging in to Private Docker Hub.')

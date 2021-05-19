@@ -21,6 +21,12 @@ def read_as_string(relative_file_path):
             return afile.read()
     return None
 
+def read_as_string_absolute(file_path):
+    if is_file(file_path):
+        with open(file_path) as afile:
+            return afile.read()
+    return None
+
 def get_absolue_path(relative_file_path):
     return '{}{}'.format(get_project_root(), relative_file_path)
 
@@ -41,4 +47,10 @@ def overwite(relative_file_path, content):
     log.info('Path write: {}'.format(get_absolue_path(relative_file_path)))
 
     with open(get_absolue_path(relative_file_path), 'w+') as output_file:
+        output_file.write(content)
+
+def overwite_absolute(file_path, content):
+    log.info(f'Absolute path write: {file_path}')
+
+    with open(file_path, 'w+') as output_file:
         output_file.write(content)

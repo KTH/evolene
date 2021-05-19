@@ -34,4 +34,6 @@ ENV EVOLENE_DIRECTORY /repo
 RUN mkdir src
 WORKDIR /src
 
+RUN mkdir /root/.docker
+
 CMD ["/bin/sh", "-c", "/repo/run_github_action.sh"]

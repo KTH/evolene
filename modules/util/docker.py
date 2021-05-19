@@ -87,15 +87,14 @@ def login_azure():
     return retval
 
 def login_public():
-    host = environment.get_public_registry_host()
-    user = environment.get_public_registry_user()
-    pwd = environment.get_public_registry_password()
-    login(user, pwd, host)
+    login( environment.get_public_registry_user(),
+        environment.get_public_registry_password(),
+        environment.get_public_registry_host())
 
 def login(user, pwd, host):
     cmd = f'docker login -u {user} -p \'{pwd}\' {host}'
-    log.info(cmd)
-    process.run_with_output(cmd, False)
+    result = process.run_with_output(cmd, False)
+    log.info(result)
 
 def run_test(compose_test_file, data):
     image_id = data[pipeline_data.LOCAL_IMAGE_ID]
