@@ -13,8 +13,10 @@ class DockerLoginStep(AbstractPipelineStep):
         return []
 
     def run_step(self, data):
+        if environment.is_run_inside_docker():
+            docker.login_public()
         if (not environment.get_push_public()):
-            docker.login()
+            docker.login_private()
             if environment.get_push_azure():
                 docker.login_azure()
         return data
