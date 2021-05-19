@@ -13,10 +13,19 @@ class DockerLoginStep(AbstractPipelineStep):
         return []
 
     def run_step(self, data):
+
+        self.log.info('Logging in to Docker Registries.')
+
         if environment.is_run_inside_docker():
+            self.log.info('Logging in to Docker Hub.')
             docker.login_public()
+
         if (not environment.get_push_public()):
+            self.log.info('Logging in to Private Docker Hub.')
             docker.login_private()
+
             if environment.get_push_azure():
+                self.log.info('Logging in to Azure Container Registry.')
                 docker.login_azure()
+
         return data
