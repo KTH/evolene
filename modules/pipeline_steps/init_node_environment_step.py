@@ -4,7 +4,6 @@ from modules.pipeline_steps.abstract_pipeline_step import AbstractPipelineStep
 from modules.util import pipeline_data
 from modules.util.exceptions import PipelineException
 from modules.util import nvm
-from modules.util import file_util
 
 class InitNodeEnvironmentStep(AbstractPipelineStep):
 
