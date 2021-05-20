@@ -1,0 +1,36 @@
+###################################################################################################################################
+# BUILD_INFORMATION_OUTPUT_FILE='/config/verision.js' - Places build information into built artifacts. Js,conf, html or typescript
+# BRANCHES_SAVE_STARTING_WITH='origin/feature-'       - Saves artifacts to repositories although they are not on main/master.
+# BRANCHES_TAG_AS_MAIN='True'                         - Do not add branch name to build artifact names.
+# SLACK_CHANNELS='#team-pipeline, #generall'          - List of Slack channels for user information
+# DOCKER_BUILD_ARGS='args ...'                        - Docker build args if you have any.
+#
+# Secrets used by unit and integration tests must be key=values added to this repository / Sectrets / EVOLENE_TEST_SECRETS.
+# These secret envs will then be accessable in  docker-compose-unit-tests.yml and docker-compose-integration-tests.yml.
+# Example EVOLENE_TEST_SECRETS content:
+#
+# API_KEY=abc
+# DB_PWD=123
+#
+# For more information see https://github.com/KTH/evolene/blob/master/README.md
+####################################################################################################################################
+name: Evolene CI
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  Evolene:
+    name: Continuous Integration
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build, Test and Push with Evolene
+        run: |
+          SLACK_CHANNELS=#team-pipeline-build \
+          BUILD_INFORMATION_OUTPUT_FILE='/version.conf' \
+          PUSH_PUBLIC="True" \
+          
+          ${{ secrets.EVOLENE_RUN_COMMAND }}
