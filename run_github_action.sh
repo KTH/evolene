@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 EVOLENE_DIRECTORY=/repo
 WORKSPACE=/src

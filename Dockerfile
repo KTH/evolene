@@ -6,7 +6,7 @@ WORKDIR /repo
 
 RUN apk update && \
     apk upgrade && \
-    apk add --no-cache bash gcc libc-dev libxslt-dev libxslt py-pip docker make libffi-dev linux-headers llvm10 cargo openssl-dev build-base openssh git curl && \
+    apk add --no-cache bash gcc libc-dev libxslt-dev libxslt py-pip docker make libffi-dev linux-headers llvm10 cargo openssl-dev build-base openssh git curl nodejs && \
     rm -rf /var/cache/apk/*
         
 COPY Pipfile Pipfile
@@ -19,17 +19,22 @@ RUN pipenv install
 RUN pipenv install pip
 RUN pip install docker-compose
 
+RUN touch /root/.bash_profile
+RUN touch /root/.bashrc
+RUN touch /root/.profile
+
+RUN mkdir /root/.nvm
+
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+
+RUN cat /root/.bashrc > /root/.bash_profile > /root/.profile
+
 COPY ["modules",  "modules"]d
 COPY ["run.py", "run.py"]
 COPY ["run_github_action.sh", "run_github_action.sh"]
 COPY ["docker.conf",  "docker.conf"]
 COPY ["version.conf",  "version.conf"]
 
-RUN touch /root/.bashrc
-
-RUN apk add -U curl bash ca-certificates openssl ncurses coreutils python2 make gcc g++ libgcc linux-headers grep util-linux binutils findutils
-RUN mkdir /root/.nvm
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash 
 
 ENV EVOLENE_DIRECTORY /repo
 

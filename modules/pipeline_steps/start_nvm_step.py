@@ -18,9 +18,9 @@ class StartNvmStep(AbstractPipelineStep):
 
     def run_step(self, data):
         try:
-            result = process.run_with_output(f'. {environment.get_home()}/.nvm/nvm.sh && nvm --version')
+            result = process.run_with_output(f'nvm --version')
         except PipelineException as pipeline_ex:
             self.handle_step_error('Could not verify nvm version on jenkins', pipeline_ex)
       
-        self.log.debug('nvm version is: "%s"', result.strip())
+        self.log.info('nvm version is: "%s"', result.strip())
         return data

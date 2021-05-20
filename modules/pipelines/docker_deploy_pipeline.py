@@ -2,6 +2,7 @@ __author__ = 'tinglev'
 
 import logging
 import sys
+import json
 from modules.pipeline_steps.docker_login_step import DockerLoginStep
 from modules.pipeline_steps.docker_version import DockerVersion
 from modules.pipeline_steps.setup_step import SetupStep
@@ -95,8 +96,7 @@ class DockerDeployPipeline(object):
             slack.send(f'<!here> *{workspace}*', snippet=p_ex.slack_message, username='Faild to build or test (Evolene)')
             print_util.red("Such bad, very learning.")
             sys.exit(1)
-        else:
-            self.log.info('Pipeline done. Pipeline data: %s', data)
+           
 
     def verify_environment(self):
         try:

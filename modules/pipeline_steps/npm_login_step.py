@@ -23,7 +23,7 @@ class NpmLoginStep(AbstractPipelineStep):
         return f'{environment.get_home()}/.npmrc'
 
     def get_docker_image(self):
-        return 'kthse/generate-npm-authtoken:1.0.0'
+        return 'kthse/generate-npm-authtoken:1.0.0_e06fa83'
 
     def run_step(self, data):
         # npm login doesn't support non-interactive login, so we'll do this
@@ -34,7 +34,9 @@ class NpmLoginStep(AbstractPipelineStep):
             f'-e NPM_EMAIL="{environment.get_npm_email()}" '
             f'{self.get_docker_image()} ')
         try:
+            self.log.info('Logging into NPM to get an access token.')
             npm_token = process.run_with_output(cmd, False)
+
             file_util.overwite_absolute(self.get_output_file(), npm_token)
             self.log.info(f'NPM token written to {self.get_output_file()}')
 
@@ -45,10 +47,11 @@ class NpmLoginStep(AbstractPipelineStep):
             )
         try:
             result = nvm.exec_npm_command(data, 'whoami')
+            self.log.info(f'Logged in as {result}.')
         except PipelineException as npm_ex:
             self.handle_step_error(
                 'Exception when trying to verify identify with npm whoami',
                 npm_ex
             )
-        self.log.debug('Output from npm whoami was: "%s"', result)
+        self.log.info('Output from npm whoami was: "%s"', result)
         return data

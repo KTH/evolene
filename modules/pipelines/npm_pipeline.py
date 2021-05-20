@@ -88,8 +88,6 @@ class NpmPipeline(object):
             slack.send(f'<!here> *{workspace}*', snippet=p_ex.slack_message, username='Faild to build or test (Evolene)')
             print_util.red("Such bad, very learning")
             sys.exit(1)
-        else:
-            self.log.info('Pipeline done. Pipeline data: %s', data)
 
     def verify_environment(self):
         try:

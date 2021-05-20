@@ -13,5 +13,6 @@ class DoneStep(AbstractPipelineStep):
         return []
 
     def run_step(self, data):
-        print_util.green("🏁 🎉 Built, tested (you do have tests?) and pushed to registry!")
+        self.log.info(data)
+        print_util.green("\n🏁 🎉 Built, tested (you do have tests?) and pushed to registry!\n")
         return data
