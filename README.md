@@ -12,7 +12,7 @@ Add the **Github Action yaml content below** to a the Github Action workflow `.g
 
 If you have 🔑 secret environment variables somewhere in your process (like tests) add them in `/ Settings / Secrets / Repository secrets / EVOLENE_TEST_SECRETS` as _key=value_ pairs and access them as `$(YOUR_ENV_KEY)`, there are more customizing you can do:
 
-- [🛠️ Common Docker and NPM](https://github.com/KTH/evolene/blob/master/README-DOCKER.md)
+- [🛠️ Common Docker and NPM](https://github.com/KTH/evolene/blob/master/README-COMMON.md)
 - [🐳 How to build, test and publish your Docker application](https://github.com/KTH/evolene/blob/master/README-DOCKER.md)
 - [📦 How to build, test and publish your NPM application](https://github.com/KTH/evolene/blob/master/README-NPM.md)
 
