@@ -1,4 +1,4 @@
-# 🐳 Evolene CI ![Continous Integration](https://github.com/KTH/kth-azure-app/actions/workflows/main.yml/badge.svg)
+# Evolene CI ![Continous Integration](https://github.com/KTH/kth-azure-app/actions/workflows/main.yml/badge.svg)
 
 **Evolene CI runs a sequence of steps that build, test and in the end stores a Docker or NPM package in a registry. It is KTH:s way of standardising the build process, so that developers never have to anything about continuous integration systems 😃 or having to care where built artefacts are stored.**
 
