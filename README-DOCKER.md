@@ -39,6 +39,8 @@ IMAGE_VERSION=2.3
 
 # Testing
 
+## Secrets for testing
+
 If you have 🔑 secret environment variables somewhere in your tests, add them in your Github repository `/ Settings / Secrets / Repository secrets / EVOLENE_TEST_SECRETS` as _key=value_ pairs and access them as `$(YOUR_ENV_KEY)` or as envs i Docker Compose files.
 
 EVOLENE_TEST_SECRETS can be either a oneliner or separate rows.
