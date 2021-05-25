@@ -38,3 +38,6 @@ jobs:
           
           ${{ secrets.EVOLENE_RUN_COMMAND }}
 ```
+
+### Need a good looking badge?
+Add ![Continous Integration](https://github.com/KTH/evolene/actions/workflows/main.yml/badge.svg) `![Continous Integration](https://github.com/KTH/evolene/actions/workflows/main.yml/badge.svg)` to your _README.md_, do not forget to replace `evolene` with our repo name ;)
