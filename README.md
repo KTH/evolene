@@ -1,4 +1,5 @@
-# Evolene :whale: [Continous Integration](https://github.com/KTH/evolene/actions/workflows/main.yml/badge.svg)
+# 🐳 Evolene CI ![Continous Integration](https://github.com/KTH/kth-azure-app/actions/workflows/main.yml/badge.svg)
+
 
 Automated builds of Docker images and npm packages
 
