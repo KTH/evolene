@@ -103,7 +103,9 @@ class RepoSupervisorStep(AbstractPipelineStep):
         cmd = (f'docker run --rm -v {root}:{mounted_dir} {image_name} /bin/bash -c "source ~/.bashrc && JSON_OUTPUT=1 node /opt/repo-supervisor/dist/cli.js {mounted_dir}"')
             
         try:
-            return process.run_with_output(cmd)
+            # Do note that if your have packages installed like (/node_modules) this will probably break with
+            # char encoding problems.
+            return process.run_with_output(cmd, True)
         except PipelineException as pipeline_ex:
             # Special handling while waiting for https://github.com/auth0/repo-supervisor/pull/5
             if 'Not detected any secrets in files' not in str(pipeline_ex):
