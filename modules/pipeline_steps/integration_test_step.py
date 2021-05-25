@@ -29,6 +29,7 @@ class IntegrationTestStep(AbstractPipelineStep):
 
 
     def run_integration_tests(self, data):
+        self.log.info("Running integration tests")
         try:
             self.log.info(
                 "Running integration tests in '%s'",
@@ -40,7 +41,8 @@ class IntegrationTestStep(AbstractPipelineStep):
                 )
                 , data
             )
-            self.log.debug('Output from integration tests was: %s', output)
+            self.log.info(output)
+
         except Exception as ex:
              self.handle_step_error(
                     f'\n:rotating_light: <!here> {image_version_util.get_image(data)} *integration test(s) failed*, see <{environment.get_console_url()}|:jenkins: Jenkins console log here>.',

@@ -29,13 +29,15 @@ class UnitTestStep(AbstractPipelineStep):
         return data
 
     def run_unit_tests(self, data):
+        self.log.info("Running unit tests")
+
         try:
             output = docker.run_unit_test_compose(
                 file_util.get_absolue_path(
                     UnitTestStep.UNIT_TEST_COMPOSE_FILENAME
                 ), data
             )
-            self.log.debug('Output from unit tests was: %s', output)
+            self.log.info(output)
         except Exception as ex:
              self.handle_step_error(
                 f'\n:rotating_light: <!here> {image_version_util.get_image(data)} *unit test(s) failed*, see GitHub Actions >.',
