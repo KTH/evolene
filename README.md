@@ -10,7 +10,7 @@ Evolene uses Convention Over Configuration. That means that Evolene is configure
 
 Add this to a Github Action workflow `.github/workflows`. That is it. 
 
-If you have secret environment variables somewhere in your process (like tests) add them in `/ Settings / Secrets / Repository secrets / EVOLENE_TEST_SECRETS` as key=value pairs.
+If you have 🔑 secret environment variables somewhere in your process (like tests) add them in `/ Settings / Secrets / Repository secrets / EVOLENE_TEST_SECRETS` as _key=value_ pairs and access them as `$(YOUR_ENV_KEY)`
 
 ```yaml
 name: Evolene CI
