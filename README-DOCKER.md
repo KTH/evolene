@@ -1,4 +1,4 @@
-# Docker Pipeline Specific Configurations
+# 🐳 Docker Pipeline Specific Configurations
 
 The Docker pipeline will start running if you add add a `/Dockerfile` in the root of your code repository.
 
