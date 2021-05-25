@@ -14,15 +14,14 @@ def run_with_output(cmd, log_cmd=True):
         result = subprocess.run(args = ["/bin/bash", "-i", "-c", cmd],
                     capture_output=True,
                     encoding='utf-8')
-        if result and result.stdout:
-            return result.stdout
 
+        if result:
+            if result.stdout:
+                return result.stdout
+            if result.stderr:
+                return result.stderr
             
     except subprocess.CalledProcessError as cpe:
-        if cpe.output:
-            raise PipelineException(cpe.output.decode('utf-8'))
-        raise PipelineException(f"{str(cpe)}")
+        raise PipelineException(f'Error running command. {cpe}')
     except:
-        raise PipelineException(
-            "Unabled exception. {}".format(sys.exc_info()[0]))
-
+        raise PipelineException(f'Unhandled exception. {sys.exc_info()[0]}')

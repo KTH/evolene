@@ -1,0 +1,5 @@
+/dist
+/images
+/.vscode
+/evolene.egg-info
+/.coverage
