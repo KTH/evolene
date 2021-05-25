@@ -180,6 +180,6 @@ BRANCHES_SAVE_STARTING_WITH="origin/parallell-rewrite"
 BRANCHES_TAG_AS_MAIN="True"
 ```
 
-If you need continuous delivery based on semver updates in Aspen for a long lived branch. You can set env `BRANCHES_TAG_AS_MAIN="True"` together with BRANCHES_SAVE_STARTING_WITH. This will change the standard version behaviour for none-main branches and remove the branch name in the version. So instead of creating `my-project:origin.parallell.rewite-4.5.6_f23t56`, the result will look like its the branch was a main build `my-project:4.5.6_f23t56`.
+If you need continuous delivery based on semver updates in [KTH Docker deployment service Aspen](https://github.com/KTH/aspen) for a long lived branch. You can set env `BRANCHES_TAG_AS_MAIN="True"` together with BRANCHES_SAVE_STARTING_WITH. This will change the standard version behaviour for none-main branches and remove the branch name in the version. So instead of creating `my-project:origin.parallell.rewite-4.5.6_f23t56`, the result will look like its the branch was a main build `my-project:4.5.6_f23t56`.
 
 **Note:** This may cause version collisions if you save image from multiple branches to the same reposity.
