@@ -8,6 +8,10 @@ Evolene uses Convention Over Configuration. That means that Evolene is configure
 
 ## Use Evolene CI with Github Actions
 
+Add this to a Github Action workflow `.github/workflows`. That is it. 
+
+If you have secret environment variables somewhere in your process add them to key=value in `/ Settings / Secrets / Repository secrets / EVOLENE_TEST_SECRETS`.
+
 ```yaml
 name: Evolene CI
 
