@@ -33,6 +33,6 @@ jobs:
 
 ## How to use Evolene CI as a developer
 
-- [🐳 Common Docker and NPM](https://github.com/KTH/evolene/blob/master/README-DOCKER.md)
+- [🛠️ Common Docker and NPM](https://github.com/KTH/evolene/blob/master/README-DOCKER.md)
 - [🐳 How to build, test and publish your Docker application](https://github.com/KTH/evolene/blob/master/README-DOCKER.md)
 - [📦 How to build, test and publish your NPM application](https://github.com/KTH/evolene/blob/master/README-NPM.md)
