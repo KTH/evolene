@@ -31,7 +31,7 @@ def check(name):
     if ncu_output:
         process_output(ncu_output, name)
     else:
-        log.info('All dependencies are up to date.')
+        log.debug('Got no output from dep checker.')
 
 def pull_image_if_missing():
     image_grep_output = None
@@ -60,6 +60,7 @@ def process_output(ncu_output, name):
 
     # All is dandy
     if "All dependencies match the latest package" in ncu_output:
+        log.info('All dependencies are up to date.')
         return
 
     log_and_slack(clean(ncu_output), name)
