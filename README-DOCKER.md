@@ -39,6 +39,23 @@ IMAGE_VERSION=2.3
 
 # Testing
 
+If you have 🔑 secret environment variables somewhere in your tests, add them in your Github repository `/ Settings / Secrets / Repository secrets / EVOLENE_TEST_SECRETS` as _key=value_ pairs and access them as `$(YOUR_ENV_KEY)` or as envs i Docker Compose files.
+
+EVOLENE_TEST_SECRETS can be either a oneliner or separate rows.
+
+```bash
+# EVOLENE_TEST_SECRETS example
+API_KEY=abc123
+DB_PWD=123abc
+```
+
+```yaml
+    environment:
+      - DB_URL="https://example.com:1234"
+      - DB_USER="admin"
+      - DB_PWD
+      - API_KEY
+```
 ## Unit Testing
 
 Add a file in the root of your project called `docker-compose-unit-tests.yml`.
@@ -59,7 +76,7 @@ services:
     image: $LOCAL_IMAGE_ID
     # Mount and run tests.
     volumes:
-      - ./tests:/tests
+      - ${WORKSPACE}/tests:/tests
     command: ["sh", "-c", "npm install --development && npm test"]
 ```
 
