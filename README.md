@@ -1,5 +1,4 @@
-# Evolene :whale: ![alt text] ![Continous Integration](https://github.com/KTH/evolene/actions/workflows/main.yml/badge.svg) 
- (https://api.travis-ci.org/KTH/evolene.svg?branch=master)
+# Evolene :whale: [Continous Integration](https://github.com/KTH/evolene/actions/workflows/main.yml/badge.svg)
 
 Automated builds of Docker images and npm packages
 
