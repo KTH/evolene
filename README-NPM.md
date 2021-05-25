@@ -1,4 +1,4 @@
-# NPM Pipeline Configuration
+# 📦 NPM Pipeline Configuration
 
 Besides from working with Docker images, Evolene also supports building and publishing NPM packages.
 
