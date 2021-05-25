@@ -6,6 +6,31 @@ The main principle for Evolene is  everything that a developer runs on her lapto
 
 Evolene uses Convention Over Configuration. That means that Evolene is configured by following standard naming convensions rather then per project configuration. The Slack integration helps the developers if any configuration is missing or test breaks.
 
+## Use Evolene CI with Github Actions
+
+```yaml
+name: Evolene CI
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  Evolene:
+    name: Continuous Integration
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - name: Build, Test and Push with Evolene
+        run: |
+          SLACK_CHANNELS=#team-developers \
+          BUILD_INFORMATION_OUTPUT_FILE='/version.conf' \
+          EVOLENE_TEST_SECRETS=${{secrets.EVOLENE_TEST_SECRETS}} \
+          
+          ${{ secrets.EVOLENE_RUN_COMMAND }}
+```
+
 ## How to use Evolene CI as a developer
 
 - [🐳 Common Docker and NPM](https://github.com/KTH/evolene/blob/master/README-DOCKER.md)
