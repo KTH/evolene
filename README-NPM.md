@@ -68,8 +68,8 @@ module.exports = {
 
 # Get Slack notifications where new NPM package are available
 
-If you set NPM*UPDATES_AVAILABLE to true. Evolene will inform you about
-packages in you \_package.json* that have updates. It makes it easier to
+If you set NPM_UPDATES_AVAILABLE to true. Evolene will inform you about
+packages in you `package.json` that have updates. It makes it easier to
 keep your dependencies up to date and hopefully make your code easier
 to maintain, since this helps changes come in smaller increments.
 Evolene always outputs this informatin in the build log, even if you
