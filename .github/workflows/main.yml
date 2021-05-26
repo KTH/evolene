@@ -39,8 +39,9 @@ name: Evolene CI
 on:
   push:
     branches: [master]
-    paths:
-      - '!/*.md'
+    paths-ignore:
+          - '*.md'
+          - '*.png'
   workflow_dispatch:
 
 jobs:
