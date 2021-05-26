@@ -1,4 +1,4 @@
-# Docker Pipeline Specific Configurations
+# 🐳 Docker Pipeline Specific Configurations
 
 The Docker pipeline will start running if you add add a `/Dockerfile` in the root of your code repository.
 
@@ -39,6 +39,25 @@ IMAGE_VERSION=2.3
 
 # Testing
 
+## Secrets for testing
+
+If you have 🔑 secret environment variables somewhere in your tests, add them in your Github repository `/ Settings / Secrets / Repository secrets / EVOLENE_TEST_SECRETS` as _key=value_ pairs and access them as `$(YOUR_ENV_KEY)` or as envs i Docker Compose files.
+
+EVOLENE_TEST_SECRETS can be either a oneliner or separate rows.
+
+```bash
+# EVOLENE_TEST_SECRETS example
+API_KEY=abc123
+DB_PWD=123abc
+```
+
+```yaml
+    environment:
+      - DB_URL="https://example.com:1234"
+      - DB_USER="admin"
+      - DB_PWD
+      - API_KEY
+```
 ## Unit Testing
 
 Add a file in the root of your project called `docker-compose-unit-tests.yml`.
@@ -59,7 +78,7 @@ services:
     image: $LOCAL_IMAGE_ID
     # Mount and run tests.
     volumes:
-      - ./tests:/tests
+      - ${WORKSPACE}/tests:/tests
     command: ["sh", "-c", "npm install --development && npm test"]
 ```
 
@@ -161,6 +180,6 @@ BRANCHES_SAVE_STARTING_WITH="origin/parallell-rewrite"
 BRANCHES_TAG_AS_MAIN="True"
 ```
 
-If you need continuous delivery based on semver updates in Aspen for a long lived branch. You can set env `BRANCHES_TAG_AS_MAIN="True"` together with BRANCHES_SAVE_STARTING_WITH. This will change the standard version behaviour for none-main branches and remove the branch name in the version. So instead of creating `my-project:origin.parallell.rewite-4.5.6_f23t56`, the result will look like its the branch was a main build `my-project:4.5.6_f23t56`.
+If you need continuous delivery based on semver updates in [KTH Docker deployment service Aspen](https://github.com/KTH/aspen) for a long lived branch. You can set env `BRANCHES_TAG_AS_MAIN="True"` together with BRANCHES_SAVE_STARTING_WITH. This will change the standard version behaviour for none-main branches and remove the branch name in the version. So instead of creating `my-project:origin.parallell.rewite-4.5.6_f23t56`, the result will look like its the branch was a main build `my-project:4.5.6_f23t56`.
 
 **Note:** This may cause version collisions if you save image from multiple branches to the same reposity.

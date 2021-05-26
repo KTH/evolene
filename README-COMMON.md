@@ -1,4 +1,4 @@
-# Configuration envs available for Docker and NPM pipelines
+# Common Configuration envs available for Docker and NPM pipelines
 
 ## Build information to file
 
@@ -119,6 +119,27 @@ gitCommit=f2486d79abf3af26225aa1dbde0fddfcd702c7e6,
 gitBranch=origin/master
 gitUrl=git@github.com:KTH/tamarack.git
 ```
+
+# Secret envs needed for integration tests and other stuff
+
+If you have 🔑 secret environment variables somewhere in your tests, add them in your Github repository `/ Settings / Secrets / Repository secrets / EVOLENE_TEST_SECRETS` as _key=value_ pairs and access them as `$(YOUR_ENV_KEY)` or as envs i Docker Compose files.
+
+EVOLENE_TEST_SECRETS can be either a oneliner or separate rows.
+
+```bash
+# EVOLENE_TEST_SECRETS example
+API_KEY=abc123
+DB_PWD=123abc
+```
+
+```yaml
+    environment:
+      - DB_URL="https://example.com:1234"
+      - DB_USER="admin"
+      - DB_PWD
+      - API_KEY
+```
+
 
 # Get Slack notifications where new NPM package are available
 
