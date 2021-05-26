@@ -94,6 +94,8 @@ class RepoSupervisorStep(AbstractPipelineStep):
 
     def _run_supervisor(self, image_name):
 
+        self.log.info('Checking source repository for passwords and tokens.')
+
         root =  file_util.get_project_root()
         if environment.is_run_inside_docker():
             root = environment.get_docker_mount_root()

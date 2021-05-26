@@ -44,13 +44,13 @@ def is_directory(relative_file_path):
     return os.path.isdir(path)
 
 def overwite(relative_file_path, content):
-    log.info('Path write: {}'.format(get_absolue_path(relative_file_path)))
+    log.debug('Path write: {}'.format(get_absolue_path(relative_file_path)))
 
     with open(get_absolue_path(relative_file_path), 'w+') as output_file:
         output_file.write(content)
 
 def overwite_absolute(file_path, content):
-    log.info(f'Absolute path write: {file_path}')
+    log.debug(f'Absolute path write: {file_path}')
 
     with open(file_path, 'w+') as output_file:
         output_file.write(content)

@@ -26,6 +26,7 @@ class BuildEnvironmentToFileStep(AbstractPipelineStep):
     def write(self, data):
         try:
             file_util.overwite(self.get_ouput_file(), self.get_output(data))
+            self.log.info(f'Wrote build information to {self.get_ouput_file()}')
 
         except IOError:
             self.handle_step_error("*{}* Unable to write build information to file '{}'".format(
