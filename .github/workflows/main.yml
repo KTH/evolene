@@ -54,6 +54,7 @@ jobs:
         run: |
           SLACK_CHANNELS=#team-pipeline-build \
           BUILD_INFORMATION_OUTPUT_FILE='/version.conf' \
+          PUSH_PUBLIC="True" \
           EVOLENE_TEST_SECRETS=${{secrets.EVOLENE_TEST_SECRETS}} \
           
           ${{ secrets.EVOLENE_LATEST_RUN_COMMAND }}
