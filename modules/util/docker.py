@@ -101,6 +101,8 @@ def run_test(compose_test_file, data):
     cmd_test = (f'cd {file_util.get_project_root()} && LOCAL_IMAGE_ID={image_id} '
            f'{environment.get_tests_secrets()} WORKSPACE={environment.get_docker_mount_root()} docker-compose --file {compose_test_file} up '
            f'--build '
+           f'--no-log-prefix '
+           f'--quiet-pull '
            f'--abort-on-container-exit '
            f'--always-recreate-deps '
            f'--force-recreate')
