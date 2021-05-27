@@ -107,7 +107,7 @@ class RepoSupervisorStep(AbstractPipelineStep):
         try:
             # Do note that if your have packages installed like (/node_modules) this will probably break with
             # char encoding problems.
-            return process.run_with_output(cmd, True)
+            return process.run_with_output(cmd)
         except PipelineException as pipeline_ex:
             # Special handling while waiting for https://github.com/auth0/repo-supervisor/pull/5
             if 'Not detected any secrets in files' not in str(pipeline_ex):
