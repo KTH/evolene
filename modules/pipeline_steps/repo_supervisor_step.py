@@ -34,13 +34,11 @@ class RepoSupervisorStep(AbstractPipelineStep):
         self._pull_image_if_missing(image_name)
         output = self._run_supervisor(image_name)
 
-        self.log.info("Got ouput")
         if output:
             filenames = self._process_supervisor_result(output, data)
             self.log.info(f"Got filenames {filenames}")
             if filenames:
                 self.step_warning()
-
         else:
             self.log.info('Security scanning found nothing that looked like passwords or tokens in the source code.')
             self.step_ok()
@@ -78,7 +76,9 @@ class RepoSupervisorStep(AbstractPipelineStep):
         return filenames
 
     def _log_warning_and_send_to_slack(self, filenames, data):
-        self.log.warning('Found suspicious string in files "%s"', filenames)
+        self.log.warning('Possible password(s) or token(s) in the following files "%s"', filenames)
+        self.log.infor('If ok, remove the warning by adding the file, or catalog to a /.scanignore file.')
+        
         text = (f':rotating_light: <!here> *Possible password or token* in the following *{data[pipeline_data.IMAGE_NAME]}* file(s). \n'
                'If ok, remove the warning by adding the file, or catalog to `/.scanignore`.')
         slack.send(text=text, snippet=self.format_filnames(filenames), username="Code Security, Build Server (Evolene)")
@@ -119,8 +119,6 @@ class RepoSupervisorStep(AbstractPipelineStep):
             # Do note that if your have packages installed like (/node_modules) this will probably break with
             # char encoding problems.
             output = process.run_with_output(cmd)
-            self.log.info("Error scanning")
-            self.log.info(output)
         except PipelineException as pipeline_ex:
             # Special handling while waiting for https://github.com/auth0/repo-supervisor/pull/5
             if 'Not detected any secrets in files' not in str(pipeline_ex):
