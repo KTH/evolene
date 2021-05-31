@@ -10,6 +10,8 @@ from modules.util import artifact
 
 class PushPublicImageStep(AbstractPipelineStep):
 
+    name = 'Push to public repository (Docker Hub)'
+
     def get_required_env_variables(self):
         return []
 

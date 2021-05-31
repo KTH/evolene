@@ -9,19 +9,18 @@ from modules.util import file_util
 from modules.util.exceptions import PipelineException
 from modules.util import slack
 
-log = logging.getLogger(__name__)
+log = logging.getLogger("-")
 
 PACKAGE_JSON = '/package.json'
 IMAGE_NAME = 'kthse/npm-package-available'
 
 def run(name):
-
     if file_util.is_file(PACKAGE_JSON):
         log.info('Found a "%s", checking old dependencies.', PACKAGE_JSON)
         prepare()
         check(name)
     else:
-        log.info('No file named "%s" found. No dependencies check will be done.', PACKAGE_JSON)
+        log.debug('No file named "%s" found. No dependencies check will be done.', PACKAGE_JSON)
 
 def prepare():
     pull_image_if_missing()

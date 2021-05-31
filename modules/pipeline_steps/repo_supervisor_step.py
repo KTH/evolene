@@ -12,6 +12,8 @@ from modules.util import slack
 
 class RepoSupervisorStep(AbstractPipelineStep):
 
+    name = "Scan source code for password and tokens"
+
     SCANIGNORE_FILE = '/.scanignore'
     REPO_SUPERVISOR_IMAGE_NAME = 'kthse/repo-supervisor'
     REPO_MOUNTED_DIR = '/opt/scan_me'
@@ -30,9 +32,14 @@ class RepoSupervisorStep(AbstractPipelineStep):
         self._pull_image_if_missing(image_name)
         output = self._run_supervisor(image_name)
         if output:
-            self._process_supervisor_result(output, data)
+            filenames = self._process_supervisor_result(output, data)
+            if filenames:
+                self.step_warning()
+
         else:
-            self.log.info('Repo-supervisor found nothing')
+            self.log.info('Security scanning found nothing that looked like passwords or tokens in the source code.')
+            self.step_ok()
+
         return data
 
     def _pull_image_if_missing(self, image_name):

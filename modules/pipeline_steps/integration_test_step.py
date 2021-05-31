@@ -9,6 +9,8 @@ from modules.util import image_version_util
 
 class IntegrationTestStep(AbstractPipelineStep):
 
+    name = "Integration tests"
+
     INTEGRATION_TEST_COMPOSE_FILENAME = '/docker-compose-integration-tests.yml'
 
     def get_required_env_variables(self):
@@ -24,12 +26,12 @@ class IntegrationTestStep(AbstractPipelineStep):
             return data
 
         self.run_integration_tests(data)
+        self.step_ok()
 
         return data
 
 
     def run_integration_tests(self, data):
-        self.log.info("Running integration tests")
         try:
             self.log.info(
                 "Running integration tests in '%s'",

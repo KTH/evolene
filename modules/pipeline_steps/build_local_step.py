@@ -1,6 +1,7 @@
 __author__ = 'tinglev'
 
 import re
+import sys
 from modules.pipeline_steps.abstract_pipeline_step import AbstractPipelineStep
 from modules.util import environment
 from modules.util import pipeline_data
@@ -9,6 +10,7 @@ from modules.util.exceptions import PipelineException
 
 class BuildLocalStep(AbstractPipelineStep):
 
+    name = "Build Docker image"
     def get_required_env_variables(self):
         return [environment.PROJECT_ROOT]
 
@@ -16,14 +18,18 @@ class BuildLocalStep(AbstractPipelineStep):
         return [pipeline_data.IMAGE_VERSION, pipeline_data.IMAGE_NAME]
 
     def run_step(self, data):
-        image_id = self.run_build(data)
-        image_grep_output = self.verify_built_image(image_id)
-        size = self.get_image_size(image_grep_output)
-        data[pipeline_data.IMAGE_SIZE] = size
-        if size == '0' or size == 'N/A':
-            raise PipelineException('Built image has no size')
-        data[pipeline_data.LOCAL_IMAGE_ID] = image_id
-        self.log.info('Built image with id "%s" and size "%s"', image_id, size)
+        try:
+            image_id = self.run_build(data)
+            image_grep_output = self.verify_built_image(image_id)
+            size = self.get_image_size(image_grep_output)
+            data[pipeline_data.IMAGE_SIZE] = size
+            if size == '0' or size == 'N/A':
+                raise PipelineException('Built image has no size')
+            data[pipeline_data.LOCAL_IMAGE_ID] = image_id
+            self.log.info('Built image with id "%s" and size "%s"', image_id, size)
+        except: 
+            self.handle_step_error("Unknown error when building Docker image.", sys.exc_info()[0])
+        self.step_ok()
         return data
 
     def format_image_id(self, image_id):
@@ -50,6 +56,7 @@ class BuildLocalStep(AbstractPipelineStep):
     def run_build(self, data):
         lbl_image_name = f'se.kth.imageName={data[pipeline_data.IMAGE_NAME]}'
         lbl_image_version = f'se.kth.imageVersion={data[pipeline_data.IMAGE_VERSION]}'
+
         build_args = data[pipeline_data.BUILD_ARGS]
         image_id = docker.build(build_args=build_args, labels=[lbl_image_name, lbl_image_version])
         return self.format_image_id(image_id)

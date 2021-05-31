@@ -1,6 +1,5 @@
 __author__ = 'tinglev'
 
-import logging
 from modules.pipeline_steps.abstract_pipeline_step import AbstractPipelineStep
 from modules.pipeline_steps.docker_file_step import DockerFileStep
 from modules.util import environment
@@ -9,8 +8,9 @@ from modules.util import file_util
 from modules.util import image_version_util
 from modules.util import pipeline_data
 
-
 class FromImageStep(AbstractPipelineStep):
+
+    name = "Validate Dockerfile uses a valid FROM image."
 
     @staticmethod
     def get_image_rules():
@@ -49,7 +49,6 @@ class FromImageStep(AbstractPipelineStep):
 
     def __init__(self, image_rules=None):
         super(FromImageStep, self).__init__()
-        self.log = logging.getLogger(self.get_step_name())
         self.image_rules = FromImageStep.get_image_rules()
         if image_rules:
             self.image_rules = image_rules
@@ -63,12 +62,14 @@ class FromImageStep(AbstractPipelineStep):
     def run_step(self, data):
         from_line = self.get_from_line()
         if self.validate(from_line, data):
-            self.log.debug("'FROM:' statement '%s' in Dockerfile is valid.", from_line)
+            self.log.info("'FROM:' statement '%s' in Dockerfile is valid.", from_line)
+            self.step_ok()
         else:
             text = (":warning: *{}'s* Dockerfile is based on an old `{}` image, "
                        "please upgrade! See https://hub.docker.com/r/kthse/{}/tags for :docker: images."
                        .format(image_version_util.get_image(data), from_line, self.get_base_image_name(from_line)))
             self.log.warning(text)
+            self.step_warning()
             slack.send(text)
 
         return data

@@ -11,9 +11,10 @@ from modules.util import environment
 class AbstractPipelineStep:
     __metaclass__ = ABCMeta
     next_step = None
+    name = None
 
     def __init__(self):
-        self.log = logging.getLogger(self.get_step_name())
+        self.log = logging.getLogger("-")
 
     @abstractmethod
     def run_step(self, data): #pragma: no cover
@@ -33,6 +34,9 @@ class AbstractPipelineStep:
         return []
 
     def get_step_name(self):
+        if self.name:
+            return self.name
+
         return self.__class__.__name__
 
     def step_data_is_ok(self, data):
@@ -54,6 +58,7 @@ class AbstractPipelineStep:
         return True
 
     def handle_step_error(self, message, ex=None, fatal=True):
+        self.step_failed()
         error_func = self.log.error
         if fatal:
             error_func = self.log.fatal
@@ -80,12 +85,11 @@ class AbstractPipelineStep:
             return data
         if not self.step_data_is_ok(data):
             return data
-        self.log.info('Running "%s"', self.get_step_name())
         try:
             self.run_step(data)
+            
         except PipelineException as p_ex:
             p_ex.set_data(data)
-            raise
         except Exception as ex:
             p_ex = PipelineException(str(ex), str(ex))
             p_ex.set_data(data)
@@ -97,3 +101,25 @@ class AbstractPipelineStep:
     def set_next_step(self, next_step):
         self.next_step = next_step
         return next_step
+
+    def _step_inform(self, passed="faild"):
+        if "failed" in passed:
+            self.log.fatal('🔴 %s, step failed\n', self.get_step_name())
+        elif "ok" in passed:
+            self.log.info('🟢 %s, Ok\n', self.get_step_name())
+        elif "warning" in passed:
+            self.log.warn('🟡 %s, Warning\n', self.get_step_name())
+        else:
+            self.log.info('⚪️ %s, skipped\n', self.get_step_name())
+        
+    def step_ok(self):
+        self._step_inform("ok")
+
+    def step_skipped(self):
+        self._step_inform("skipped")
+
+    def step_failed(self):
+        self._step_inform("failed")
+
+    def step_warning(self):
+        self._step_inform("warning")

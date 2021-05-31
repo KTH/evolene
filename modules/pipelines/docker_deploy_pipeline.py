@@ -64,7 +64,7 @@ class DockerDeployPipeline(object):
             # It never to late to party
             CelebrateStep(),
             # Test run the image
-            #DryRunStep(),
+            DryRunStep(),
             # Run unit tests
             UnitTestStep(),
             # Run integration tests

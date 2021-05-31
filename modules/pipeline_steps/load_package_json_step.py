@@ -24,4 +24,5 @@ class LoadPackageJsonStep(AbstractPipelineStep):
         else:
             self.handle_step_error('Could not load package.json for the project. '
                                    'Is the file missing or renamed?')
+        self.step_ok()
         return data

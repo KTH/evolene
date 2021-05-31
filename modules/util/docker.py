@@ -25,6 +25,7 @@ def build(labels=None, build_args=None):
     # Build 
     log.info(process.run_with_output(f'docker build {flags} {root}'))
     
+    
     # Rerun build to get a local image id.
     return process.run_with_output(f'docker build --quiet {flags} {root}')
 

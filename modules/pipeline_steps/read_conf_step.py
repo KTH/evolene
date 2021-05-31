@@ -8,6 +8,8 @@ from modules.util import file_util
 
 class ReadConfFileStep(AbstractPipelineStep):
 
+    name = 'Read configuration file (docker.conf or npm.conf)'
+
     def __init__(self, conf_file_name, required_keys):
         AbstractPipelineStep.__init__(self)
         self.conf_file = f'/{conf_file_name}'
@@ -23,9 +25,11 @@ class ReadConfFileStep(AbstractPipelineStep):
         data[pipeline_data.CONFIGURATION_FILE] = file_util.get_absolue_path(self.conf_file)
         conf_lines = self.trim(file_util.get_lines(self.conf_file))
         if self.has_missing_conf_vars(conf_lines):
+            self.step_failed()
             self.handle_step_error('Missing the following configuration variables in `{}`: {}'
                                    .format(self.conf_file, self.get_missing_conf_vars(conf_lines)))
         data = self.add_conf_vars(conf_lines, data)
+        self.step_ok()
         return data
 
     def clean_variable_value(self, value):

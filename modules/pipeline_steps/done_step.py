@@ -14,5 +14,7 @@ class DoneStep(AbstractPipelineStep):
 
     def run_step(self, data):
         self.log.info(data)
+        self.log.info('No build ARGS passed to Docker build.')
+
         print_util.green("\n🏁 🎉 Built, tested (you do have tests?) and pushed to registry!\n")
         return data

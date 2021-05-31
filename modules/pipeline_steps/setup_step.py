@@ -5,6 +5,8 @@ from modules.util import print_util
 
 class SetupStep(AbstractPipelineStep):
 
+    name = "Setup pipeline steps"
+
     def get_required_env_variables(self):
         return []
 
@@ -13,6 +15,7 @@ class SetupStep(AbstractPipelineStep):
 
     def run_step(self, data):
         self.print_header()
+        self.step_ok()
         return data
 
     def print_header(self):

@@ -23,12 +23,14 @@ class DryRunStep(AbstractPipelineStep):
     def run_step(self, data):
         if environment.use_dry_run():
             if not file_util.is_file(DryRunStep.DRY_RUN_COMPOSE_FILENAME):
-                self.simple_dry_run(data)
+                self.simple_dry_run(data)                
             else:
                 self.compose_dry_run(data)
+            self.step_ok()
         return data
 
     def compose_dry_run(self, data):
+        self.log.info('Doing a dry run using "/docker-compose.yml" to test the newly built Docker iamge')
         try:
             output = docker.run_dry_run_compose(
                 file_util.get_absolue_path(
@@ -46,6 +48,7 @@ class DryRunStep(AbstractPipelineStep):
             environment.get_build_url())
 
     def simple_dry_run(self, data):
+        self.log.info('Doing a "docker run" dry start of the newly built Docker iamge')
         container_id = self.start_container(data)
         try:
             container_status = self.wait_for_container_created(container_id)

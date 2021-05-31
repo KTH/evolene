@@ -9,6 +9,7 @@ from modules.util import image_version_util
 
 class UnitTestStep(AbstractPipelineStep):
 
+    name = "Unit tests"
     UNIT_TEST_COMPOSE_FILENAME = '/docker-compose-unit-tests.yml'
 
     def get_required_env_variables(self):
@@ -22,9 +23,11 @@ class UnitTestStep(AbstractPipelineStep):
         if not file_util.is_file(UnitTestStep.UNIT_TEST_COMPOSE_FILENAME):
             self.log.info('No file named "%s" found. No unit tests will be run.',
                           UnitTestStep.UNIT_TEST_COMPOSE_FILENAME)
+            self.step_skipped()
             return data
 
         self.run_unit_tests(data)
+        self.step_ok()
 
         return data
 
