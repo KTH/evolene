@@ -25,7 +25,6 @@ class ReadConfFileStep(AbstractPipelineStep):
         data[pipeline_data.CONFIGURATION_FILE] = file_util.get_absolue_path(self.conf_file)
         conf_lines = self.trim(file_util.get_lines(self.conf_file))
         if self.has_missing_conf_vars(conf_lines):
-            self.step_failed()
             self.handle_step_error('Missing the following configuration variables in `{}`: {}'
                                    .format(self.conf_file, self.get_missing_conf_vars(conf_lines)))
         data = self.add_conf_vars(conf_lines, data)
