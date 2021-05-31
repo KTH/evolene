@@ -24,23 +24,23 @@ def on_npm_publish(package_name, version, data):
         criticals = data[pipeline_data.IGNORED_CRITICALS]
         text = f'{text} - WARNING! This build had {criticals} ignored criticals!'
     
-    log.info(text)
+    log_info(text)
     send(text, icon=":npm:")
 
 def on_npm_no_publish(package_name, version):
     text = (f'*{package_name} {version}* already exists on :npm: '
                f'https://www.npmjs.com/package/{package_name}')
-    log.info(text)
+    log_info(text)
     send(text=text)
 
 def on_successful_private_push_old(name, size):
     text = (f'*{name}* pushed to :key: private registry, size {size}.')
-    log.info(text)
+    log_info(text)
     send(text, icon=':jenkins:')
 
 def on_successful_private_push(name, size):
     text = (f'*{name}* pushed to :key: :azure: private registry, size {size}.')
-    log.info(text)
+    log_info(text)
     send(text, icon=':jenkins:')
 
 def on_successful_public_push(name, image_name, image_size):
@@ -49,7 +49,7 @@ def on_successful_public_push(name, image_name, image_size):
         f'https://hub.docker.com/r/kthse/{image_name}/tags/, '
         f'size {image_size}.'
     )
-    log.info(text)
+    log_info(text)
     send(text, icon=':jenkins:')
 
 def get_payload_body(channel, text, icon, username='Build Server (Evolene)'):
@@ -72,3 +72,7 @@ def call_slack_endpoint(payload):
         log.error('Timeout while trying to post to Slack endpoint: "%s"', timeout)
     except RequestException as req_ex:
         log.error('Exception when trying to post to Slack endpoint: "%s"', req_ex)
+
+def log_info(text):
+    # Remove Slack message formating
+    log.info(text.replace("*", ""))
