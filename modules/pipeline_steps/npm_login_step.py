@@ -49,7 +49,7 @@ class NpmLoginStep(AbstractPipelineStep):
             )
         try:
             result = nvm.exec_npm_command(data, 'whoami')
-            self.log.info(f'Logged in as {result}.')
+            self.log.info(f"Logged in to NPM as '{result}'.")
             
 
         except PipelineException as npm_ex:

@@ -71,4 +71,4 @@ class NpmPublishStep(AbstractPipelineStep):
     def publish(self, data):
         result = nvm.exec_npm_command(
             data, 'publish --access public', environment.get_project_root())
-        self.log.debug('Result from npm publish was: "%s"', result)
+        self.log.info('Result from npm publish was: "%s"', result)
