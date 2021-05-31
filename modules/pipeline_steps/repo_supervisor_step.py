@@ -68,6 +68,8 @@ class RepoSupervisorStep(AbstractPipelineStep):
                      if not self.ignore(result['filepath'])]
         if filenames:
             self._log_warning_and_send_to_slack(filenames, data)
+            self.step_warning()
+
         return filenames
 
     def _log_warning_and_send_to_slack(self, filenames, data):
@@ -114,7 +116,9 @@ class RepoSupervisorStep(AbstractPipelineStep):
         try:
             # Do note that if your have packages installed like (/node_modules) this will probably break with
             # char encoding problems.
-            return process.run_with_output(cmd)
+            output = process.run_with_output(cmd)
+            self.log.info("Error scanning")
+            self.log.info(output)
         except PipelineException as pipeline_ex:
             # Special handling while waiting for https://github.com/auth0/repo-supervisor/pull/5
             if 'Not detected any secrets in files' not in str(pipeline_ex):
