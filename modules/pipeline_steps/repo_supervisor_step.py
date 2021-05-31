@@ -28,11 +28,16 @@ class RepoSupervisorStep(AbstractPipelineStep):
         return [pipeline_data.IMAGE_NAME, pipeline_data.IMAGE_VERSION]
 
     def run_step(self, data):
+        self.log.info('Checking source repository for string looking like passwords and tokens.')
+
         image_name = RepoSupervisorStep.REPO_SUPERVISOR_IMAGE_NAME
         self._pull_image_if_missing(image_name)
         output = self._run_supervisor(image_name)
+
+        self.log.info("Got ouput")
         if output:
             filenames = self._process_supervisor_result(output, data)
+            self.log.info(f"Got filenames {filenames}")
             if filenames:
                 self.step_warning()
 
@@ -102,9 +107,6 @@ class RepoSupervisorStep(AbstractPipelineStep):
         return False
 
     def _run_supervisor(self, image_name):
-
-        self.log.info('Checking source repository for passwords and tokens.')
-
         root =  file_util.get_project_root()
         if environment.is_run_inside_docker():
             root = environment.get_docker_mount_root()
