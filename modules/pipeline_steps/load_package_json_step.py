@@ -8,6 +8,8 @@ from modules.util import pipeline_data
 
 class LoadPackageJsonStep(AbstractPipelineStep):
 
+    name = "Check project have a /package.json"
+
     def __init__(self):
         AbstractPipelineStep.__init__(self)
 
@@ -21,8 +23,8 @@ class LoadPackageJsonStep(AbstractPipelineStep):
         package_content = file_util.read_as_string('/package.json')
         if package_content:
             data[pipeline_data.PACKAGE_JSON] = json.loads(package_content)
+            self.step_ok()
         else:
             self.handle_step_error('Could not load package.json for the project. '
                                    'Is the file missing or renamed?')
-        self.step_ok()
         return data

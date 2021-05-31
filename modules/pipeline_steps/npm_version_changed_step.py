@@ -10,6 +10,8 @@ from modules.util import nvm, pipeline_data, semver
 
 class NpmVersionChangedStep(AbstractPipelineStep):
 
+    name = "Calculate if a new version should be published later in the pipeline"
+
     def __init__(self):
         AbstractPipelineStep.__init__(self)
 
@@ -31,12 +33,15 @@ class NpmVersionChangedStep(AbstractPipelineStep):
         data[pipeline_data.NPM_MAJOR_MINOR_LATEST] = self.get_latest_version(data)
 
         if self.use_automatic_publish(data):
-            self.log.info(f'Will automatic publish with increased patch version based on major.minor in package.json.')
-            return self.increase_version(data)
+            self.log.info(f'Will automatic publish with increased patch version based on major.minor {data[pipeline_data.NPM_MAJOR_MINOR_LATEST]} in package.json.')
+            data = self.increase_version(data)
         
         else:
             self.log.info('No automatic publish, using version in package.json')
-            return self.static_version(data)
+            data = self.static_version(data)
+        
+        self.step_ok()
+        return data
     
 
     def static_version(self, data):

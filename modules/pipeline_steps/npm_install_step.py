@@ -7,6 +7,8 @@ from modules.util import nvm
 
 class NpmInstallStep(AbstractPipelineStep):
 
+    name = "Install dependencies in /package.json"
+
     def __init__(self):
         AbstractPipelineStep.__init__(self)
 
@@ -24,5 +26,6 @@ class NpmInstallStep(AbstractPipelineStep):
                 'Exception when trying to run npm install',
                 npm_ex
             )
-        self.log.debug('Npm install completed successfully')
+        self.log.info('Npm install completed successfully')
+        self.step_ok()
         return data

@@ -8,6 +8,8 @@ from modules.util import nvm
 
 class InstallNvmStep(AbstractPipelineStep):
 
+    name = "Install NVM"
+
     def __init__(self):
         AbstractPipelineStep.__init__(self)
         self.nvm_version = 'v0.34.0'
@@ -49,3 +51,4 @@ class InstallNvmStep(AbstractPipelineStep):
                     install_ex
                 )
             self.log.debug('nvm installed successfully')
+        self.step_ok()

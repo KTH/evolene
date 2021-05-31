@@ -10,6 +10,8 @@ from modules.util import git
 
 class NpmPublishStep(AbstractPipelineStep):
 
+    name = "Publish the built NPM package"
+
     def __init__(self):
         AbstractPipelineStep.__init__(self)
 
@@ -29,6 +31,11 @@ class NpmPublishStep(AbstractPipelineStep):
         data[pipeline_data.PACKAGE_JSON]["se.kth.gitBranch"] = environment.get_git_branch()
         data[pipeline_data.PACKAGE_JSON]["se.kth.gitCommit"] = git.get_commit_clamped()
         data[pipeline_data.PACKAGE_JSON]["se.kth.buildDate"] = environment.get_time()
+
+        self.log.info('Added information to package.json')
+        self.log.info(f'se.kth.gitBranch: {data[pipeline_data.PACKAGE_JSON]["se.kth.gitBranch"]}')
+        self.log.info(f'se.kth.gitCommit: {data[pipeline_data.PACKAGE_JSON]["se.kth.gitCommit"]}')
+        self.log.info(f'se.kth.buildDate: {data[pipeline_data.PACKAGE_JSON]["se.kth.buildDate"]}')
 
         return data
 
@@ -53,9 +60,11 @@ class NpmPublishStep(AbstractPipelineStep):
             self.publish(data)
             slack.on_npm_publish(
                 data[pipeline_data.NPM_PACKAGE_NAME], data[pipeline_data.NPM_PACKAGE_VERSION], data)
+            self.step_ok()
         else:
             self.log.info('Skipping npm publish, no version change.')
             slack.on_npm_no_publish(data[pipeline_data.NPM_PACKAGE_NAME], data[pipeline_data.NPM_PACKAGE_VERSION])
+            self.step_skipped()
 
         return data
 

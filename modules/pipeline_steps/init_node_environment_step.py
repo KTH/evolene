@@ -8,6 +8,8 @@ from modules.util import nvm
 
 class InitNodeEnvironmentStep(AbstractPipelineStep):
 
+    name = "Install NodeJS version specified in npm.conf"
+
     def __init__(self):
         AbstractPipelineStep.__init__(self)
 
@@ -39,6 +41,7 @@ class InitNodeEnvironmentStep(AbstractPipelineStep):
         except:
             self.log(f'Error: {sys.exc_info()[0]}')
         self.log.debug('Node version %s installed with nvm', conf_version)
+        self.step_ok()
         return data
 
     def get_nvm_installed_version(self, version):

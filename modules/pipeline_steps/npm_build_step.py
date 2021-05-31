@@ -7,6 +7,8 @@ from modules.util import nvm, pipeline_data
 
 class NpmBuildStep(AbstractPipelineStep):
 
+    name = "Build package content according to  KTH build task 'npm run-script build' "
+
     def __init__(self):
         AbstractPipelineStep.__init__(self)
 
@@ -25,7 +27,8 @@ class NpmBuildStep(AbstractPipelineStep):
                     self.get_stack_trace_shortend(npm_ex),
                 )
 
-        self.log.debug('Output from npm build was: "%s"', result)
+        self.log.info('Output from npm build was: "%s"', result)
+        self.step_ok()
         return data
 
 

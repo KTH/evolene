@@ -5,6 +5,8 @@ from modules.util import pipeline_data
 
 class NpmAuthorPolicy(AbstractPipelineStep):
 
+    name = "Check  /package.json have 'author' and 'email' attributes"
+
     def __init__(self):
         AbstractPipelineStep.__init__(self)
 
@@ -25,4 +27,6 @@ class NpmAuthorPolicy(AbstractPipelineStep):
                 '"name" and "email" must be set for "author" in package.json'
             )
         self.log.debug('Author has name and email in package.json, continuing')
+        self.step_ok()
+
         return data

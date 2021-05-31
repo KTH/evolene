@@ -32,7 +32,7 @@ def run_npm_script(data, script_name):
     npm_base = get_npm_base(data)
     return process.run_with_output(
         f'{npm_base} run-script {script_name}'
-    ).replace('\n', '').strip()
+    )
 
 def exec_npm_command(data, command, flags=''):
     result = ''

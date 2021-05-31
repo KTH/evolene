@@ -27,6 +27,9 @@ class DryRunStep(AbstractPipelineStep):
             else:
                 self.compose_dry_run(data)
             self.step_ok()
+        else:
+            self.step_skipped()
+            
         return data
 
     def compose_dry_run(self, data):

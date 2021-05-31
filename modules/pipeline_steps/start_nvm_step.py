@@ -7,6 +7,8 @@ from modules.util.exceptions import PipelineException
 
 class StartNvmStep(AbstractPipelineStep):
 
+    name = "Check NVM version"
+
     def __init__(self):
         AbstractPipelineStep.__init__(self)
 
@@ -23,4 +25,5 @@ class StartNvmStep(AbstractPipelineStep):
             self.handle_step_error('Could not verify nvm version on jenkins', pipeline_ex)
       
         self.log.info('nvm version is: "%s"', result.strip())
+        self.step_ok()
         return data

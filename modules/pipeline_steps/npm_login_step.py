@@ -9,6 +9,8 @@ from modules.util import environment
 from modules.util import file_util
 class NpmLoginStep(AbstractPipelineStep):
 
+    name = "Login to NPM registry"
+
     def __init__(self):
         AbstractPipelineStep.__init__(self)
 
@@ -38,7 +40,7 @@ class NpmLoginStep(AbstractPipelineStep):
             npm_token = process.run_with_output(cmd, False)
 
             file_util.overwite_absolute(self.get_output_file(), npm_token)
-            self.log.info(f'NPM token written to {self.get_output_file()}')
+            self.log.debug(f'NPM token written to {self.get_output_file()}')
 
         except PipelineException as docker_ex:
             self.handle_step_error(
@@ -48,10 +50,13 @@ class NpmLoginStep(AbstractPipelineStep):
         try:
             result = nvm.exec_npm_command(data, 'whoami')
             self.log.info(f'Logged in as {result}.')
+            
+
         except PipelineException as npm_ex:
             self.handle_step_error(
                 'Exception when trying to verify identify with npm whoami',
                 npm_ex
             )
-        self.log.info('Output from npm whoami was: "%s"', result)
+
+        self.step_ok()
         return data
