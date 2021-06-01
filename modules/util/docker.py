@@ -9,7 +9,7 @@ from modules.util import file_util
 import logging
 
 
-log = logging.getLogger(__name__)
+log = logging.getLogger("-")
 
 def build(labels=None, build_args=None):
     flags = '--pull'
