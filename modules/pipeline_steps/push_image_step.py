@@ -103,6 +103,6 @@ class PushImageStep(AbstractPipelineStep):
             tag_with_registry = f"{environment.get_registry_host()}/{tag}"
             docker.tag_image(data[pipeline_data.LOCAL_IMAGE_ID], tag_with_registry)
             docker.push(tag_with_registry)
-            self.log.info('Pushed image %s to KTH registry.', tag_with_registry)
+
         slack.on_successful_private_push_old(image_version_util.get_image(data),
                                          data[pipeline_data.IMAGE_SIZE])

@@ -37,4 +37,3 @@ class PushAzureImageStep(AbstractPipelineStep):
             docker.tag_image(data[pipeline_data.LOCAL_IMAGE_ID], tag_with_registry)
             docker.push(tag_with_registry)
             slack.on_successful_private_push (tag, data[pipeline_data.IMAGE_SIZE])
-            self.log.info('Pushed image %s .', tag_with_registry)
