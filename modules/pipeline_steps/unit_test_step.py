@@ -43,9 +43,5 @@ class UnitTestStep(AbstractPipelineStep):
             self.log.info(output)
         except Exception as ex:
              self.handle_step_error(
-                f'\n:rotating_light: <!here> {image_version_util.get_image(data)} *unit test(s) failed*, see GitHub Actions >.',
-                ex
-#                    f'\n:rotating_light: <!here> {image_version_util.get_image(data)} *unit test(s) failed*, see <{environment.get_console_url()}|:jenkins: Jenkins console log here>.',
- #                   ex,
-
-                )
+                f'\n:rotating_light: <!here> {image_version_util.get_image(data)} *unit test(s) failed*, see <{environment.get_console_url()}|:github: Github Actions log here>.',
+                ex)

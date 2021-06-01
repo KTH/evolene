@@ -23,7 +23,7 @@ class NpmBuildStep(AbstractPipelineStep):
             result = nvm.run_npm_script(data, 'build')
         except PipelineException as npm_ex:
             self.handle_step_error(
-                    f'\n:rotating_light: <!here> *NPM build failed*, see <{environment.get_console_url()}|:jenkins: Jenkins console log here>.',
+                    f'\n:rotating_light: <!here> *NPM build failed*, see <{environment.get_console_url()}|:github: Github Actions log here>.',
                     self.get_stack_trace_shortend(npm_ex),
                 )
 
