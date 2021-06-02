@@ -5,7 +5,7 @@ import logging
 import sys
 from modules.util.exceptions import PipelineException
 
-def run_with_output(cmd, log_cmd=False):
+def run_with_output(cmd, log_cmd=False, check=False):
     log = logging.getLogger(__name__)
     try:
         if log_cmd:
@@ -13,6 +13,7 @@ def run_with_output(cmd, log_cmd=False):
 
         result = subprocess.run(args = ["/bin/bash", "-i", "-c", cmd],
                     capture_output=True,
+                    check=check,
                     encoding='utf-8')
 
         if result:

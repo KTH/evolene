@@ -108,7 +108,7 @@ def run_test(compose_test_file, data):
            f'--always-recreate-deps '
            f'--force-recreate')
 
-    output = process.run_with_output(cmd_test, False)
+    output = process.run_with_output(cmd_test, False, True)
 
     cmd_clean = (f'docker-compose --file {compose_test_file} down -v')
 
