@@ -13,7 +13,6 @@ def run_with_output(cmd, log_cmd=False):
 
         result = subprocess.run(args = ["/bin/bash", "-i", "-c", cmd],
                     capture_output=True,
-                    check=True,
                     encoding='utf-8')
 
         if result:
