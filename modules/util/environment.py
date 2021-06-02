@@ -204,6 +204,7 @@ def get_time():
 
 def get_tests_secrets():
     secrets = os.environ.get(EVOLENE_TEST_SECRETS)
+    print(secrets)
     if secrets:
         return secrets.replace('\n', ' ')
     return ""
