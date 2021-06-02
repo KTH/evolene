@@ -13,6 +13,7 @@ def run_with_output(cmd, log_cmd=False):
 
         result = subprocess.run(args = ["/bin/bash", "-i", "-c", cmd],
                     capture_output=True,
+                    check=True,
                     encoding='utf-8')
 
         if result:
@@ -22,6 +23,6 @@ def run_with_output(cmd, log_cmd=False):
                 return result.stderr
             
     except subprocess.CalledProcessError as cpe:
-        raise PipelineException(f'Error running command. {cpe}')
+        raise PipelineException(f'{cpe}')
     except:
         raise PipelineException(f'Unhandled exception. {sys.exc_info()[0]}')
