@@ -8,7 +8,7 @@ from modules.util import text_cleaner
 
 log = logging.getLogger("-")
 
-def send(text, snippet=None, icon=':jenkins:', username='Build Server (Evolene)'):
+def send(text, snippet=None, icon=':github:', username='Github Actions (Evolene CI)'):
     message = text
     if snippet:
         message = f'{message} ```{text_cleaner.clean(snippet)}```'
@@ -36,12 +36,12 @@ def on_npm_no_publish(package_name, version):
 def on_successful_private_push_old(name, size):
     text = (f'*{name}* pushed to :key: private registry, size {size}.')
     log_info(text)
-    send(text, icon=':jenkins:')
+    send(text, icon=':github:')
 
 def on_successful_private_push(name, size):
     text = (f'*{name}* pushed to :key: :azure: private registry, size {size}.')
     log_info(text)
-    send(text, icon=':jenkins:')
+    send(text, icon=':github:')
 
 def on_successful_public_push(name, image_name, image_size):
     text = (
@@ -50,9 +50,9 @@ def on_successful_public_push(name, image_name, image_size):
         f'size {image_size}.'
     )
     log_info(text)
-    send(text, icon=':jenkins:')
+    send(text, icon=':github:')
 
-def get_payload_body(channel, text, icon, username='Build Server (Evolene)'):
+def get_payload_body(channel, text, icon, username='Github Actions (Evolene CI)'):
     body = {
         "channel": channel,
         "text": f'{text} ',
