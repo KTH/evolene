@@ -33,7 +33,7 @@ class TagImageStep(AbstractPipelineStep):
             # Default tagging appname:1.2.3
             self.tag(image_version_util.get_image_only_semver(data), data)
             # Default tagging appname:latest
-            #self.tag(image_version_util.get_latest_tag(data), data)
+            self.tag(image_version_util.get_latest_tag(data), data)
 
         self.step_ok()
         
