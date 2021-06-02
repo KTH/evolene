@@ -12,7 +12,7 @@ GIT_COMMITTER_NAME = 'GIT_COMMITTER_NAME'
 GIT_URL = 'GIT_URL'
 GITHUB_WORKSPACE = 'GITHUB_WORKSPACE'
 GITHUB_REPOSITORY = 'GITHUB_REPOSITORY'
-GITHUB_ACTION = 'GITHUB_ACTION'
+GITHUB_RUN_ID = 'GITHUB_RUN_ID'
 BUILD_NUMBER = 'BUILD_NUMBER'
 BUILD_URL = 'BUILD_URL'
 BUILD_INFORMATION_OUTPUT_FILE = 'BUILD_INFORMATION_OUTPUT_FILE'
@@ -174,15 +174,15 @@ def get_build_url():
 def get_home():
     return os.environ.get("HOME")
 
-def get_github_action():
-    return os.environ.get(GITHUB_ACTION)
+def get_github_run_id():
+    return os.environ.get(GITHUB_RUN_ID)
 
 def get_github_repository():
     return os.environ.get(GITHUB_REPOSITORY)
 
 def get_console_url():
     # https://github.com/KTH/docker-generate-npm-authtoken/actions/runs/897291507
-    return f'https://github.com/{get_github_repository()}/actions/runs/{get_github_action()}'
+    return f'https://github.com/{get_github_repository()}/actions/runs/{get_github_run_id()}'
 
 def is_true(env_key):
     return is_true_value(os.environ.get(env_key))
