@@ -45,10 +45,10 @@ class DryRunStep(AbstractPipelineStep):
             raise PipelineException(str(ex), self.get_slack_message(ex, data))
 
     def get_slack_message(self, exception, data):
-        return '*{}* Compose dry run failed: \n```...\n{}```\n:jenkins: {}/console'.format(
+        return '*{}* Compose dry run failed: \n```...\n{}```\n:github: {}'.format(
             image_version_util.get_image(data),
             str(exception).replace('`', ' ')[-1000:],
-            environment.get_build_url())
+            environment.get_console_url())
 
     def simple_dry_run(self, data):
         self.log.info('Doing a "docker run" dry start of the newly built Docker iamge')
@@ -57,7 +57,7 @@ class DryRunStep(AbstractPipelineStep):
             container_status = self.wait_for_container_created(container_id)
             if not self.is_running(container_status):
                 self.handle_step_error(
-                    '<!channel> Failed to test run the newly built container on Jenkins. '
+                    '<!channel> Failed to test run the newly built container. '
                     'To disable test set Evolene env `SKIP_DRY_RUN="True"`'
                 )
         finally:
