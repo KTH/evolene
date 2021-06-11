@@ -110,7 +110,7 @@ def run_test(compose_test_file, data):
 
     output = process.run_with_output(cmd, log_cmd=False, check=True)
 
-    log.info(f'UPPER: {environment.get_tests_secrets().upper()}')
+    log.info(f'Size: {environment.get_tests_secrets().count()}')
     
     cmd_clean = (f'docker-compose --file {compose_test_file} down -v')
 
