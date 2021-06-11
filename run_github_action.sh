@@ -4,7 +4,6 @@ EVOLENE_DIRECTORY=/repo
 WORKSPACE=/src
 
 echo "${EVOLENE_TEST_SECRETS}" >  $WORKSPACE/.env
-export $(grep -v "^#" $WORKSPACE/.env | xargs)
 
 # Print the version
 echo ""
@@ -19,4 +18,4 @@ echo ""
 # CD into the repository directory containing the source code to build (not Evolenes).
 cd $WORKSPACE
 
-PIPENV_PIPFILE=$EVOLENE_DIRECTORY/Pipfile pipenv run python $EVOLENE_DIRECTORY/run.py
+export $(grep -v "^#" $WORKSPACE/.env | xargs) && PIPENV_PIPFILE=$EVOLENE_DIRECTORY/Pipfile pipenv run python $EVOLENE_DIRECTORY/run.py
