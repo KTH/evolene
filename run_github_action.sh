@@ -3,8 +3,6 @@
 EVOLENE_DIRECTORY=/repo
 WORKSPACE=/src
 
-echo "${EVOLENE_TEST_SECRETS}" >  $WORKSPACE/.env
-
 # Print the version
 echo ""
 
