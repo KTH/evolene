@@ -4,6 +4,7 @@ EVOLENE_DIRECTORY=/repo
 WORKSPACE=/src
 
 echo "${EVOLENE_TEST_SECRETS}" >  $WORKSPACE/.env
+export $(grep -v "^#" $WORKSPACE/.env | xargs)
 
 # Print the version
 echo ""
