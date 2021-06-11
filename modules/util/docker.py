@@ -110,7 +110,8 @@ def run_test(compose_test_file, data):
 
     log.info('----------------- ')
     log.info(f'Size: {len(environment.get_tests_secrets())}')
-    log.info(f'Size: {environment.get_tests_secrets().upper()}')
+    log.info(f'U: {environment.get_tests_secrets().upper()}')
+    log.info(f'R: {environment.get_tests_secrets()}')
     log.info('----------------- ')
 
     output = process.run_with_output(cmd, log_cmd=False, check=True)
