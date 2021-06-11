@@ -109,7 +109,7 @@ def run_test(compose_test_file, data):
            f'--force-recreate')
 
     log.info('----------------- ')
-    log.info(f'Size: {environment.get_tests_secrets().count()}')
+    log.info(f'Size: {len(environment.get_tests_secrets())}')
     log.info(f'Size: {environment.get_tests_secrets().upper()}')
     log.info('----------------- ')
 
