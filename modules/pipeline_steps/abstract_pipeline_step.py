@@ -104,13 +104,13 @@ class AbstractPipelineStep:
 
     def _step_inform(self, passed="faild"):
         if "failed" in passed:
-            self.log.fatal('🔴 %s, step failed\n', self.get_step_name())
+            self.log.fatal('🔴 %s. Step failed\n', self.get_step_name())
         elif "ok" in passed:
-            self.log.info('🟢 %s, Ok\n', self.get_step_name())
+            self.log.info('🟢 %s. Done\n', self.get_step_name())
         elif "warning" in passed:
-            self.log.warn('🟡 %s, Warning\n', self.get_step_name())
+            self.log.warn('🟡 %s. Warning\n', self.get_step_name())
         else:
-            self.log.info('⚪️ %s, skipped\n', self.get_step_name())
+            self.log.info('⚪️ %s. Skipped\n', self.get_step_name())
         
     def step_ok(self):
         self._step_inform("ok")
