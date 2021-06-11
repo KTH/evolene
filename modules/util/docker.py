@@ -99,8 +99,8 @@ def login(user, pwd, host):
 
 def run_test(compose_test_file, data):
     image_id = data[pipeline_data.LOCAL_IMAGE_ID]
-    cmd = (f'cd {file_util.get_project_root()} && export $(grep -v "^#" /src/.env | xargs) && LOCAL_IMAGE_ID={image_id} '
-           f'{environment.get_tests_secrets()} WORKSPACE={environment.get_docker_mount_root()} docker-compose --file {compose_test_file} up '
+    cmd = (f'cd {file_util.get_project_root()} && LOCAL_IMAGE_ID={image_id} '
+           f'WORKSPACE={environment.get_docker_mount_root()} docker-compose --file {compose_test_file} up '
            f'--build '
            f'--no-log-prefix '
            f'--quiet-pull '
