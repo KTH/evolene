@@ -18,4 +18,4 @@ echo ""
 # CD into the repository directory containing the source code to build (not Evolenes).
 cd $WORKSPACE
 
-export $(grep -v "^#" $WORKSPACE/.env | xargs) && PIPENV_PIPFILE=$EVOLENE_DIRECTORY/Pipfile pipenv run python $EVOLENE_DIRECTORY/run.py
+PIPENV_PIPFILE=$EVOLENE_DIRECTORY/Pipfile pipenv run python $EVOLENE_DIRECTORY/run.py
