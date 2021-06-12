@@ -37,7 +37,7 @@ class NpmLoginStep(AbstractPipelineStep):
             f'{self.get_docker_image()} ')
         try:
             self.log.info('Logging into NPM to get an access token.')
-            npm_token = process.run_with_output(cmd, False)
+            npm_token = process.run_with_output(cmd, log_cmd=False)
 
             file_util.overwite_absolute(self.get_output_file(), npm_token)
             self.log.debug(f'NPM token written to {self.get_output_file()}')
