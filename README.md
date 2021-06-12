@@ -19,9 +19,15 @@ If you have 🔑 secret environment variables somewhere in your process (like te
 ```yaml
 name: Evolene CI
 
-on:
+on:  
   push:
-    branches: [master]
+  pull_request:
+    branches:
+      - master
+      - main
+    paths-ignore:
+          - '*.md'
+          - '*.png'
   workflow_dispatch:
 
 jobs:
@@ -30,12 +36,13 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2.3.4
-      - name: Build, Test and Push with Evolene
+      - name: Run Evolene CI pipeline steps
+        shell: bash
+        env:
+          SLACK_CHANNELS: "#team-development"
+          BUILD_INFORMATION_OUTPUT_FILE: "/config/version.js"
+          EVOLENE_TEST_SECRETS: "${{secrets.EVOLENE_TEST_SECRETS}}"
         run: |
-          SLACK_CHANNELS=#team-developers \
-          BUILD_INFORMATION_OUTPUT_FILE='/version.conf' \
-          EVOLENE_TEST_SECRETS=${{secrets.EVOLENE_TEST_SECRETS}} \
-          
           ${{ secrets.EVOLENE_RUN_COMMAND }}
 ```
 
