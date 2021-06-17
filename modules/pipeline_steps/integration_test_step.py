@@ -23,6 +23,7 @@ class IntegrationTestStep(AbstractPipelineStep):
         if not file_util.is_file(IntegrationTestStep.INTEGRATION_TEST_COMPOSE_FILENAME):
             self.log.info('No file named "%s" found. No integration tests will be run.',
                           IntegrationTestStep.INTEGRATION_TEST_COMPOSE_FILENAME)
+            self.step_skipped()
             return data
 
         self.run_integration_tests(data)
