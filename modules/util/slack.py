@@ -46,7 +46,7 @@ def on_successful_private_push(name, size):
 def on_successful_public_push(name, image_name, image_size):
     text = (
         f'*{name}* pushed to :docker: public registry '
-        f'https://hub.docker.com/r/kthse/{image_name}/tags/, '
+        f'https://hub.docker.com/r/kthse/{image_name}/tags/ '
         f'size {image_size}.'
     )
     log_info(text)
