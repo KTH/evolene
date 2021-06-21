@@ -77,25 +77,26 @@ def login_private():
     host = environment.get_registry_host()
     user = environment.get_registry_user()
     pwd = environment.get_registry_password()
-    retval = process.run_with_output(f'docker login -u {user} -p {pwd} {host}', False)
+    retval = process.run_with_output(f'docker login -u {user} -p {pwd} {host}', log_cmd=False, check=True)
     return retval
 
 def login_azure():
     host = environment.get_azure_registry_host()
     user = environment.get_azure_registry_user()
     pwd = environment.get_azure_registry_password()
-    retval = process.run_with_output(f'docker login -u {user} -p {pwd} {host}', False)
+    retval = process.run_with_output(f'docker login -u {user} -p {pwd} {host}', log_cmd=False, check=True)
     return retval
 
 def login_public():
-    login( environment.get_public_registry_user(),
+    return login( environment.get_public_registry_user(),
         environment.get_public_registry_password(),
         environment.get_public_registry_host())
 
 def login(user, pwd, host):
     cmd = f'docker login -u {user} -p \'{pwd}\' {host}'
-    result = process.run_with_output(cmd, False)
+    result = process.run_with_output(cmd, log_cmd=False, check=True)
     log.info(result)
+    return result
 
 def run_test(compose_test_file, data):
     image_id = data[pipeline_data.LOCAL_IMAGE_ID]
