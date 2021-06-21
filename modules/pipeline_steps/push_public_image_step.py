@@ -22,6 +22,7 @@ class PushPublicImageStep(AbstractPipelineStep):
         if environment.get_push_public():
             if artifact.should_store():
                 self.push_image(data)
+                
             else:
                 self.log.info(
                     'Branch not to be publish.')
@@ -36,5 +37,6 @@ class PushPublicImageStep(AbstractPipelineStep):
         for tag in data[pipeline_data.IMAGE_TAGS]:
             tag_with_registry = f"{environment.get_public_registry_host()}/{tag}"
             docker.tag_image(data[pipeline_data.LOCAL_IMAGE_ID], tag_with_registry)
-            docker.push(tag_with_registry)
+            output = docker.push(tag_with_registry)
+            self.log(output)
             slack.on_successful_public_push(tag, data[pipeline_data.IMAGE_NAME], data[pipeline_data.IMAGE_SIZE])
