@@ -55,7 +55,7 @@ def tag_image(image_id, tag):
     return process.run_with_output(f'docker tag {image_id} {tag}')
 
 def push(registry_image_name):
-    return process.run_with_output(f'docker push {registry_image_name}')
+    return process.run_with_output(f'docker push {registry_image_name}', log_cmd=False, check=True)
 
 def inspect_image(image_id):
     return process.run_with_output(f'docker image inspect {image_id}')
