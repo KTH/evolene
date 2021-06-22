@@ -37,6 +37,5 @@ class PushPublicImageStep(AbstractPipelineStep):
         for tag in data[pipeline_data.IMAGE_TAGS]:
             tag_with_registry = f"{environment.get_public_registry_host()}/{tag}"
             docker.tag_image(data[pipeline_data.LOCAL_IMAGE_ID], tag_with_registry)
-            output = docker.push(tag_with_registry)
-            self.log(output)
+            docker.push(tag_with_registry)
             slack.on_successful_public_push(tag, data[pipeline_data.IMAGE_NAME], data[pipeline_data.IMAGE_SIZE])
