@@ -42,21 +42,19 @@ class ReadConfFileStep(AbstractPipelineStep):
                 self.log.debug(f'Using {value} value as {key}')
                 data[key] = value
             
-                # docker.conf
-                if pipeline_data.IMAGE_NAME in data:
-                    self.log.info(f'Docker image name to use is {data["IMAGE_NAME"]}')
-                if pipeline_data.IMAGE_VERSION in data:
-                    self.log.info(f'SemVer major.minor is {data["IMAGE_VERSION"]}')
-                if pipeline_data.PATCH_VERSION in data:
-                    self.log.info(f'Using patch version from docker.conf {data["PATCH_VERSION"]} instead of timestamp.')
+            # docker.conf
+            if pipeline_data.IMAGE_NAME in data and data[pipeline_data.IMAGE_NAME]:
+                self.log.info(f'Docker image name: {data["IMAGE_NAME"]}')
+            if pipeline_data.IMAGE_VERSION in data and data[pipeline_data.IMAGE_VERSION]:
+                self.log.info(f'SemVer major.minor: {data["IMAGE_VERSION"]}')
+            if pipeline_data.PATCH_VERSION in data and data[pipeline_data.PATCH_VERSION]:
+                self.log.info(f'Using patch version from docker.conf {data["PATCH_VERSION"]} instead of timestamp.')
 
-                # npm.conf
-                if pipeline_data.NPM_CONF_NODE_VERSION in data:
-                    self.log.info(f'Running tests using Node {data["NODE_VERSION"]}.')
-                if pipeline_data.NPM_CONF_ALLOW_CRITICALS in data:
-                    self.log.info(f'Allow dependencies to contain critical vulnerabilities, change buy setting ALLOW_CRITICALS=False in /npm.conf')
-                else:
-                    self.log.info(f'Will abort build if dependencies contain critical vulnerabilities.')
+            # npm.conf
+            if pipeline_data.NPM_CONF_NODE_VERSION in data and data[pipeline_data.NPM_CONF_NODE_VERSION]:
+                self.log.info(f'Running tests using Node {data["NODE_VERSION"]}.')
+            if pipeline_data.NPM_CONF_ALLOW_CRITICALS in data and data[pipeline_data.NPM_CONF_ALLOW_CRITICALS]:
+                self.log.info(f'Allow dependencies to contain critical vulnerabilities, change buy setting ALLOW_CRITICALS=False in /npm.conf')
                 
         except TypeError as t_err:
             self.log.warning('TypeError in add_conf_vars: %s', t_err, exc_info=True)
