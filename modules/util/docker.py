@@ -93,7 +93,7 @@ def login_public():
         environment.get_public_registry_host())
 
 def login(user, pwd, host):
-    cmd = f'docker login -u {user} -p \'{pwd}\' {host}'
+    cmd = f'docker login -u {user} -p {pwd} {host}'
     result = process.run_with_output(cmd, log_cmd=False, check=True)
     log.info(result)
     return result
