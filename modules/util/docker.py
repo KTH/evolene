@@ -88,13 +88,15 @@ def login_azure():
     return retval
 
 def login_public():
-    return login( environment.get_public_registry_user(),
-        environment.get_public_registry_password(),
-        environment.get_public_registry_host())
+    host = environment.get_public_registry_host()
+    user = environment.get_public_registry_user()
+    pwd = environment.get_public_registry_password()
+    retval = process.run_with_output(f'docker login -u {user} -p {pwd} {host}', log_cmd=True, check=True)
+    return retval
 
 def login(user, pwd, host):
     cmd = f'docker login -u {user} -p {pwd} {host}'
-    result = process.run_with_output(cmd, log_cmd=False, check=True)
+    result = process.run_with_output(cmd, log_cmd=True, check=True)
     log.info(result)
     return result
 
