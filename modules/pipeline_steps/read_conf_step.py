@@ -23,6 +23,7 @@ class ReadConfFileStep(AbstractPipelineStep):
 
     def run_step(self, data):
         data[pipeline_data.CONFIGURATION_FILE] = file_util.get_absolue_path(self.conf_file)
+        self.log.info(f'Reading configurations in: {data[pipeline_data.CONFIGURATION_FILE]}')
         conf_lines = self.trim(file_util.get_lines(self.conf_file))
         if self.has_missing_conf_vars(conf_lines):
             self.handle_step_error('Missing the following configuration variables in `{}`: {}'
@@ -47,6 +48,8 @@ class ReadConfFileStep(AbstractPipelineStep):
                 self.log.info(f'Docker image name: {data["IMAGE_NAME"]}')
             if pipeline_data.IMAGE_VERSION in data and data[pipeline_data.IMAGE_VERSION]:
                 self.log.info(f'SemVer major.minor: {data["IMAGE_VERSION"]}')
+                if pipeline_data.PATCH_VERSION not in data:
+                    self.log.info(f'Using timestamp as patchversion. You can specify a PATCH_VERSION in /docker.conf')
             if pipeline_data.PATCH_VERSION in data and data[pipeline_data.PATCH_VERSION]:
                 self.log.info(f'Using patch version from docker.conf {data["PATCH_VERSION"]} instead of timestamp.')
 
