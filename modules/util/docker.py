@@ -91,7 +91,7 @@ def login_public():
     host = environment.get_public_registry_host()
     user = environment.get_public_registry_user()
     pwd = environment.get_public_registry_password()
-    retval = process.run_with_output(f'docker login -u {user} -p {pwd} {host}', log_cmd=True, check=True)
+    retval = process.run_with_output(f'docker login -u {user} -p "{pwd}" {host}', log_cmd=False, check=True)
     return retval
 
 def login(user, pwd, host):
