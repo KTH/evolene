@@ -90,8 +90,11 @@ def login_azure():
 def login_public():
     host = environment.get_public_registry_host()
     user = environment.get_public_registry_user()
-    pwd = environment.get_public_registry_password()
-    retval = process.run_with_output(f'docker login -u {user} -p "{pwd}" {host}', log_cmd=False, check=True)
+    try:
+        retval = process.run_with_output(f'echo $PUBLIC_REGISTRY_PASSWORD | docker login --username {user} --password-stdin')
+    except:
+        log.info(retval)
+    #retval = process.run_with_output(f'docker login -u {user} -p "{pwd}" {host}', log_cmd=False, check=True)
     return retval
 
 def login(user, pwd, host):
