@@ -37,8 +37,16 @@ class ReadConfFileStep(AbstractPipelineStep):
     def add_conf_vars(self, env_lines, data):
         try:
             for env in env_lines:
-                self.log.info('Adding %s value for: %s', self.conf_file, env.split('=')[0])
-                data[env.split('=')[0]] = self.clean_variable_value(env.split('=')[1])
+                key = env.split('=')[0]
+                value = self.clean_variable_value(env.split('=')[1])
+                self.log.debug(f'Using {value} value as {key}')
+                data[key] = value
+            
+                self.log.info(f'Docker image name to use is {data["IMAGE_NAME"]}')
+                self.log.info(f'SemVer major.minor is {data["IMAGE_VERSION"]}')
+                if data["PATCH_VERSION"]:
+                    self.log.info(f'Using patch version from docker.conf {data["PATCH_VERSION"]} instead of timestamp.')
+
         except TypeError as t_err:
             self.log.warning('TypeError in add_conf_vars: %s', t_err, exc_info=True)
             return data

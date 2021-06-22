@@ -3,11 +3,10 @@ __author__ = 'tinglev'
 from modules.util import docker
 from modules.pipeline_steps.abstract_pipeline_step import AbstractPipelineStep
 from modules.util import environment
-from modules.util import file_util
 
 class DockerLoginStep(AbstractPipelineStep):
 
-    name = 'Loggin into Docker Regitries'
+    name = 'Loggin into Docker registries'
 
     def get_required_env_variables(self): # pragma: no cover
         return [environment.PROJECT_ROOT]
