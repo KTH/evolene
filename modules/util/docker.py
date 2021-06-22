@@ -74,30 +74,28 @@ def run_dry_run_compose(compose_test_file, data):
 
 
 def login_private():
-    host = environment.get_registry_host()
-    user = environment.get_registry_user()
-    pwd = environment.get_registry_password()
-    retval = process.run_with_output(f'docker login -u {user} -p {pwd} {host}', log_cmd=False, check=True)
-    return retval
+    # host = environment.get_registry_host()
+    # user = environment.get_registry_user()
+    # pwd = environment.get_registry_password()
+    # retval = process.run_with_output(f'docker login -u {user} -p {pwd} {host}', log_cmd=False, check=True)
+    # return retval
+    return login(environment.get_registry_user(), environment.REGISTRY_PASSWORD, environment.get_registry_host())
 
 def login_azure():
-    host = environment.get_azure_registry_host()
-    user = environment.get_azure_registry_user()
-    pwd = environment.get_azure_registry_password()
-    retval = process.run_with_output(f'docker login -u {user} -p {pwd} {host}', log_cmd=False, check=True)
-    return retval
+    # host = environment.get_azure_registry_host()
+    # user = environment.get_azure_registry_user()
+    # pwd = environment.get_azure_registry_password()
+    # retval = process.run_with_output(f'docker login -u {user} -p {pwd} {host}', log_cmd=False, check=True)
+    # return retval
+    return login(environment.get_azure_registry_user(), environment.AZURE_REGISTRY_PASSWORD, environment.get_azure_registry_host())
 
 def login_public():
-    #host = environment.get_public_registry_host()
-    user = environment.get_public_registry_user()
-    retval = process.run_with_output(f'echo ${environment.PUBLIC_REGISTRY_PASSWORD} | docker login --username {user} --password-stdin')
-    return retval
+    return login(environment.get_public_registry_user(), environment.PUBLIC_REGISTRY_PASSWORD)
 
-def login(user, pwd, host):
-    cmd = f'docker login -u {user} -p {pwd} {host}'
-    result = process.run_with_output(cmd, log_cmd=True, check=True)
-    log.info(result)
-    return result
+def login(user, pwd_env, host=""):
+    # Send password via standard in.
+    retval = process.run_with_output(f'echo ${pwd_env} | docker login --username {user} --password-stdin {host}')
+    return retval
 
 def run_test(compose_test_file, data):
     image_id = data[pipeline_data.LOCAL_IMAGE_ID]
