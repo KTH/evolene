@@ -91,9 +91,8 @@ class DockerDeployPipeline(object):
             self.log.info('Running Docker build pipeline')
             data = self.pipeline_steps[0].run_pipeline_step({})
         except PipelineException as p_ex:
-            workspace = f'`{environment.get_project_root()}`'
             self.log.fatal('%s'.encode('UTF-8'), p_ex, exc_info=False)
-            slack.send(f'<!here> *{workspace}*', snippet=p_ex.slack_message, username='Faild to build or test (Evolene)')
+            slack.send(f'<!here> *{environment.get_github_repository()}*', snippet=p_ex.slack_message, username='Faild to build or test (Evolene)')
             print_util.red("Such bad, very learning.")
             sys.exit(1)
            
