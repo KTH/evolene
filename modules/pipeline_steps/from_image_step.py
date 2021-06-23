@@ -21,15 +21,15 @@ class FromImageStep(AbstractPipelineStep):
             #
             # i.e: kthse/kth-os:3.8.0
             # "kth-os": [ "2.8" ] -> False
-            # "kth-os": [ "3.8" ] -> False
+            # "kth-os": [ "3.8" ] -> True
             # "kth-os": [ "3.8.0" ] -> True
             # "kth-os": [ "3.8.0_abcdef" ] -> True
             #
-            "kth-os": ["3.9", "3.10", "3.11", "3.12", "3.13"],
-            "kth-nodejs": ["14.0", "16"],
+            "kth-os": ["3.13"],
+            "kth-nodejs": ["14", "16"],
             "kth-play1": ["1.5"],
             "kth-play2": ["2.2"],
-            "kth-python": ["3.7", "3.8"],
+            "kth-python": ["3.10"],
 
             #
             #  Allow all tags for an image.
