@@ -34,7 +34,7 @@ class RepoSupervisorStep(AbstractPipelineStep):
         self._pull_image_if_missing(image_name)
         output = self._run_supervisor(image_name)
 
-        self.log(output)
+        self.log.info(output)
 
         if output:
             filenames = self._process_supervisor_result(output, data)
