@@ -19,7 +19,7 @@ class BuildLocalStep(AbstractPipelineStep):
 
     def run_step(self, data):
 
-        self.log.info(f'Start building docker image {data[pipeline_data.IMAGE_NAME]}. This might take some time depending on your what you are doing ...')
+        self.log.info(f'Started building docker image {data[pipeline_data.IMAGE_NAME]}. This might take some time depending on your what you are doing ...')
         try:
             image_id = self.run_build(data)
             image_grep_output = self.verify_built_image(image_id)
