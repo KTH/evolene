@@ -10,7 +10,7 @@ Evolene uses Convention Over Configuration. That means that Evolene is configure
 
 Add the **Github Action yaml content below** to a the Github Action workflow `.github/workflows/main.yml`. That is it 🎉! 
 
-If you have 🔑 secret environment variables somewhere in your process (like tests) add them in `/ Settings / Secrets / Repository secrets / EVOLENE_TEST_SECRETS` as _key=value_ pairs and access them as `$(YOUR_ENV_KEY)`, there are more customizing you can do:
+If you have 🔑 secret environment variables somewhere in your process (like tests) add them in `/ Settings / Secrets / Repository secrets / EVOLENE_TEST_SECRETS` as _key=value_ pairs. Read [more about secrets in Evolene here](https://github.com/KTH/evolene/blob/master/README-COMMON.md#secret-envs-needed-for-integration-tests-and-other-stuff), there are more customizing you can do:
 
 - [🛠️ Common Docker and NPM](https://github.com/KTH/evolene/blob/master/README-COMMON.md)
 - [🐳 How to build, test and publish your Docker application](https://github.com/KTH/evolene/blob/master/README-DOCKER.md)
