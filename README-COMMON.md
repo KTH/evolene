@@ -122,17 +122,18 @@ gitUrl=git@github.com:KTH/tamarack.git
 
 # Secret envs needed for integration tests and other stuff
 
-If you have 🔑 secret environment variables somewhere in your tests that is needed for your tests to work, add them as a secrets named `EVOLENE_TEST_SECRETS` in your Github repository `/ Settings / Secrets / Repository secrets / EVOLENE_TEST_SECRETS` as _key=value_ pairs. This will make the secrets available to `docker-compose-unit-tests.yml` and `docker-compose-integration-tests.yml` and you can pass your secrets on to your docker image as envs in the Docker Compose files.
+If you have 🔑 secret environment variables somewhere in your tests that is needed for your tests to work, add them as a **secret** named `EVOLENE_TEST_SECRETS` in your Github repository `/ Settings / Secrets / Repository secrets / EVOLENE_TEST_SECRETS` as _key=value_ pairs. This will make the secrets available to `docker-compose-unit-tests.yml` and `docker-compose-integration-tests.yml`.
 
 EVOLENE_TEST_SECRETS can be either a oneliner or separate rows.
 
 ```bash
 # EVOLENE_TEST_SECRETS example
-API_KEY=abc123
 DB_PWD=123abc
+API_KEY=abc123
 ```
 
 ```yaml
+    # docker-compose-unit-tests.yml / docker-compose-integration-tests.yml.
     environment:
       - DB_URL="https://example.com:1234"
       - DB_USER="admin"
