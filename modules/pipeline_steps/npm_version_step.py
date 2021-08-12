@@ -6,6 +6,8 @@ from modules.util import pipeline_data
 
 class NpmVersionStep(AbstractPipelineStep):
 
+    name = "Check /package.json have a 'version' attribute"
+
     def __init__(self):
         AbstractPipelineStep.__init__(self)
 
@@ -22,4 +24,5 @@ class NpmVersionStep(AbstractPipelineStep):
             self.handle_step_error('Missing "version" in package.json', key_error)
         data[pipeline_data.NPM_PACKAGE_VERSION] = npm_version
         self.log.debug('npm version of application is "%s"', npm_version)
+        self.step_ok()
         return data

@@ -9,6 +9,8 @@ from modules.util import nvm, pipeline_data
 
 class NpmAuditStep(AbstractPipelineStep):
 
+    name = "NPM Audit on built /package-lock.json"
+
     def __init__(self):
         AbstractPipelineStep.__init__(self)
 
@@ -42,7 +44,9 @@ class NpmAuditStep(AbstractPipelineStep):
                     npm_ex
                 )
         data = self.approve_audit(data, audit_json)
-        self.log.debug('Audit result was "%s"', json.dumps(audit_json))
+        self.log.info('Audit result was "%s"', json.dumps(audit_json))
+        self.step_ok()
+
         return data
 
     def approve_audit(self, data, audit_json):

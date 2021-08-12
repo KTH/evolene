@@ -12,6 +12,8 @@ from modules.util import (
 
 class DockerSlimStep(AbstractPipelineStep):
 
+    name = "Beta: Minify Docker image "
+
     def get_required_env_variables(self):
         return []
 

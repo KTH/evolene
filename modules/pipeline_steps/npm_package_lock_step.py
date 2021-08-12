@@ -7,6 +7,8 @@ from modules.util import nvm
 
 class NpmPackageLockStep(AbstractPipelineStep):
 
+    name = "Install package-lock.json only"
+
     def __init__(self):
         AbstractPipelineStep.__init__(self)
 
@@ -25,4 +27,5 @@ class NpmPackageLockStep(AbstractPipelineStep):
                 npm_ex
             )
         self.log.debug('Created package lock file')
+        self.step_ok()
         return data

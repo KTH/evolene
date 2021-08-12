@@ -8,6 +8,7 @@ from modules.util import pipeline_data
 
 class NpmBuildEnvironmentToFileStep(AbstractPipelineStep):
 
+    name = "Write build information to file before building image"
 
     def __init__(self):
         AbstractPipelineStep.__init__(self)
@@ -20,6 +21,7 @@ class NpmBuildEnvironmentToFileStep(AbstractPipelineStep):
 
     def run_step(self, data):
         self.write(data)
+        self.step_ok()
         return data
 
     def get_ouput_file(self):
@@ -27,6 +29,7 @@ class NpmBuildEnvironmentToFileStep(AbstractPipelineStep):
 
     def write(self, data):
         try:
+            self.log.info(f'Build information written {self.get_ouput_file()}, which will be included in published package.')
             file_util.overwite(self.get_ouput_file(), self.get_output(data))
         except IOError:
             self.handle_step_error("Unable to write npm build information to file '{}'".format(

@@ -6,6 +6,8 @@ from modules.util import environment
 
 class DockerLoginStep(AbstractPipelineStep):
 
+    name = 'Loggin into Docker registries'
+
     def get_required_env_variables(self): # pragma: no cover
         return [environment.PROJECT_ROOT]
 
@@ -13,8 +15,19 @@ class DockerLoginStep(AbstractPipelineStep):
         return []
 
     def run_step(self, data):
+
+        if environment.is_run_inside_docker():
+            self.log.info('Logging in to Docker Hub.')
+            docker.login_public()
+
         if (not environment.get_push_public()):
-            docker.login()
+            self.log.info('Logging in to Private Docker Hub.')
+            docker.login_private()
+
             if environment.get_push_azure():
+                self.log.info('Logging in to Azure Container Registry.')
                 docker.login_azure()
+
+        self.step_ok()
+
         return data

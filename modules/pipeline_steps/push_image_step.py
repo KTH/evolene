@@ -14,6 +14,8 @@ from modules.util import slack
 
 class PushImageStep(AbstractPipelineStep):
 
+    name = 'Push to private repository (KTH)'
+
     def get_required_env_variables(self):  # pragma: no cover
         return [environment.REGISTRY_HOST,
                 environment.REGISTRY_USER,
@@ -28,13 +30,16 @@ class PushImageStep(AbstractPipelineStep):
             if artifact.should_store():
                 self.push_image(data)
                 self.verify_push(data)
+                self.step_ok()
             else:
+
                 self.log.info(
                     'Branch not to be publish to Docker Hub.')
+                
                 slack.send((f'The :git: branch *{data[pipeline_data.IMAGE_NAME]}* | '
                                      f' *{environment.get_git_branch()}* '
                                      'is not pushed to Docker Hub. It is not the main branch, nor configured to be push.'))
-
+                self.step_skipped()
         return data
 
     def verify_push(self, data):
@@ -98,6 +103,6 @@ class PushImageStep(AbstractPipelineStep):
             tag_with_registry = f"{environment.get_registry_host()}/{tag}"
             docker.tag_image(data[pipeline_data.LOCAL_IMAGE_ID], tag_with_registry)
             docker.push(tag_with_registry)
-            self.log.info('Pushed image %s to KTH registry.', tag_with_registry)
+
         slack.on_successful_private_push_old(image_version_util.get_image(data),
                                          data[pipeline_data.IMAGE_SIZE])

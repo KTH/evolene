@@ -10,6 +10,8 @@ from modules.util import file_util
 
 class BuildEnvironmentToFileStep(AbstractPipelineStep):
 
+    name = "Write build information to file before building image"
+
     def get_required_env_variables(self):
         return [environment.GIT_BRANCH, environment.GIT_COMMIT]
 
@@ -19,6 +21,9 @@ class BuildEnvironmentToFileStep(AbstractPipelineStep):
     def run_step(self, data):
         if environment.get_build_information_output_file():
             self.write(data)
+            self.step_ok()
+        else:
+            self.step_skipped()
 
     def get_ouput_file(self):
         return environment.get_build_information_output_file()
@@ -26,6 +31,7 @@ class BuildEnvironmentToFileStep(AbstractPipelineStep):
     def write(self, data):
         try:
             file_util.overwite(self.get_ouput_file(), self.get_output(data))
+            self.log.info(f'Wrote build information to {self.get_ouput_file()}')
 
         except IOError:
             self.handle_step_error("*{}* Unable to write build information to file '{}'".format(

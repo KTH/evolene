@@ -1,7 +1,10 @@
 __author__ = 'tinglev'
 
 import os
+import logging
 from modules.util import environment
+
+log = logging.getLogger(__name__)
 
 def get_lines(relative_file_path):
     result = []
@@ -18,8 +21,17 @@ def read_as_string(relative_file_path):
             return afile.read()
     return None
 
+def read_as_string_absolute(file_path):
+    if is_file(file_path):
+        with open(file_path) as afile:
+            return afile.read()
+    return None
+
 def get_absolue_path(relative_file_path):
     return '{}{}'.format(get_project_root(), relative_file_path)
+
+def get_docker_mounted_path(relative_file_path):
+    return '{}{}'.format(environment.get_docker_mount_root(), relative_file_path) 
 
 def get_project_root():
     return environment.get_project_root().rstrip('/')
@@ -32,7 +44,13 @@ def is_directory(relative_file_path):
     return os.path.isdir(path)
 
 def overwite(relative_file_path, content):
-    print('Path write: {}'.format(get_absolue_path(relative_file_path)))
+    log.debug('Path write: {}'.format(get_absolue_path(relative_file_path)))
 
     with open(get_absolue_path(relative_file_path), 'w+') as output_file:
+        output_file.write(content)
+
+def overwite_absolute(file_path, content):
+    log.debug(f'Absolute path write: {file_path}')
+
+    with open(file_path, 'w+') as output_file:
         output_file.write(content)

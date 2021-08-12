@@ -6,6 +6,8 @@ from modules.util import pipeline_data
 
 class NpmPackageNameStep(AbstractPipelineStep):
 
+    name = "Check /package.json have a 'name' attribute"
+
     def __init__(self):
         AbstractPipelineStep.__init__(self)
 
@@ -22,4 +24,5 @@ class NpmPackageNameStep(AbstractPipelineStep):
             self.handle_step_error('Missing "name" in package.json', key_error)
         data[pipeline_data.NPM_PACKAGE_NAME] = npm_package_name
         self.log.debug('npm package name is "%s"', npm_package_name)
+        self.step_ok()
         return data

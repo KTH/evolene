@@ -10,14 +10,28 @@ GIT_COMMIT = 'GIT_COMMIT'
 GIT_BRANCH = 'GIT_BRANCH'
 GIT_COMMITTER_NAME = 'GIT_COMMITTER_NAME'
 GIT_URL = 'GIT_URL'
+GITHUB_WORKSPACE = 'GITHUB_WORKSPACE'
+GITHUB_REPOSITORY = 'GITHUB_REPOSITORY'
+GITHUB_RUN_ID = 'GITHUB_RUN_ID'
 BUILD_NUMBER = 'BUILD_NUMBER'
 BUILD_URL = 'BUILD_URL'
 BUILD_INFORMATION_OUTPUT_FILE = 'BUILD_INFORMATION_OUTPUT_FILE'
+HOME = 'HOME'
 SLACK_WEB_HOOK = 'EVOLENE_SLACK_WEB_HOOK'
 SLACK_CHANNELS = 'SLACK_CHANNELS'
+
 REGISTRY_HOST = 'REGISTRY_HOST'
 REGISTRY_USER = 'REGISTRY_USER'
 REGISTRY_PASSWORD = 'REGISTRY_PASSWORD'
+
+PUBLIC_REGISTRY_HOST = 'PUBLIC_REGISTRY_HOST'
+PUBLIC_REGISTRY_USER = 'PUBLIC_REGISTRY_USER'
+PUBLIC_REGISTRY_PASSWORD = 'PUBLIC_REGISTRY_PASSWORD'
+
+AZURE_REGISTRY_HOST = 'AZURE_REGISTRY_HOST'
+AZURE_REGISTRY_USER = 'AZURE_REGISTRY_USER'
+AZURE_REGISTRY_PASSWORD = 'AZURE_REGISTRY_PASSWORD'
+
 EVOLENE_DIRECTORY = 'EVOLENE_DIRECTORY'
 EVOLENE_TEST_SECRETS = 'EVOLENE_TEST_SECRETS'
 EXPERIMENTAL = 'EXPERIMENTAL'
@@ -26,9 +40,6 @@ PUSH_PUBLIC = 'PUSH_PUBLIC'
 PUSH_AZURE = 'PUSH_AZURE'
 BRANCHES_SAVE_STARTING_WITH = 'BRANCHES_SAVE_STARTING_WITH'
 BRANCHES_TAG_AS_MAIN = 'BRANCHES_TAG_AS_MAIN'
-AZURE_REGISTRY_HOST = 'AZURE_REGISTRY_HOST'
-AZURE_REGISTRY_USER = 'AZURE_REGISTRY_USER'
-AZURE_REGISTRY_PASSWORD = 'AZURE_REGISTRY_PASSWORD'
 NPM_USER = 'NPM_USER'
 NPM_PASSWORD = 'NPM_PASSWORD'
 NPM_EMAIL = 'NPM_EMAIL'
@@ -59,14 +70,24 @@ def get_npm_password():
 def get_registry_host():
     return os.environ.get(REGISTRY_HOST)
 
-def get_public_registry_host():
-    return "docker.io/kthse"
-
 def get_registry_user():
     return os.environ.get(REGISTRY_USER)
 
 def get_registry_password():
     return os.environ.get(REGISTRY_PASSWORD)
+
+def get_public_registry_host():
+    return os.environ.get(PUBLIC_REGISTRY_HOST)
+
+def get_public_registry_user():
+    return os.environ.get(PUBLIC_REGISTRY_USER)
+
+def get_public_registry_password():
+    return os.environ.get(PUBLIC_REGISTRY_PASSWORD)
+
+def get_public_registry_host():
+    return "docker.io/kthse"
+
 
 def get_azure_registry_host():
     return os.environ.get(AZURE_REGISTRY_HOST)
@@ -93,6 +114,18 @@ def get_git_commiter_name():
 
 def get_project_root():
     return os.environ.get(PROJECT_ROOT)
+
+def get_github_workspace():
+    return os.environ.get(GITHUB_WORKSPACE)
+
+def get_docker_mount_root():
+    if get_github_workspace():
+        return get_github_workspace()
+    return get_project_root().rstrip('/')
+
+def is_run_inside_docker():
+    return get_github_workspace()
+    
 
 def get_build_number():
     return os.environ.get(BUILD_NUMBER)
@@ -142,8 +175,18 @@ def use_update_available():
 def get_build_url():
     return os.environ.get(BUILD_URL)
 
+def get_home():
+    return os.environ.get("HOME")
+
+def get_github_run_id():
+    return os.environ.get(GITHUB_RUN_ID)
+
+def get_github_repository():
+    return os.environ.get(GITHUB_REPOSITORY)
+
 def get_console_url():
-    return f'{get_build_url()}console'
+    # https://github.com/KTH/docker-generate-npm-authtoken/actions/runs/897291507
+    return f'https://github.com/{get_github_repository()}/actions/runs/{get_github_run_id()}'
 
 def is_true(env_key):
     return is_true_value(os.environ.get(env_key))
@@ -165,6 +208,7 @@ def get_time():
 
 def get_tests_secrets():
     secrets = os.environ.get(EVOLENE_TEST_SECRETS)
+    print(secrets)
     if secrets:
         return secrets.replace('\n', ' ')
     return ""

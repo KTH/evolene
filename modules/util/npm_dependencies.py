@@ -9,18 +9,18 @@ from modules.util import file_util
 from modules.util.exceptions import PipelineException
 from modules.util import slack
 
-log = logging.getLogger(__name__)
+log = logging.getLogger("-")
 
 PACKAGE_JSON = '/package.json'
 IMAGE_NAME = 'kthse/npm-package-available'
 
 def run(name):
-
     if file_util.is_file(PACKAGE_JSON):
+        log.info('Found a "%s", checking old dependencies.', PACKAGE_JSON)
         prepare()
         check(name)
     else:
-        log.info('No file named "%s" found. No dependencies check will be done.', PACKAGE_JSON)
+        log.debug('No file named "%s" found. No dependencies check will be done.', PACKAGE_JSON)
 
 def prepare():
     pull_image_if_missing()
@@ -59,6 +59,7 @@ def process_output(ncu_output, name):
 
     # All is dandy
     if "All dependencies match the latest package" in ncu_output:
+        log.info('All dependencies are up to date.')
         return
 
     log_and_slack(clean(ncu_output), name)
@@ -91,6 +92,8 @@ def log_and_slack(upgrades_information, name):
 
 def check_dependencies():
     package_json =  file_util.get_absolue_path(PACKAGE_JSON)
+    if environment.is_run_inside_docker():
+        package_json = file_util.get_docker_mounted_path(PACKAGE_JSON)
     image_name = IMAGE_NAME
 
     # Mount the local package.json file into the Docker instance

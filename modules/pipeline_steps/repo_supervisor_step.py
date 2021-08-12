@@ -12,6 +12,8 @@ from modules.util import slack
 
 class RepoSupervisorStep(AbstractPipelineStep):
 
+    name = "Scan source code for password and tokens"
+
     SCANIGNORE_FILE = '/.scanignore'
     REPO_SUPERVISOR_IMAGE_NAME = 'kthse/repo-supervisor'
     REPO_MOUNTED_DIR = '/opt/scan_me'
@@ -26,13 +28,23 @@ class RepoSupervisorStep(AbstractPipelineStep):
         return [pipeline_data.IMAGE_NAME, pipeline_data.IMAGE_VERSION]
 
     def run_step(self, data):
+        self.log.info('Checking source repository for string looking like passwords and tokens.')
+
         image_name = RepoSupervisorStep.REPO_SUPERVISOR_IMAGE_NAME
         self._pull_image_if_missing(image_name)
         output = self._run_supervisor(image_name)
+
+        self.log.info(output)
+
         if output:
-            self._process_supervisor_result(output, data)
+            filenames = self._process_supervisor_result(output, data)
+            self.log.info(f"Got filenames {filenames}")
+            if filenames:
+                self.step_warning()
         else:
-            self.log.info('Repo-supervisor found nothing')
+            self.log.info('Security scanning found nothing that looked like passwords or tokens in the source code.')
+            self.step_ok()
+
         return data
 
     def _pull_image_if_missing(self, image_name):
@@ -61,10 +73,14 @@ class RepoSupervisorStep(AbstractPipelineStep):
                      if not self.ignore(result['filepath'])]
         if filenames:
             self._log_warning_and_send_to_slack(filenames, data)
+            self.step_warning()
+
         return filenames
 
     def _log_warning_and_send_to_slack(self, filenames, data):
-        self.log.warning('Found suspicious string in files "%s"', filenames)
+        self.log.warning('Possible password(s) or token(s) in the following files "%s"', filenames)
+        self.log.infor('If ok, remove the warning by adding the file, or catalog to a /.scanignore file.')
+        
         text = (f':rotating_light: <!here> *Possible password or token* in the following *{data[pipeline_data.IMAGE_NAME]}* file(s). \n'
                'If ok, remove the warning by adding the file, or catalog to `/.scanignore`.')
         slack.send(text=text, snippet=self.format_filnames(filenames), username="Code Security, Build Server (Evolene)")
@@ -93,13 +109,18 @@ class RepoSupervisorStep(AbstractPipelineStep):
         return False
 
     def _run_supervisor(self, image_name):
-        project_root = file_util.get_project_root()
+        root =  file_util.get_project_root()
+        if environment.is_run_inside_docker():
+            root = environment.get_docker_mount_root()
+
         mounted_dir = RepoSupervisorStep.REPO_MOUNTED_DIR
 
-        cmd = (f'docker run --rm -v {project_root}:{mounted_dir} {image_name} /bin/bash -c "source ~/.bashrc && JSON_OUTPUT=1 node /opt/repo-supervisor/dist/cli.js {mounted_dir}"')
-        
+        cmd = (f'docker run --rm -v {root}:{mounted_dir} {image_name} /bin/bash -c "source ~/.bashrc && JSON_OUTPUT=1 node /opt/repo-supervisor/dist/cli.js {mounted_dir}"')
+            
         try:
-            return process.run_with_output(cmd)
+            # Do note that if your have packages installed like (/node_modules) this will probably break with
+            # char encoding problems.
+            output = process.run_with_output(cmd)
         except PipelineException as pipeline_ex:
             # Special handling while waiting for https://github.com/auth0/repo-supervisor/pull/5
             if 'Not detected any secrets in files' not in str(pipeline_ex):

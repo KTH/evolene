@@ -6,7 +6,7 @@ WORKDIR /repo
 
 RUN apk update && \
     apk upgrade && \
-    apk add --no-cache bash gcc libc-dev libxslt-dev libxslt py-pip docker make libffi-dev linux-headers llvm10 cargo openssl-dev build-base openssh git && \
+    apk add --no-cache bash gcc libc-dev libxslt-dev libxslt py-pip docker make libffi-dev linux-headers llvm10 cargo openssl-dev build-base openssh git curl nodejs && \
     rm -rf /var/cache/apk/*
         
 COPY Pipfile Pipfile
@@ -14,19 +14,31 @@ COPY Pipfile Pipfile
 ENV LANG=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8
 
-RUN pipenv install pip
-
-RUN pip install docker-compose
 RUN pipenv install
 
-COPY ["modules",  "modules"]
+RUN pipenv install pip
+RUN pip install docker-compose
+
+RUN touch /root/.bash_profile
+RUN touch /root/.bashrc
+RUN touch /root/.profile
+
+RUN mkdir /root/.nvm
+
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+
+RUN cat /root/.bashrc > /root/.bash_profile > /root/.profile
+
+COPY ["modules",  "modules"]d
 COPY ["run.py", "run.py"]
 COPY ["run_github_action.sh", "run_github_action.sh"]
 COPY ["docker.conf",  "docker.conf"]
+COPY ["version.conf",  "version.conf"]
+
 
 ENV EVOLENE_DIRECTORY /repo
 
 RUN mkdir src
 WORKDIR /src
 
-CMD ["/bin/sh", "-c", "/repo/run_github_action.sh"]
+CMD ["/bin/bash", "-c", "/repo/run_github_action.sh"]

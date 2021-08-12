@@ -1,0 +1,24 @@
+name: Evolene CI
+
+on:  
+  push:
+    paths-ignore:
+          - '*.md'
+          - '*.png'
+  workflow_dispatch:
+
+jobs:
+  Evolene:
+    name: Continuous Integration
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - name: Run Evolene CI pipeline steps
+        env:
+          SLACK_CHANNELS: "#team-pipeline-build"
+          BUILD_INFORMATION_OUTPUT_FILE: "/version.conf"
+          PUSH_PUBLIC: True
+          EVOLENE_TEST_SECRETS: "${{secrets.EVOLENE_TEST_SECRETS}}"
+        run: |
+          ${{ secrets.EVOLENE_RUN_COMMAND }}
+

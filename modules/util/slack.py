@@ -6,7 +6,9 @@ from requests import HTTPError, ConnectTimeout, RequestException
 from modules.util import environment, pipeline_data
 from modules.util import text_cleaner
 
-def send(text, snippet=None, icon=':jenkins:', username='Build Server (Evolene)'):
+log = logging.getLogger("-")
+
+def send(text, snippet=None, icon=':github:', username='Github Actions (Evolene CI)'):
     message = text
     if snippet:
         message = f'{message} ```{text_cleaner.clean(snippet)}```'
@@ -17,34 +19,40 @@ def send(text, snippet=None, icon=':jenkins:', username='Build Server (Evolene)'
 def on_npm_publish(package_name, version, data):
     text = (f'*{package_name}* version *{version}* was successfully published to '
                f'https://www.npmjs.com/package/{package_name}')
+        
     if pipeline_data.IGNORED_CRITICALS in data:
         criticals = data[pipeline_data.IGNORED_CRITICALS]
         text = f'{text} - WARNING! This build had {criticals} ignored criticals!'
     
+    log_info(text)
     send(text, icon=":npm:")
 
 def on_npm_no_publish(package_name, version):
     text = (f'*{package_name} {version}* already exists on :npm: '
                f'https://www.npmjs.com/package/{package_name}')
+    log_info(text)
     send(text=text)
 
 def on_successful_private_push_old(name, size):
     text = (f'*{name}* pushed to :key: private registry, size {size}.')
-    send(text, icon=':jenkins:')
+    log_info(text)
+    send(text, icon=':github:')
 
 def on_successful_private_push(name, size):
     text = (f'*{name}* pushed to :key: :azure: private registry, size {size}.')
-    send(text, icon=':jenkins:')
+    log_info(text)
+    send(text, icon=':github:')
 
 def on_successful_public_push(name, image_name, image_size):
     text = (
         f'*{name}* pushed to :docker: public registry '
-        f'https://hub.docker.com/r/kthse/{image_name}/tags/, '
+        f'https://hub.docker.com/r/kthse/{image_name}/tags/ '
         f'size {image_size}.'
     )
-    send(text, icon=':jenkins:')
+    log_info(text)
+    send(text, icon=':github:')
 
-def get_payload_body(channel, text, icon, username='Build Server (Evolene)'):
+def get_payload_body(channel, text, icon, username='Github Actions (Evolene CI)'):
     body = {
         "channel": channel,
         "text": f'{text} ',
@@ -64,3 +72,7 @@ def call_slack_endpoint(payload):
         log.error('Timeout while trying to post to Slack endpoint: "%s"', timeout)
     except RequestException as req_ex:
         log.error('Exception when trying to post to Slack endpoint: "%s"', req_ex)
+
+def log_info(text):
+    # Remove Slack message formating
+    log.info(text.replace("*", ""))

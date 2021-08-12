@@ -9,7 +9,7 @@ from modules.util import file_util
 import logging
 
 
-log = logging.getLogger(__name__)
+log = logging.getLogger("-")
 
 def build(labels=None, build_args=None):
     flags = '--pull'
@@ -24,6 +24,7 @@ def build(labels=None, build_args=None):
     
     # Build 
     log.info(process.run_with_output(f'docker build {flags} {root}'))
+    
     
     # Rerun build to get a local image id.
     return process.run_with_output(f'docker build --quiet {flags} {root}')
@@ -54,7 +55,7 @@ def tag_image(image_id, tag):
     return process.run_with_output(f'docker tag {image_id} {tag}')
 
 def push(registry_image_name):
-    return process.run_with_output(f'docker push {registry_image_name}')
+    return process.run_with_output(f'docker push {registry_image_name}', log_cmd=True, check=True)
 
 def inspect_image(image_id):
     return process.run_with_output(f'docker image inspect {image_id}')
@@ -71,30 +72,43 @@ def run_integration_tests(compose_test_file, data):
 def run_dry_run_compose(compose_test_file, data):
     return run_test(compose_test_file, data)
 
-def login():
-    host = environment.get_registry_host()
-    user = environment.get_registry_user()
-    pwd = environment.get_registry_password()
-    retval = process.run_with_output(f'docker login -u {user} -p {pwd} {host}', False)
-    return retval
+
+def login_private():
+    # host = environment.get_registry_host()
+    # user = environment.get_registry_user()
+    # pwd = environment.get_registry_password()
+    # retval = process.run_with_output(f'docker login -u {user} -p {pwd} {host}', log_cmd=False, check=True)
+    # return retval
+    return login(environment.get_registry_user(), environment.REGISTRY_PASSWORD, environment.get_registry_host())
 
 def login_azure():
-    host = environment.get_azure_registry_host()
-    user = environment.get_azure_registry_user()
-    pwd = environment.get_azure_registry_password()
-    retval = process.run_with_output(f'docker login -u {user} -p {pwd} {host}', False)
+    # host = environment.get_azure_registry_host()
+    # user = environment.get_azure_registry_user()
+    # pwd = environment.get_azure_registry_password()
+    # retval = process.run_with_output(f'docker login -u {user} -p {pwd} {host}', log_cmd=False, check=True)
+    # return retval
+    return login(environment.get_azure_registry_user(), environment.AZURE_REGISTRY_PASSWORD, environment.get_azure_registry_host())
+
+def login_public():
+    return login(environment.get_public_registry_user(), environment.PUBLIC_REGISTRY_PASSWORD)
+
+def login(user, pwd_env, host=""):
+    # Send password via standard in.
+    retval = process.run_with_output(f'echo ${pwd_env} | docker login --username {user} --password-stdin {host}')
     return retval
 
 def run_test(compose_test_file, data):
     image_id = data[pipeline_data.LOCAL_IMAGE_ID]
-    cmd_test = (f'cd {file_util.get_project_root()} && LOCAL_IMAGE_ID={image_id} '
-           f'{environment.get_tests_secrets()} WORKSPACE={environment.get_project_root()} docker-compose --file {compose_test_file} up '
+    cmd = (f'cd {file_util.get_project_root()} && LOCAL_IMAGE_ID={image_id} '
+           f'{environment.get_tests_secrets()} WORKSPACE={environment.get_docker_mount_root()} docker-compose --file {compose_test_file} up '
            f'--build '
+           f'--no-log-prefix '
+           f'--quiet-pull '
            f'--abort-on-container-exit '
            f'--always-recreate-deps '
            f'--force-recreate')
 
-    output = process.run_with_output(cmd_test)
+    output = process.run_with_output(cmd, log_cmd=False, check=True)
 
     cmd_clean = (f'docker-compose --file {compose_test_file} down -v')
 

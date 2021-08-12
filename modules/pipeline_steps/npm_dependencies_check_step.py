@@ -7,6 +7,8 @@ from modules.util import npm_dependencies
 
 class NpmDependenciesStep(AbstractPipelineStep):
 
+    name = "Check if the /package.json has old dependencies"
+
     def __init__(self):
         AbstractPipelineStep.__init__(self)
 
@@ -18,4 +20,5 @@ class NpmDependenciesStep(AbstractPipelineStep):
 
     def run_step(self, data):
         npm_dependencies.run(data[pipeline_data.NPM_PACKAGE_NAME])
+        self.step_ok()
         return data

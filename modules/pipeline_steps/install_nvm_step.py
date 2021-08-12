@@ -8,6 +8,8 @@ from modules.util import nvm
 
 class InstallNvmStep(AbstractPipelineStep):
 
+    name = "Install NVM"
+
     def __init__(self):
         AbstractPipelineStep.__init__(self)
         self.nvm_version = 'v0.34.0'
@@ -18,9 +20,25 @@ class InstallNvmStep(AbstractPipelineStep):
     def get_required_data_keys(self):
         return []
 
+
+    def is_installed(self):
+        result = False
+        try:
+            response = process.run_with_output("command -v nvm")
+            if "nvm" in response:
+                result = True
+        except Exception as err:
+            self.handle_step_error('Error checking if NVM is installed.', err)
+        return result
+
+
     def run_step(self, data):
+
+        #self.log.info(f'Is NVM installed (check using command -v nvm) {self.is_installed()}')
+
+        # TODO: https://github.com/nvm-sh/nvm#verify-installation
         if os.path.isfile(nvm.NVM_DIR):
-            self.log.debug('nvm is already installed, continuing')
+            self.log.info('nvm is already installed, continuing')
         else:
             self.log.info('nvm is not installed, installing now')
             cmd = (f'curl -o- https://raw.githubusercontent.com/creationix/nvm/'
@@ -33,3 +51,4 @@ class InstallNvmStep(AbstractPipelineStep):
                     install_ex
                 )
             self.log.debug('nvm installed successfully')
+        self.step_ok()

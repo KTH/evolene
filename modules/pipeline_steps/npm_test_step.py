@@ -7,6 +7,8 @@ from modules.util import nvm, pipeline_data
 
 class NpmTestStep(AbstractPipelineStep):
 
+    name = "Unit tests"
+
     def __init__(self):
         AbstractPipelineStep.__init__(self)
 
@@ -24,5 +26,6 @@ class NpmTestStep(AbstractPipelineStep):
                 'npm test failed',
                 npm_ex
             )
-        self.log.debug('Output from npm test was: "%s"', result)
+        self.log.info('Output from npm test was: "%s"', result)
+        self.step_ok()
         return data

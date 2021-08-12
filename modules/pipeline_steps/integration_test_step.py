@@ -9,6 +9,8 @@ from modules.util import image_version_util
 
 class IntegrationTestStep(AbstractPipelineStep):
 
+    name = "Integration tests"
+
     INTEGRATION_TEST_COMPOSE_FILENAME = '/docker-compose-integration-tests.yml'
 
     def get_required_env_variables(self):
@@ -21,9 +23,11 @@ class IntegrationTestStep(AbstractPipelineStep):
         if not file_util.is_file(IntegrationTestStep.INTEGRATION_TEST_COMPOSE_FILENAME):
             self.log.info('No file named "%s" found. No integration tests will be run.',
                           IntegrationTestStep.INTEGRATION_TEST_COMPOSE_FILENAME)
+            self.step_skipped()
             return data
 
         self.run_integration_tests(data)
+        self.step_ok()
 
         return data
 
@@ -40,10 +44,11 @@ class IntegrationTestStep(AbstractPipelineStep):
                 )
                 , data
             )
-            self.log.debug('Output from integration tests was: %s', output)
+            self.log.info(output)
+
         except Exception as ex:
              self.handle_step_error(
-                    f'\n:rotating_light: <!here> {image_version_util.get_image(data)} *integration test(s) failed*, see <{environment.get_console_url()}|:jenkins: Jenkins console log here>.',
+                    f'\n:rotating_light: <!here> {image_version_util.get_image(data)} *integration test(s) failed*, see <{environment.get_console_url()}|:github: Github Actions log here>.',
                     self.get_stack_trace_shortend(ex),
                 )
 

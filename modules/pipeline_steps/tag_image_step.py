@@ -8,6 +8,8 @@ from modules.util import artifact
 
 class TagImageStep(AbstractPipelineStep):
 
+    name = "Tag built Docker image with image versions."
+
     def get_required_env_variables(self): #pragma: no cover
         return [environment.REGISTRY_HOST]
 
@@ -31,7 +33,9 @@ class TagImageStep(AbstractPipelineStep):
             # Default tagging appname:1.2.3
             self.tag(image_version_util.get_image_only_semver(data), data)
             # Default tagging appname:latest
-            #self.tag(image_version_util.get_latest_tag(data), data)
+            self.tag(image_version_util.get_latest_tag(data), data)
+
+        self.step_ok()
         
         return data
 

@@ -10,6 +10,8 @@ from modules.util import artifact
 
 class PushPublicImageStep(AbstractPipelineStep):
 
+    name = 'Push to Docker Hub'
+
     def get_required_env_variables(self):
         return []
 
@@ -20,6 +22,7 @@ class PushPublicImageStep(AbstractPipelineStep):
         if environment.get_push_public():
             if artifact.should_store():
                 self.push_image(data)
+                
             else:
                 self.log.info(
                     'Branch not to be publish.')
@@ -36,4 +39,3 @@ class PushPublicImageStep(AbstractPipelineStep):
             docker.tag_image(data[pipeline_data.LOCAL_IMAGE_ID], tag_with_registry)
             docker.push(tag_with_registry)
             slack.on_successful_public_push(tag, data[pipeline_data.IMAGE_NAME], data[pipeline_data.IMAGE_SIZE])
-            self.log.info('Pushed image %s to public repo.', tag_with_registry)

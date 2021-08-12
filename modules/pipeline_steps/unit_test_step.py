@@ -9,6 +9,7 @@ from modules.util import image_version_util
 
 class UnitTestStep(AbstractPipelineStep):
 
+    name = "Unit tests"
     UNIT_TEST_COMPOSE_FILENAME = '/docker-compose-unit-tests.yml'
 
     def get_required_env_variables(self):
@@ -22,25 +23,25 @@ class UnitTestStep(AbstractPipelineStep):
         if not file_util.is_file(UnitTestStep.UNIT_TEST_COMPOSE_FILENAME):
             self.log.info('No file named "%s" found. No unit tests will be run.',
                           UnitTestStep.UNIT_TEST_COMPOSE_FILENAME)
+            self.step_skipped()
             return data
 
         self.run_unit_tests(data)
+        self.step_ok()
 
         return data
 
     def run_unit_tests(self, data):
+        self.log.info("Running unit tests")
+
         try:
             output = docker.run_unit_test_compose(
                 file_util.get_absolue_path(
                     UnitTestStep.UNIT_TEST_COMPOSE_FILENAME
                 ), data
             )
-            self.log.debug('Output from unit tests was: %s', output)
+            self.log.info(output)
         except Exception as ex:
              self.handle_step_error(
-                f'\n:rotating_light: <!here> {image_version_util.get_image(data)} *unit test(s) failed*, see GitHub Actions >.',
-                ex
-#                    f'\n:rotating_light: <!here> {image_version_util.get_image(data)} *unit test(s) failed*, see <{environment.get_console_url()}|:jenkins: Jenkins console log here>.',
- #                   ex,
-
-                )
+                f'\n:rotating_light: <!here> {image_version_util.get_image(data)} *unit test(s) failed*, see <{environment.get_console_url()}|:github: Github Actions log here>.',
+                ex)

@@ -9,6 +9,9 @@ from modules.util import artifact
 
 
 class PushAzureImageStep(AbstractPipelineStep):
+
+    name = 'Push to private repository (Azure Container Registy)'
+
     def get_required_env_variables(self):
         return []
 
@@ -19,11 +22,13 @@ class PushAzureImageStep(AbstractPipelineStep):
         if environment.get_push_azure() and not environment.get_push_public():
             if artifact.should_store():
                 self.push_image(data)
+                self.step_ok()
             else:
                 self.log.info('Branch not to be publish to Azure CR.')
                 slack.send((f'The :git: branch *{data[pipeline_data.IMAGE_NAME]}* | '
                                      f' *{environment.get_git_branch()}* '
                                      'is not pushed to Azure Registry. It is not the main branch, nor configured to be push.'))
+                self.step_skipped()
         return data
 
     def push_image(self, data):
@@ -32,4 +37,3 @@ class PushAzureImageStep(AbstractPipelineStep):
             docker.tag_image(data[pipeline_data.LOCAL_IMAGE_ID], tag_with_registry)
             docker.push(tag_with_registry)
             slack.on_successful_private_push (tag, data[pipeline_data.IMAGE_SIZE])
-            self.log.info('Pushed image %s .', tag_with_registry)

@@ -7,6 +7,8 @@ from modules.util import npm_dependencies
 
 class DependenciesCheckStep(AbstractPipelineStep):
 
+    name = "Check if a possible /package.json has old dependencies"
+
     def get_required_env_variables(self):  # pragma: no cover
         return [environment.PROJECT_ROOT]
 
@@ -15,4 +17,5 @@ class DependenciesCheckStep(AbstractPipelineStep):
 
     def run_step(self, data):
         npm_dependencies.run(data[pipeline_data.IMAGE_NAME])
+        self.step_ok()
         return data
