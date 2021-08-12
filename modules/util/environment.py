@@ -36,6 +36,10 @@ NPM_UPDATES_AVAILABLE = 'NPM_UPDATES_AVAILABLE'
 DOCKER_BUILD_ARGS = 'DOCKER_BUILD_ARGS'
 SLIM = 'SLIM'
 SLIM_ENV = 'SLIM_ENV'
+CI_STATUS_API_BASE_URL = 'CI_STATUS_API_BASE_URL'
+
+def get_ci_status_api_base_url():
+    return os.environ.get(CI_STATUS_API_BASE_URL)
 
 def get_slim():
     return os.environ.get(SLIM)
