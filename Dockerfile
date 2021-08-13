@@ -29,7 +29,7 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | b
 
 RUN cat /root/.bashrc > /root/.bash_profile > /root/.profile
 
-COPY ["modules",  "modules"]d
+COPY ["modules",  "modules"]
 COPY ["run.py", "run.py"]
 COPY ["run_github_action.sh", "run_github_action.sh"]
 COPY ["docker.conf",  "docker.conf"]

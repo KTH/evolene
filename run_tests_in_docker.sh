@@ -3,7 +3,7 @@
 echo "Running unit tests inside 🐳 Docker Compose"
 
 ID=$(docker build -q .) && \
-    WORKSPACE=$(pwd) \LOCAL_IMAGE_ID=$ID \
+    WORKSPACE=$(pwd) LOCAL_IMAGE_ID=$ID \
     docker-compose \
         --file docker-compose-unit-tests.yml up \
         --force-recreate \
