@@ -7,7 +7,7 @@ from modules.util import git
 log = logging.getLogger("-")
 
 def branch_starts_with(pattern):
-    if pattern is None:
+    if not pattern:
         log.info(f'No pattern passed.')
         return False
 

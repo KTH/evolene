@@ -15,7 +15,7 @@ if [[ -n "${INSTALL}" ]]; then
   pipenv install --dev 
 fi
 
-echo "To skip install run: INSTALL=True ./run_tests.sh"
+echo "To install deps, run: INSTALL=True ./run_tests.sh"
 PIPENV_VERBOSITY=0 WORKSPACE=./test/data pipenv run green --failfast "test"
 
 
