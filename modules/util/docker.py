@@ -133,7 +133,9 @@ def run_test(compose_test_file, data):
 
 
 def grep(pattern, string):
-    matches = re.findall(pattern, string)
-    if matches:
-        return matches[0]
+    regex = r'^.*('+pattern+r').*$'
+    for line in string.split('\n'):
+        match = re.search(regex, line)
+        if match:
+            return match.group(0)
     return None

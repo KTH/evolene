@@ -64,9 +64,12 @@ class DockerTests(unittest.TestCase):
         self.assertEqual(status, 'running')
 
     def _test_grep_image_id(self):
-        self.assertEqual(docker.grep_image_id(DockerTests.IMAGE_ID), DockerTests.IMAGE_ID)
-        self.assertEqual(docker.grep_image_id('test_tag'), 'test_tag')
-        self.assertIsNone(docker.grep_image_id('SHOULDNOTEXIST'))
+        grep_return = docker.grep_image_id(DockerTests.IMAGE_ID)
+        self.assertTrue(DockerTests.IMAGE_ID in grep_return)
+        # Test that the tag from the earlier step also appears here
+        self.assertTrue('test_tag' in grep_return)
+        image_id = docker.grep_image_id('SHOULDNOTEXIST')
+        self.assertIsNone(image_id)
 
     def _test_stop_and_rm_container(self):
         docker.stop_and_remove_container(DockerTests.CONTAINER_ID)
