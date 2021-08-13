@@ -11,7 +11,6 @@ from modules.pipeline_steps.image_version_step import ImageVersionStep
 from modules.pipeline_steps.docker_file_step import DockerFileStep
 from modules.pipeline_steps.build_local_step import BuildLocalStep
 from modules.pipeline_steps.build_environment_to_file_step import BuildEnvironmentToFileStep
-from modules.pipeline_steps.dry_run_step import DryRunStep
 from modules.pipeline_steps.test_image_step import TestImageStep
 from modules.pipeline_steps.tag_image_step import TagImageStep
 from modules.pipeline_steps.push_image_step import PushImageStep
@@ -63,8 +62,6 @@ class DockerDeployPipeline(object):
             BuildLocalStep(),
             # It never to late to party
             CelebrateStep(),
-            # Test run the image
-            DryRunStep(),
             # Run unit tests
             UnitTestStep(),
             # Run integration tests
