@@ -6,7 +6,7 @@ url = "https://pypi.python.org/simple"
 verify_ssl = true
 
 [dev-packages]
-green       = ">=2.2"
+green       = ">=3.3"
 coverage    = ">=5.5"
 mock        = ">=4.0"
 pylint      = ">=2.8"
