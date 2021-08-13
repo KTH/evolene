@@ -8,7 +8,7 @@ log = logging.getLogger("-")
 
 def branch_starts_with(pattern):
     if pattern is None:
-        log.info(f'No pattern passed.'.)
+        log.info(f'No pattern passed.')
         return False
 
     result = str(environment.get_git_branch()).startswith(pattern)
