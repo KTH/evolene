@@ -56,7 +56,8 @@ class ReadConfFileStep(AbstractPipelineStep):
             if pipeline_data.PATCH_VERSION not in data:
                 self.log.info(f'Using timestamp as patchversion. You can specify a PATCH_VERSION in /docker.conf')
         if pipeline_data.PATCH_VERSION in data and data[pipeline_data.PATCH_VERSION]:
-            self.log.info(f'Using patch version from docker.conf {data["PATCH_VERSION"]} instead of timestamp.')
+            self.log.info(f'SemVer patch: {data["PATCH_VERSION"]}')
+            self.log.info(f'Using static patch version from docker.conf:s PATCH_VERSION instead of timestamp.')
 
         # npm.conf
         if pipeline_data.NPM_CONF_NODE_VERSION in data and data[pipeline_data.NPM_CONF_NODE_VERSION]:
