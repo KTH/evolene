@@ -106,6 +106,7 @@ def get_git_commit():
 
 def get_git_url():
     return os.environ.get(GIT_URL)
+    
 def get_git_branch():
     return os.environ.get(GIT_BRANCH)
 
