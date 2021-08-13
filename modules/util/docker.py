@@ -1,6 +1,7 @@
 __author__ = 'tinglev'
 
 from os import environ
+import re
 from modules.util import process
 from modules.util import environment
 from modules.util.exceptions import PipelineException
@@ -10,6 +11,7 @@ import logging
 
 
 log = logging.getLogger("-")
+
 
 def build(labels=None, build_args=None):
     flags = '--pull'
@@ -21,53 +23,61 @@ def build(labels=None, build_args=None):
     if build_args:
         for arg in build_args:
             flags = f'{flags} --build-arg {arg}'
-    
-    # Build 
+
+    # Build
     log.info(process.run_with_output(f'docker build {flags} {root}'))
-    
-    
+
     # Rerun build to get a local image id.
     return process.run_with_output(f'docker build --quiet {flags} {root}')
 
+
 def grep_image_id(image_id):
-    try:
-        return process.run_with_output(f'docker images | grep {image_id}')
-    except PipelineException:
-        # An exception here means that the grep failed and that the image is missing
-        return None
+    output = process.run_with_output('docker images')
+    return grep(image_id, output)
+
 
 def get_container_status(container_id):
     return process.run_with_output(f'docker inspect --format=\'{{{{.State.Status}}}}\' '
-                                   f'{container_id}').replace('\n', '')
+                                   f'{container_id}', check=True).replace('\n', '')
+
 
 def run(image_id):
     return process.run_with_output(f'docker run -d {image_id}').rstrip()
+
 
 def get_image_id(tag):
     return process.run_with_output(
         f'docker image ls --filter reference="{tag}" -q'
     ).rstrip()
 
+
 def stop_and_remove_container(container_id):
-    return process.run_with_output(f'docker rm -f {container_id}')
+    return process.run_with_output(f'docker rm -f {container_id}', check=True)
+
 
 def tag_image(image_id, tag):
     return process.run_with_output(f'docker tag {image_id} {tag}')
 
+
 def push(registry_image_name):
     return process.run_with_output(f'docker push {registry_image_name}', log_cmd=True, check=True)
+
 
 def inspect_image(image_id):
     return process.run_with_output(f'docker image inspect {image_id}')
 
+
 def pull(image_name):
     return process.run_with_output(f'docker pull {image_name}')
+
 
 def run_unit_test_compose(compose_test_file, data):
     return run_test(compose_test_file, data)
 
+
 def run_integration_tests(compose_test_file, data):
     return run_test(compose_test_file, data)
+
 
 def run_dry_run_compose(compose_test_file, data):
     return run_test(compose_test_file, data)
@@ -81,6 +91,7 @@ def login_private():
     # return retval
     return login(environment.get_registry_user(), environment.REGISTRY_PASSWORD, environment.get_registry_host())
 
+
 def login_azure():
     # host = environment.get_azure_registry_host()
     # user = environment.get_azure_registry_user()
@@ -89,13 +100,17 @@ def login_azure():
     # return retval
     return login(environment.get_azure_registry_user(), environment.AZURE_REGISTRY_PASSWORD, environment.get_azure_registry_host())
 
+
 def login_public():
     return login(environment.get_public_registry_user(), environment.PUBLIC_REGISTRY_PASSWORD)
 
+
 def login(user, pwd_env, host=""):
     # Send password via standard in.
-    retval = process.run_with_output(f'echo ${pwd_env} | docker login --username {user} --password-stdin {host}')
+    retval = process.run_with_output(
+        f'echo ${pwd_env} | docker login --username {user} --password-stdin {host}')
     return retval
+
 
 def run_test(compose_test_file, data):
     image_id = data[pipeline_data.LOCAL_IMAGE_ID]
@@ -115,3 +130,10 @@ def run_test(compose_test_file, data):
     process.run_with_output(cmd_clean)
 
     return output
+
+
+def grep(pattern, string):
+    matches = re.findall(pattern, string)
+    if matches:
+        return matches[0]
+    return None

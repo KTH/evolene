@@ -1,0 +1,6 @@
+version: '3'
+
+services:
+  dry:
+    image: $LOCAL_IMAGE_ID
+    command: ["/bin/bash", "-c", "hej"]

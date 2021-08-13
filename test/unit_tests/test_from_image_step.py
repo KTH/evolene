@@ -21,7 +21,7 @@ class DockerFileTests(unittest.TestCase):
         os.environ[environment.PROJECT_ROOT] = os.path.join(current_path, '../data')
         fis = FromImageStep()
         result = fis.get_from_line()
-        self.assertEqual("FROM redis", result)
+        self.assertEqual("FROM redis:alpine3.14", result)
 
     def test_supported_kth_image(self):
         self.assertTrue(FromImageStep(self.TEST_ALLOWED_IMAGES).validate(
