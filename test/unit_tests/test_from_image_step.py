@@ -80,3 +80,19 @@ class DockerFileTests(unittest.TestCase):
 
     def test_get_base_image_name_2(self):
         self.assertEqual(FromImageStep(self.TEST_ALLOWED_IMAGES).get_base_image_name('FROM mongo/mongodb:latest'),'mongodb')
+
+    def test_allow_python_3_10(self):
+        data = {
+            pipeline_data.IMAGE_NAME: "my-app",
+            pipeline_data.IMAGE_VERSION: "1.2.3_abcdef"
+        }
+        valid = FromImageStep().validate("FROM kthse/kth-python:3.10.0", data)
+        self.assertTrue(valid)
+
+    def test_disallow_python_3_8(self):
+        data = {
+            pipeline_data.IMAGE_NAME: "my-app-pyton38",
+            pipeline_data.IMAGE_VERSION: "1.2.3_abcdef"
+        }
+        valid = FromImageStep().validate("FROM kthse/kth-python:3.8.0", data)
+        self.assertFalse(valid)
