@@ -30,3 +30,13 @@ def post_unit_tests_run(app_name, step_status):
 
 def post_integration_tests_run(app_name, step_status):
     post(app_name, 'INTEGRATION_TESTS', step_status)
+
+def post_platform_validation_run(app_name, step_status):
+    post(app_name, 'PLATFORM_VALIDATION', step_status)
+
+def post_docker_public_run(app_name, step_status):
+    post(app_name, 'DOCKER_PUBLIC', step_status)
+
+def post_docker_private_run(app_name, step_status):
+    post(app_name, 'DOCKER_PRIVATE', step_status)
+

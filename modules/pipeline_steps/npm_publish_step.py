@@ -57,10 +57,10 @@ class NpmPublishStep(AbstractPipelineStep):
             self.log.info(
                 'Package will be published. Local version is %s and '
                 'latest version on npm before publish is %s', data[pipeline_data.NPM_PACKAGE_VERSION], data[pipeline_data.NPM_MAJOR_MINOR_LATEST])
-            self.publish(data)
+            #self.publish(data)
             slack.on_npm_publish(
                 data[pipeline_data.NPM_PACKAGE_NAME], data[pipeline_data.NPM_PACKAGE_VERSION], data)
-            self.step_ok()
+            #self.step_ok()
         else:
             self.log.info('Skipping npm publish, no version change.')
             slack.on_npm_no_publish(data[pipeline_data.NPM_PACKAGE_NAME], data[pipeline_data.NPM_PACKAGE_VERSION])

@@ -6,6 +6,7 @@ from modules.util import pipeline_data
 from modules.util import docker
 from modules.util import slack
 from modules.util import artifact
+from modules.util import ci_status
 
 
 class PushAzureImageStep(AbstractPipelineStep):
@@ -22,6 +23,7 @@ class PushAzureImageStep(AbstractPipelineStep):
         if environment.get_push_azure() and not environment.get_push_public():
             if artifact.should_store():
                 self.push_image(data)
+                ci_status.post_docker_private_run(data[pipeline_data.IMAGE_NAME], ci_status.STATUS_OK)
                 self.step_ok()
             else:
                 self.log.info('Branch not to be publish to Azure CR.')
