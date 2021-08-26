@@ -15,7 +15,7 @@ class RepoSupervisorStep(AbstractPipelineStep):
     name = "Scan source code for password and tokens"
 
     SCANIGNORE_FILE = '/.scanignore'
-    REPO_SUPERVISOR_IMAGE_NAME = 'kthse/repo-supervisor'
+    REPO_SUPERVISOR_IMAGE_NAME = 'kthse/repo-supervisor:2.0.0'
     REPO_MOUNTED_DIR = '/opt/scan_me'
     DEFAULT_PATTERNS = [
         '/node_modules/'
@@ -33,8 +33,6 @@ class RepoSupervisorStep(AbstractPipelineStep):
         image_name = RepoSupervisorStep.REPO_SUPERVISOR_IMAGE_NAME
         self._pull_image_if_missing(image_name)
         output = self._run_supervisor(image_name)
-
-        self.log.info(output)
 
         if output:
             filenames = self._process_supervisor_result(output, data)
@@ -115,16 +113,18 @@ class RepoSupervisorStep(AbstractPipelineStep):
 
         mounted_dir = RepoSupervisorStep.REPO_MOUNTED_DIR
 
+        # docker run --rm -v /path/to/repositry-to-scan:/opt/scan_me kthse/repo-supervisor /bin/bash -c "source ~/.bashrc && JSON_OUTPUT=1 node /opt/repo-supervisor/dist/cli.js /opt/scan_me"
         cmd = (f'docker run --rm -v {root}:{mounted_dir} {image_name} /bin/bash -c "source ~/.bashrc && JSON_OUTPUT=1 node /opt/repo-supervisor/dist/cli.js {mounted_dir}"')
             
         try:
             # Do note that if your have packages installed like (/node_modules) this will probably break with
             # char encoding problems.
             output = process.run_with_output(cmd)
+            return output
+
         except PipelineException as pipeline_ex:
             # Special handling while waiting for https://github.com/auth0/repo-supervisor/pull/5
             if 'Not detected any secrets in files' not in str(pipeline_ex):
                 self.log.warning(
                     'Ignoring error in repo supervisor step: "%s"', str(pipeline_ex)
                 )
-            return None
