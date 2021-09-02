@@ -26,24 +26,21 @@ BUILD_INFORMATION_OUTPUT_FILE='/config/version.html'
   <body>
     <dl>
       <dt>gitBranch:</dt>
-      <dd>origin/master</dd>
+      <dd>master</dd>
       <dt>gitCommit:</dt>
-      <dd>f2486d79abf3af26225aa1dbde0fddfcd702c7e6</dd>
-      <dt>gitUrl:</dt>
-      <dd>git@gita.sys.kth.se:Infosys/tamarack.git</dd>
-      <dt>jenkinsBuild:</dt>
-      <dd>40</dd>
-      <dt>jenkinsBuildDate:</dt>
-      <dd>2018-10-31 12:49:14</dd>
+      <dd>abcdef</dd>
+      <dt>buildDate:</dt>
+      <dd>2021-09-02 20:17:06</dd>
       <dt>dockerName:</dt>
       <dd>tamarack</dd>
       <dt>dockerVersion:</dt>
-      <dd>2.3.40_f2486d7</dd>
+      <dd>2.6.1630613825_abcdef</dd>
       <dt>dockerImage:</dt>
-      <dd>kthregistryv2.sys.kth.se/tamarack:2.3.40_f2486d7</dd>
+      <dd>kthse/tamarack:2.6.1630613825_abcdef</dd>
     </dl>
   </body>
 </html>
+%
 ```
 
 #### Javascript module
@@ -54,14 +51,12 @@ BUILD_INFORMATION_OUTPUT_FILE='/info.js'
 
 ```javascript
 module.exports = {
-  jenkinsBuildDate: "2018-10-31 12:49:14",
-  dockerVersion: "2.3.40_f2486d7",
-  jenkinsBuild: "40",
+  gitBranch: "master",
+  gitCommit: "abcdef",
+  buildDate: "2021-09-02 20:14:07",
   dockerName: "tamarack",
-  dockerImage: "kthregistryv2.sys.kth.se/tamarack:2.3.40_f2486d7",
-  gitCommit: "f2486d79abf3af26225aa1dbde0fddfcd702c7e6",
-  gitBranch: "origin/master",
-  gitUrl: "git@github.com:KTH/tamarack.git",
+  dockerVersion: "2.6.1630613645_abcdef",
+  dockerImage: "kthse/tamarack:2.6.1630613645_abcdef"
 };
 ```
 
@@ -73,14 +68,12 @@ BUILD_INFORMATION_OUTPUT_FILE='/info.ts'
 
 ```javascript
 exports const buildInfo {
-  "jenkinsBuildDate": "2018-10-31 12:49:14",
-  "dockerVersion": "2.3.40_f2486d7",
-  "jenkinsBuild": "40",
+  "gitBranch": "master",
+  "gitCommit": "abcdef",
+  "buildDate": "2021-09-02 20:15:17",
   "dockerName": "tamarack",
-  "dockerImage": "kthregistryv2.sys.kth.se/tamarack:2.3.40_f2486d7",
-  "gitCommit": "f2486d79abf3af26225aa1dbde0fddfcd702c7e6",
-  "gitBranch": "origin/master",
-  "gitUrl": "git@github.com:KTH/tamarack.git"
+  "dockerVersion": "2.6.1630613716_abcdef",
+  "dockerImage": "kthse/tamarack:2.6.1630613716_abcdef",
 }
 ```
 
@@ -92,14 +85,12 @@ BUILD_INFORMATION_OUTPUT_FILE='/config/info.json'
 
 ```json
 {
-  "jenkinsBuildDate": "2018-10-31 12:49:14",
-  "dockerVersion": "2.3.40_f2486d7",
-  "jenkinsBuild": "40",
+  "gitBranch": "master",
+  "gitCommit": "abcdef",
+  "buildDate": "2021-09-02 20:15:17",
   "dockerName": "tamarack",
-  "dockerImage": "kthregistryv2.sys.kth.se/tamarack:2.3.40_f2486d7",
-  "gitCommit": "f2486d79abf3af26225aa1dbde0fddfcd702c7e6",
-  "gitBranch": "origin/master",
-  "gitUrl": "git@github.com:KTH/tamarack.git"
+  "dockerVersion": "2.6.1630613716_abcdef",
+  "dockerImage": "kthse/tamarack:2.6.1630613716_abcdef"
 }
 ```
 
@@ -110,14 +101,13 @@ BUILD_INFORMATION_OUTPUT_FILE='/info.conf'
 ```
 
 ```bash
-jenkinsBuildDate=2018-10-31 12:49:14,
-dockerVersion=2.3.40_f2486d7,
-jenkinsBuild=40,
-dockerName=tamarack,
-dockerImage=kthregistryv2.sys.kth.se/tamarack:2.3.40_f2486d7,
-gitCommit=f2486d79abf3af26225aa1dbde0fddfcd702c7e6,
-gitBranch=origin/master
-gitUrl=git@github.com:KTH/tamarack.git
+gitBranch=master
+gitCommit=abcdef
+gitUrl=None
+buildDate=2021-09-02 20:16:38
+dockerName=tamarack
+dockerVersion=2.6.1630613796_abcdef
+dockerImage=kthse/tamarack:2.6.1630613796_abcdef
 ```
 
 # Secret envs needed for integration tests and other stuff
@@ -133,14 +123,13 @@ API_KEY=abc123
 ```
 
 ```yaml
-    # docker-compose-unit-tests.yml / docker-compose-integration-tests.yml.
-    environment:
-      - DB_URL="https://example.com:1234"
-      - DB_USER="admin"
-      - DB_PWD
-      - API_KEY
+# docker-compose-unit-tests.yml / docker-compose-integration-tests.yml.
+environment:
+  - DB_URL="https://example.com:1234"
+  - DB_USER="admin"
+  - DB_PWD
+  - API_KEY
 ```
-
 
 # Get Slack notifications where new NPM package are available
 
