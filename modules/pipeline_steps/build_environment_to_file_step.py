@@ -82,9 +82,12 @@ class BuildEnvironmentToFileStep(AbstractPipelineStep):
             "gitBranch": environment.get_git_branch(),
             "gitCommit": environment.get_git_commit(),
             "gitUrl": environment.get_git_url(),
-            "jenkinsBuild": environment.get_build_number(),
-            "jenkinsBuildDate": environment.get_time(),
+            "buildDate": environment.get_time(),
             "dockerName": data[pipeline_data.IMAGE_NAME],
             "dockerVersion": data[pipeline_data.IMAGE_VERSION],
-            "dockerImage": image_version_util.prepend_registry(image_version_util.get_image(data))
+            "dockerImage": image_version_util.prepend_registry(image_version_util.get_image(data)),
+            # Deprecated
+            "jenkinsBuild": environment.get_build_number(),
+            "jenkinsBuildDate": environment.get_time(),
+            
         }
