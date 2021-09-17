@@ -1,21 +1,26 @@
 __author__ = 'paddy@kth.se'
 
+import logging
 import requests
 from requests import HTTPError, ConnectTimeout, RequestException
-from modules.util import environment, log
+from modules.util import environment, pipeline_data
 
 STATUS_OK = 'OK'
 STATUS_ERROR = 'ERROR'
 STATUS_NA = 'NA'
 STATUS_MISSING = 'MISSING'
 
-def post(app_name, step, step_value):
+log = logging.getLogger("-")
+
+def post(data, step, step_value):
     base_url = environment.get_ci_status_api_base_url()
     if base_url is None:
         return
     if not base_url.endswith('/'):
         base_url += '/'
-    final_url = f'{base_url}evolene/{app_name}/{step}/{step_value}'
+    app_name = data[pipeline_data.IMAGE_NAME]
+    app_version = data[pipeline_data.IMAGE_VERSION]
+    final_url = f'{base_url}evolene/{app_name}/{app_version}/{step}/{step_value}'
     try:
         requests.post(final_url)
     except HTTPError as http_ex:
@@ -24,19 +29,18 @@ def post(app_name, step, step_value):
         log.error('Timeout while trying to post to ci-status endpoint: "%s"', timeout)
     except RequestException as req_ex:
         log.error('Exception when trying to post to ci-status endpoint: "%s"', req_ex)
-    
-def post_unit_tests_run(app_name, step_status):
-    post(app_name, 'UNIT_TESTS', step_status)
 
-def post_integration_tests_run(app_name, step_status):
-    post(app_name, 'INTEGRATION_TESTS', step_status)
+def post_unit_tests_run(data, step_status):
+    post(data, 'UNIT_TESTS', step_status)
 
-def post_platform_validation_run(app_name, step_status):
-    post(app_name, 'PLATFORM_VALIDATION', step_status)
+def post_integration_tests_run(data, step_status):
+    post(data, 'INTEGRATION_TESTS', step_status)
 
-def post_docker_public_run(app_name, step_status):
-    post(app_name, 'DOCKER_PUBLIC', step_status)
+def post_platform_validation_run(data, step_status):
+    post(data, 'PLATFORM_VALIDATION', step_status)
 
-def post_docker_private_run(app_name, step_status):
-    post(app_name, 'DOCKER_PRIVATE', step_status)
+def post_docker_public_run(data, step_status):
+    post(data, 'DOCKER_PUBLIC', step_status)
 
+def post_docker_private_run(data, step_status):
+    post(data, 'DOCKER_PRIVATE', step_status)

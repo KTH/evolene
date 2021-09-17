@@ -22,12 +22,12 @@ class UnitTestStep(AbstractPipelineStep):
             self.log.info('No file named "%s" found. No unit tests will be run.',
                           UnitTestStep.UNIT_TEST_COMPOSE_FILENAME)
             self.step_skipped()
-            ci_status.post_unit_tests_run(data[pipeline_data.IMAGE_NAME], ci_status.STATUS_MISSING)
+            ci_status.post_unit_tests_run(data, ci_status.STATUS_MISSING)
             return data
 
         self.run_unit_tests(data)
         self.step_ok()
-        ci_status.post_unit_tests_run(data[pipeline_data.IMAGE_NAME], ci_status.STATUS_OK)
+        ci_status.post_unit_tests_run(data, ci_status.STATUS_OK)
 
         return data
 
@@ -42,7 +42,7 @@ class UnitTestStep(AbstractPipelineStep):
             )
             self.log.info(output)
         except Exception as ex:
-            ci_status.post_unit_tests_run(data[pipeline_data.IMAGE_NAME], ci_status.STATUS_ERROR)
+            ci_status.post_unit_tests_run(data, ci_status.STATUS_ERROR)
             self.handle_step_error(
                 f'\n:rotating_light: <!here> {image_version_util.get_image(data)} *unit test(s) failed*, see <{environment.get_console_url()}|:github: Github Actions log here>.',
                 ex)

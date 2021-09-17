@@ -30,7 +30,7 @@ class PushImageStep(AbstractPipelineStep):
             if artifact.should_store():
                 self.push_image(data)
                 self.verify_push(data)
-                ci_status.post_docker_public_run(data[pipeline_data.IMAGE_NAME], ci_status.STATUS_OK)
+                ci_status.post_docker_public_run(data, ci_status.STATUS_OK)
                 self.step_ok()
             else:
 
