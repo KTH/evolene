@@ -2,6 +2,7 @@ __author__ = 'tinglev'
 
 from modules.pipeline_steps.abstract_pipeline_step import AbstractPipelineStep
 from modules.util import print_util
+from modules.util import ci_status
 
 class SetupStep(AbstractPipelineStep):
 
@@ -16,6 +17,7 @@ class SetupStep(AbstractPipelineStep):
     def run_step(self, data):
         self.print_header()
         self.step_ok()
+        ci_status.post_ci_environment_run(data, 'Evolene Github')
         return data
 
     def print_header(self):

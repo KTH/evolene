@@ -44,3 +44,6 @@ def post_docker_public_run(data, step_status):
 
 def post_docker_private_run(data, step_status):
     post(data, 'DOCKER_PRIVATE', step_status)
+
+def post_ci_environment_run(data, step_status):
+    post(data, 'CI_ENVIRONMENT', step_status)
