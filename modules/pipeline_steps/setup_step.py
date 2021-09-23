@@ -17,7 +17,6 @@ class SetupStep(AbstractPipelineStep):
     def run_step(self, data):
         self.print_header()
         self.step_ok()
-        ci_status.post_ci_environment_run(data, 'Evolene Github')
         return data
 
     def print_header(self):
