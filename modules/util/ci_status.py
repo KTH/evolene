@@ -9,7 +9,7 @@ STATUS_OK = 'OK'
 STATUS_ERROR = 'ERROR'
 STATUS_NA = 'NA'
 STATUS_MISSING = 'MISSING'
-STATUS_CI_PLATTFORM_GITHUB: 'Evolene Github'
+STATUS_CI_PLATTFORM_GITHUB = 'Evolene Github'
 
 log = logging.getLogger("-")
 
