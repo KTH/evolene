@@ -9,10 +9,12 @@ STATUS_OK = 'OK'
 STATUS_ERROR = 'ERROR'
 STATUS_NA = 'NA'
 STATUS_MISSING = 'MISSING'
+STATUS_CI_PLATTFORM_GITHUB: 'Evolene Github'
 
 log = logging.getLogger("-")
 
 def post(data, step, step_value):
+    log.info(f'Adding {step} with value {step_value} to ci-status dashboard.')
     base_url = environment.get_ci_status_api_base_url()
     if base_url is None:
         return
@@ -22,6 +24,7 @@ def post(data, step, step_value):
     app_version = data[pipeline_data.IMAGE_VERSION]
     final_url = f'{base_url}evolene/{app_name}/{app_version}/{step}/{step_value}'
     try:
+        
         requests.post(final_url)
     except HTTPError as http_ex:
         log.error('ci-status endpoint threw HTTPError with response "%s"', http_ex.response)
@@ -47,3 +50,6 @@ def post_docker_private_run(data, step_status):
 
 def post_ci_environment_run(data, step_status):
     post(data, 'CI_ENVIRONMENT', step_status)
+
+def post_repo_security_scan_run(data, step_status):
+    post(data, 'REPO_SECURITY_SCAN', step_status)

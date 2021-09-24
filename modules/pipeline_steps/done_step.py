@@ -15,6 +15,6 @@ class DoneStep(AbstractPipelineStep):
 
     def run_step(self, data):
         self.log.info(json.dumps(data, indent=4))
-        ci_status.post_ci_environment_run(data, 'Evolene Github')
+        ci_status.post_ci_environment_run(data, ci_status.STATUS_CI_PLATTFORM_GITHUB)
         print_util.green("\n🏁 🎉 Built, tested (you do have tests?) and pushed to registry!\n")
         return data

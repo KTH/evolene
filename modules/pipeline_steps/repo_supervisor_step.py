@@ -9,6 +9,7 @@ from modules.util import pipeline_data
 from modules.util import file_util
 from modules.util.exceptions import PipelineException
 from modules.util import slack
+from modules.util import ci_status
 
 class RepoSupervisorStep(AbstractPipelineStep):
 
@@ -36,12 +37,15 @@ class RepoSupervisorStep(AbstractPipelineStep):
 
         if output:
             filenames = self._process_supervisor_result(output, data)
-            self.log.info(f"Got filenames {filenames}")
             if filenames:
+                self.log.info(f"Found filenames: {filenames}")
+                ci_status.post_repo_security_scan_run(data, ci_status.STATUS_ERROR)
                 self.step_warning()
-        else:
-            self.log.info('Security scanning found nothing that looked like passwords or tokens in the source code.')
-            self.step_ok()
+                return
+
+        ci_status.post_repo_security_scan_run(data, ci_status.STATUS_OK)
+        self.log.info('Security scanning found nothing that looked like passwords or tokens in the source code.')
+        self.step_ok()
 
         return data
 
