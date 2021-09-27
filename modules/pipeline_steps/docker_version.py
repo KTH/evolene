@@ -4,7 +4,7 @@ import logging
 from modules.pipeline_steps.abstract_pipeline_step import AbstractPipelineStep
 from modules.util.exceptions import PipelineException
 from modules.util import process
-from modules.util import print_util
+from modules.util import ci_status
 
 class DockerVersion(AbstractPipelineStep):
 
@@ -22,6 +22,7 @@ class DockerVersion(AbstractPipelineStep):
 
     def run_step(self, data):
         try:
+            ci_status.post_ci_environment_run(data, ci_status.STATUS_CI_PLATTFORM_GITHUB)
             output = process.run_with_output('docker --version')
             self.log.info(output)
             self.step_ok()
