@@ -1,11 +1,11 @@
 __author__ = 'tinglev'
 
-import re
 from modules.pipeline_steps.abstract_pipeline_step import AbstractPipelineStep
 from modules.util import environment
 from modules.util import git
 from modules.util import image_version_util
 from modules.util import pipeline_data
+from modules.util import ci_status
 
 class ImageVersionStep(AbstractPipelineStep):
 
@@ -28,6 +28,9 @@ class ImageVersionStep(AbstractPipelineStep):
         self.log.info(f'SemVer: {data[pipeline_data.SEM_VER]}')
         self.log.info(f'Git commit: {data[pipeline_data.COMMIT_HASH]}')
         self.log.info(f'Final image version: {data[pipeline_data.IMAGE_VERSION]}')
+
+        # First place where we have image version need for CI-status
+        ci_status.post_ci_environment_run(data, ci_status.STATUS_CI_PLATTFORM_GITHUB)
 
         self.step_ok()
         
