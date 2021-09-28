@@ -22,7 +22,7 @@ class DockerVersion(AbstractPipelineStep):
 
     def run_step(self, data):
         try:
-            ci_status.post_ci_environment_run(data, ci_status.STATUS_CI_PLATTFORM_GITHUB)
+            #ci_status.post_ci_environment_run(data, ci_status.STATUS_CI_PLATTFORM_GITHUB)
             output = process.run_with_output('docker --version')
             self.log.info(output)
             self.step_ok()
