@@ -1,6 +1,5 @@
 __author__ = 'tinglev'
 
-from modules.util import pipeline_data
 from modules.util.exceptions import PipelineException
 
 def get_patch(version):
@@ -11,7 +10,6 @@ def get_patch(version):
     
     '''
     result = None
-    start_version = 0
 
     if not version:
         raise PipelineException('No version passed to get patch from.')
