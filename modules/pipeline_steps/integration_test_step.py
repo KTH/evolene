@@ -26,12 +26,12 @@ class IntegrationTestStep(AbstractPipelineStep):
             self.log.info('No file named "%s" found. No integration tests will be run.',
                           IntegrationTestStep.INTEGRATION_TEST_COMPOSE_FILENAME)
             self.step_skipped()
-            ci_status.post_integration_tests_run(data, ci_status.STATUS_MISSING)
+            ci_status.post_integration_tests_run(data, ci_status.STATUS_MISSING, 5)
             return data
 
         self.run_integration_tests(data)
         self.step_ok()
-        ci_status.post_integration_tests_run(data, ci_status.STATUS_OK)
+        ci_status.post_integration_tests_run(data, ci_status.STATUS_OK, 0)
 
         return data
 
@@ -51,7 +51,7 @@ class IntegrationTestStep(AbstractPipelineStep):
             self.log.info(output)
 
         except Exception as ex:
-            ci_status.post_integration_tests_run(data, ci_status.STATUS_ERROR)
+            ci_status.post_integration_tests_run(data, ci_status.STATUS_ERROR, 10)
             self.handle_step_error(
                     f'\n:rotating_light: <!here> {image_version_util.get_image(data)} *integration test(s) failed*, see <{environment.get_console_url()}|:github: Github Actions log here>.',
                     self.get_stack_trace_shortend(ex),

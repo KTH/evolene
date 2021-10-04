@@ -23,7 +23,7 @@ class PushAzureImageStep(AbstractPipelineStep):
         if environment.get_push_azure() and not environment.get_push_public():
             if artifact.should_store():
                 self.push_image(data)
-                ci_status.post_docker_private_run(data, ci_status.STATUS_OK)
+                ci_status.post_docker_private_run(data, ci_status.STATUS_OK, 0)
                 self.step_ok()
             else:
                 self.log.info('Branch not to be publish to Azure CR.')

@@ -39,11 +39,11 @@ class RepoSupervisorStep(AbstractPipelineStep):
             filenames = self._process_supervisor_result(output, data)
             if filenames:
                 self.log.info(f"Found filenames: {filenames}")
-                ci_status.post_repo_security_scan_run(data, ci_status.STATUS_ERROR)
+                ci_status.post_repo_security_scan_run(data, ci_status.STATUS_ERROR, 7)
                 self.step_warning()
                 return
 
-        ci_status.post_repo_security_scan_run(data, ci_status.STATUS_OK)
+        ci_status.post_repo_security_scan_run(data, ci_status.STATUS_OK, 0)
         self.log.info('Security scanning found nothing that looked like passwords or tokens in the source code.')
         self.step_ok()
 

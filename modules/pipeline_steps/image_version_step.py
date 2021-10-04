@@ -30,7 +30,7 @@ class ImageVersionStep(AbstractPipelineStep):
         self.log.info(f'Final image version: {data[pipeline_data.IMAGE_VERSION]}')
 
         # First place where we have image version need for CI-status
-        ci_status.post_ci_environment_run(data, ci_status.STATUS_CI_PLATTFORM_GITHUB)
+        ci_status.post_ci_environment_run(data, ci_status.STATUS_CI_PLATTFORM_GITHUB, 0)
 
         self.step_ok()
         
