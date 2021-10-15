@@ -7,6 +7,7 @@ from modules.util import environment
 from modules.util import pipeline_data
 from modules.util import docker
 from modules.util.exceptions import PipelineException
+from modules.util import slack
 
 class BuildLocalStep(AbstractPipelineStep):
 
@@ -60,5 +61,8 @@ class BuildLocalStep(AbstractPipelineStep):
         lbl_image_version = f'se.kth.imageVersion={data[pipeline_data.IMAGE_VERSION]}'
 
         build_args = data[pipeline_data.BUILD_ARGS]
-        image_id = docker.build(build_args=build_args, labels=[lbl_image_name, lbl_image_version])
+        try:
+            image_id = docker.build(build_args=build_args, labels=[lbl_image_name, lbl_image_version])
+        except:
+            slack.send(text=f'Faild to build Docker images for {lbl_image_name}:{lbl_image_version}', icon=":no_entry:", username='Docker build failed on Github Actions (Evolene)')
         return self.format_image_id(image_id)

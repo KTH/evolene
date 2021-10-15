@@ -78,7 +78,7 @@ class AbstractPipelineStep:
         if workspace:
             text = f'*{workspace}* \n{message}'
 
-        slack.send(text=text, snippet=ex, icon=":no_entry:", username='Faild to build repository on :github: Github Actions (Evolene)')
+        slack.send(text=text, snippet=ex, icon=":no_entry:", username='Build failed on Github Actions (Evolene)')
 
     def run_pipeline_step(self, data):
         if not self.step_environment_ok():
