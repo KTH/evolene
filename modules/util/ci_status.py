@@ -49,14 +49,14 @@ def post_integration_tests_run(data, step_status, severity):
 def post_platform_validation_run(data, step_status, severity):
     post(data, 'PLATFORM_VALIDATION', step_status, severity)
 
-def post_docker_public_run(data, step_status, severity):
-    post(data, 'DOCKER_PUBLIC', step_status, severity)
-
-def post_docker_private_run(data, step_status, severity):
-    post(data, 'DOCKER_PRIVATE', step_status, severity)
-
 def post_ci_environment_run(data, step_status, severity):
     post(data, 'CI_ENVIRONMENT', step_status, severity)
 
 def post_repo_security_scan_run(data, step_status, severity):
     post(data, 'REPO_SECURITY_SCAN', step_status, severity)
+
+def post_pushed_to(data, step_status, severity):
+    post(data, 'PUSHED_TO', step_status, severity)
+
+def post_build_done(data, step_status, severity):
+    post(data, 'BUILD_DONE', step_status, severity)

@@ -23,13 +23,14 @@ class PushAzureImageStep(AbstractPipelineStep):
         if environment.get_push_azure() and not environment.get_push_public():
             if artifact.should_store():
                 self.push_image(data)
-                ci_status.post_docker_private_run(data, ci_status.STATUS_OK, 0)
                 self.step_ok()
+                ci_status.post_pushed_to(data, 'Azure CR', 0)
             else:
                 self.log.info('Branch not to be publish to Azure CR.')
                 slack.send((f'The :git: branch *{data[pipeline_data.IMAGE_NAME]}* | '
                                      f' *{environment.get_git_branch()}* '
                                      'is not pushed to Azure Registry. It is not the main branch, nor configured to be push.'))
+                ci_status.post_pushed_to(data, 'not pushed', 7)
                 self.step_skipped()
         return data
 

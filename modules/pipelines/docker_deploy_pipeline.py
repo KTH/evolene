@@ -26,7 +26,8 @@ from modules.pipeline_steps.docker_create_build_arg_step import DockerCreateBuil
 from modules.pipeline_steps.done_step import DoneStep
 from modules.pipeline_steps.docker_slim_step import DockerSlimStep
 from modules.util.exceptions import PipelineException
-from modules.util import environment, print_util, slack, pipeline, pipeline_data
+from modules.util import (environment, print_util, slack,
+                          pipeline, pipeline_data, ci_status)
 
 class DockerDeployPipeline(object):
 
@@ -91,6 +92,7 @@ class DockerDeployPipeline(object):
             self.log.fatal('%s'.encode('UTF-8'), p_ex, exc_info=False)
             slack.send(f'<!here> *{environment.get_github_repository()}*', snippet=p_ex.slack_message, username='Faild to build or test (Evolene)')
             print_util.red("Such bad, very learning.")
+            ci_status.post_build_done(data, f'Fatal: {str(p_ex)}', 10)
             sys.exit(1)
            
 

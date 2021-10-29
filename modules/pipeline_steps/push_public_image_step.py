@@ -23,15 +23,15 @@ class PushPublicImageStep(AbstractPipelineStep):
         if environment.get_push_public():
             if artifact.should_store():
                 self.push_image(data)
-                ci_status.post_docker_public_run(data, ci_status.STATUS_OK, 0)
                 self.step_ok()
-                
+                ci_status.post_pushed_to(data, 'KTH registry', 0)
             else:
                 self.log.info(
-                    'Branch not to be publish.')
+                    'Branch not to be published to KTH registry.')
                 slack.send((f'The :git: branch *{data[pipeline_data.IMAGE_NAME]} | '
                                      f' {environment.get_git_branch()}* '
                                      'is not a main branch, nor configured to be push to Docker Hub.'))
+                ci_status.post_pushed_to(data, 'not pushed', 7)
                 self.step_skipped()
 
 
