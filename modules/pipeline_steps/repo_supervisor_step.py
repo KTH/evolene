@@ -39,7 +39,7 @@ class RepoSupervisorStep(AbstractPipelineStep):
             filenames = self._process_supervisor_result(output, data)
             if filenames:
                 self.log.info(f"Found filenames: {filenames}")
-                ci_status.post_repo_security_scan_run(data, ci_status.STATUS_ERROR, 7)
+                ci_status.post_repo_security_scan_run(data, "Possible leak", 7)
                 self.step_warning()
                 return
 
