@@ -5,11 +5,11 @@ import requests
 from requests import HTTPError, ConnectTimeout, RequestException
 from modules.util import environment, pipeline_data
 
-STATUS_OK = 'OK'
-STATUS_ERROR = 'ERROR'
-STATUS_NA = 'NA'
-STATUS_MISSING = 'MISSING'
-STATUS_CI_PLATTFORM_GITHUB = 'Evolene Github'
+STATUS_OK = 'Ok'
+STATUS_ERROR = 'Error'
+STATUS_NA = 'N/A'
+STATUS_MISSING = 'Missing'
+STATUS_CI_PLATTFORM_GITHUB = 'Evolene CI - Github'
 
 log = logging.getLogger("-")
 
