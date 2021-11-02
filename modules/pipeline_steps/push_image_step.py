@@ -30,16 +30,16 @@ class PushImageStep(AbstractPipelineStep):
             if artifact.should_store():
                 self.push_image(data)
                 self.verify_push(data)
-                ci_status.post_pushed_to(data, 'Docker hub', 0)
+                ci_status.post_pushed_to(data, 'Old private', 0)
                 self.step_ok()
             else:
 
                 self.log.info(
-                    'Branch not to be publish to Docker Hub.')
+                    'Branch not to be publish to old private.')
                 
                 slack.send((f'The :git: branch *{data[pipeline_data.IMAGE_NAME]}* | '
                                      f' *{environment.get_git_branch()}* '
-                                     'is not pushed to Docker Hub. It is not the main branch, nor configured to be push.'))
+                                     'is not pushed to old repository. It is not the main branch, nor configured to be push.'))
                 ci_status.post_pushed_to(data, 'Not pushed', 7)
                 self.step_skipped()
         return data
