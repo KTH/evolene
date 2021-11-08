@@ -26,11 +26,11 @@ class PushAzureImageStep(AbstractPipelineStep):
                 self.step_ok()
                 ci_status.post_pushed_to(data, 'Azure CR', 0)
             else:
-                self.log.info('Branch not to be publish to Azure CR.')
+                self.log.info('Branch not to be published to Azure CR.')
                 slack.send((f'The :git: branch *{data[pipeline_data.IMAGE_NAME]}* | '
                                      f' *{environment.get_git_branch()}* '
                                      'is not pushed to Azure Registry. It is not the main branch, nor configured to be push.'))
-                ci_status.post_pushed_to(data, 'not pushed', 7)
+                ci_status.post_pushed_to(data, 'not pushed', 7, 'Branch not to be published to Azure CR')
                 self.step_skipped()
         return data
 

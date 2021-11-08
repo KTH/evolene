@@ -31,7 +31,7 @@ class PushPublicImageStep(AbstractPipelineStep):
                 slack.send((f'The :git: branch *{data[pipeline_data.IMAGE_NAME]} | '
                                      f' {environment.get_git_branch()}* '
                                      'is not a main branch, nor configured to be push to Docker Hub.'))
-                ci_status.post_pushed_to(data, 'not pushed', 7)
+                ci_status.post_pushed_to(data, 'not pushed', 7, 'Branch not to be published to KTH registry')
                 self.step_skipped()
 
 

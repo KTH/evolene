@@ -42,7 +42,7 @@ class UnitTestStep(AbstractPipelineStep):
             )
             self.log.info(output)
         except Exception as ex:
-            ci_status.post_unit_tests_run(data, ci_status.STATUS_ERROR, 10)
+            ci_status.post_unit_tests_run(data, ci_status.STATUS_ERROR, 10, str(ex))
             self.handle_step_error(
                 f'\n:rotating_light: <!here> {image_version_util.get_image(data)} *unit test(s) failed*, see <{environment.get_console_url()}|:github: Github Actions log here>.',
                 ex)

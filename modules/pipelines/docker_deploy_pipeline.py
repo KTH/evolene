@@ -92,7 +92,7 @@ class DockerDeployPipeline(object):
             self.log.fatal('%s'.encode('UTF-8'), p_ex, exc_info=False)
             slack.send(f'<!here> *{environment.get_github_repository()}*', snippet=p_ex.slack_message, username='Faild to build or test (Evolene)')
             print_util.red("Such bad, very learning.")
-            ci_status.post_build_done(data, f'Fatal: {str(p_ex)}', 10)
+            ci_status.post_build_done(data, ci_status.STATUS_ERROR, 10, str(p_ex))
             sys.exit(1)
            
 

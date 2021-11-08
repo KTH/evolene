@@ -35,12 +35,12 @@ class PushImageStep(AbstractPipelineStep):
             else:
 
                 self.log.info(
-                    'Branch not to be publish to Docker Hub.')
+                    'Branch not to be published to Docker Hub.')
                 
                 slack.send((f'The :git: branch *{data[pipeline_data.IMAGE_NAME]}* | '
                                      f' *{environment.get_git_branch()}* '
                                      'is not pushed to Docker Hub. It is not the main branch, nor configured to be push.'))
-                ci_status.post_pushed_to(data, 'Not pushed', 7)
+                ci_status.post_pushed_to(data, 'Not pushed', 7, 'Branch not to be published to Docker Hub')
                 self.step_skipped()
         return data
 
