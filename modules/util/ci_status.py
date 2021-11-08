@@ -5,11 +5,11 @@ import requests
 from requests import HTTPError, ConnectTimeout, RequestException
 from modules.util import environment, pipeline_data
 
-STATUS_OK = 'OK'
-STATUS_ERROR = 'ERROR'
-STATUS_NA = 'NA'
-STATUS_MISSING = 'MISSING'
-STATUS_CI_PLATTFORM_GITHUB = 'Evolene Github'
+STATUS_OK = 'Ok'
+STATUS_ERROR = 'Error'
+STATUS_NA = 'N/A'
+STATUS_MISSING = 'Missing'
+STATUS_CI_PLATTFORM_GITHUB = 'Evolene CI - Github'
 
 log = logging.getLogger("-")
 
@@ -48,7 +48,8 @@ def post_integration_tests_run(data, step_status, severity, error_description = 
     post(data, 'INTEGRATION_TESTS', step_status, severity, error_description)
 
 def post_platform_validation_run(data, step_status, severity, error_description = None):
-    post(data, 'PLATFORM_VALIDATION', step_status, severity, error_description)
+    if is_docker_pipeline(data):
+        post(data, 'PLATFORM_VALIDATION', step_status, severity, error_description)
 
 def post_ci_environment_run(data, step_status, severity, error_description = None):
     post(data, 'CI_ENVIRONMENT', step_status, severity, error_description)
@@ -57,7 +58,15 @@ def post_repo_security_scan_run(data, step_status, severity, error_description =
     post(data, 'REPO_SECURITY_SCAN', step_status, severity, error_description)
 
 def post_pushed_to(data, step_status, severity, error_description = None):
-    post(data, 'PUSHED_TO', step_status, severity, error_description)
+    if is_docker_pipeline(data):
+        post(data, 'PUSHED_TO', step_status, severity, error_description)
 
 def post_build_done(data, step_status, severity, error_description = None):
-    post(data, 'BUILD_DONE', step_status, severity, error_description)
+    if is_docker_pipeline(data):
+        post(data, 'BUILD_DONE', step_status, severity, error_description)
+
+def is_docker_pipeline(data):
+    if pipeline_data.IMAGE_NAME in data:
+        return True
+    return False
+    

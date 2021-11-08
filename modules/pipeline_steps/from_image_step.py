@@ -73,7 +73,7 @@ class FromImageStep(AbstractPipelineStep):
             self.log.warning(text)
             self.step_warning()
             slack.send(text)
-            ci_status.post_platform_validation_run(data, ci_status.STATUS_ERROR, 7, 'Dockerfile based on old image')
+            ci_status.post_platform_validation_run(data, from_line, 7, 'Dockerfile based on old image')
 
         return data
 
