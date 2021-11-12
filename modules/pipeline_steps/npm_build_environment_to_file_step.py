@@ -8,7 +8,7 @@ from modules.util import pipeline_data
 
 class NpmBuildEnvironmentToFileStep(AbstractPipelineStep):
 
-    name = "Write build information to file before building image"
+    name = "Write build information to disc before  publishing"
 
     def __init__(self):
         AbstractPipelineStep.__init__(self)

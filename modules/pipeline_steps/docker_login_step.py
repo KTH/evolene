@@ -6,7 +6,7 @@ from modules.util import environment
 
 class DockerLoginStep(AbstractPipelineStep):
 
-    name = 'Loggin into Docker registries'
+    name = 'Logging into Docker registries'
 
     def get_required_env_variables(self): # pragma: no cover
         return [environment.PROJECT_ROOT]
