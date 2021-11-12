@@ -83,9 +83,13 @@ class DockerDeployPipeline(object):
         self.run_steps()
 
     def run_steps(self):
+        data = {
+            pipeline_data.IMAGE_NAME: 'No IMAGE_NAME set yet',
+            pipeline_data.IMAGE_VERSION: 'No IMAGE_VERSION set yet' ,
+        }
         try:
             self.log.info('Running Docker build pipeline')
-            data = self.pipeline_steps[0].run_pipeline_step({})
+            data = self.pipeline_steps[0].run_pipeline_step(data)
         except PipelineException as p_ex:
             self.log.fatal('%s'.encode('UTF-8'), p_ex, exc_info=False)
             slack.send(f'<!here> *{environment.get_github_repository()}*', snippet=p_ex.slack_message, username='Faild to build or test (Evolene)')
