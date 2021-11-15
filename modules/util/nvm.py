@@ -30,9 +30,8 @@ def get_npm_base(data):
 
 def run_npm_script(data, script_name):
     npm_base = get_npm_base(data)
-    cmd=f'WORKSPACE={environment.get_docker_mount_root()} npm_base[ {npm_base} ] run-script script_name[ {script_name} ]'
-    return f"*** Command: {cmd} ***" + process.run_with_output(
-        f'WORKSPACE={environment.get_docker_mount_root()} {npm_base} run-script {script_name}'
+    return process.run_process(
+        f'{npm_base} run-script {script_name}'
     )
 
 def exec_npm_command(data, command, flags=''):

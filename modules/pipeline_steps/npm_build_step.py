@@ -21,6 +21,7 @@ class NpmBuildStep(AbstractPipelineStep):
     def run_step(self, data):
         try:
             self.log.info(process.run_with_output(f'id'))   
+            self.log.info(process.run_process('id'))   
             result = nvm.run_npm_script(data, 'build')
         except PipelineException as npm_ex:
             self.handle_step_error(
