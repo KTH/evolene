@@ -9,7 +9,7 @@ NVM_DIR = f'{environment.get_home()}/.nvm/nvm.sh'
 
 def get_nvm_source():
     if environment.is_run_inside_docker():
-        return ". /root/.nvm/nvm.sh && "
+        return ""
     return f'. {NVM_DIR} && '
 
 
@@ -30,8 +30,8 @@ def get_npm_base(data):
 
 def run_npm_script(data, script_name):
     npm_base = get_npm_base(data)
-    return process.run_process(
-        f'{npm_base} run-script {script_name}'
+    return process.run_with_output(
+        f'WORKSPACE={environment.get_docker_mount_root()} {npm_base} run-script {script_name}'
     )
 
 def exec_npm_command(data, command, flags=''):
