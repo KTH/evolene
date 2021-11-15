@@ -6,7 +6,27 @@ WORKDIR /repo
 
 RUN apk update && \
     apk upgrade && \
-    apk add --no-cache bash gcc libc-dev libxslt-dev libxslt py-pip docker make libffi-dev linux-headers llvm10 cargo openssl-dev build-base openssh git curl nodejs npm zip && \
+    apk add --no-cache  \
+        bash  \
+        gcc  \
+        libc-dev  \
+        libxslt-dev  \
+        libxslt  \
+        py-pip  \
+        docker  \
+        make  \
+        libffi-dev  \
+        linux-headers  \
+        llvm10  \
+        cargo  \
+        openssl-dev  \
+        build-base  \
+        openssh  \
+        git  \
+        curl  \
+        nodejs  \
+        npm  \
+        zip && \
     rm -rf /var/cache/apk/*
         
 COPY Pipfile Pipfile
