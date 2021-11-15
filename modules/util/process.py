@@ -12,15 +12,13 @@ def run_with_output(cmd, log_cmd=False, check=False):
             log.info("Command: '%s'", cmd)
 
         result = subprocess.run(args = ["/bin/bash", "-i", "-c", cmd],
-                    capture_output=True,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.STDOUT,
                     check=check,
                     encoding='utf-8')
 
         if result:
-            if result.stdout:
-                return result.stdout
-            if result.stderr:
-                return result.stderr
+            return result.stdout
             
     except subprocess.CalledProcessError as cpe:
         log.info(str(cpe))
