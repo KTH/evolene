@@ -38,6 +38,7 @@ def run_process(cmd, log_cmd=False, check=False):
                     stdout=subprocess.PIPE,
                     stderr=subprocess.STDOUT,
                     shell=True,
+                    executable="/bin/bash",
                     check=check,
                     encoding='utf-8')
 
