@@ -9,7 +9,7 @@ NVM_DIR = f'{environment.get_home()}/.nvm/nvm.sh'
 
 def get_nvm_source():
     if environment.is_run_inside_docker():
-        return ""
+        return ". /root/.nvm/nvm.sh && "
     return f'. {NVM_DIR} && '
 
 
