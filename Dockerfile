@@ -39,11 +39,13 @@ RUN pipenv install
 RUN pipenv install pip
 RUN pip install docker-compose
 
+# .bashrc must exist for nvm install script to add init lines to it
+RUN touch /root/.bashrc
 RUN mkdir /root/.nvm
 
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 
-RUN cat /root/.bashrc > /root/.profile
+#RUN cat /root/.bashrc > /root/.profile
 
 COPY ["modules",  "modules"]
 COPY ["run.py", "run.py"]
