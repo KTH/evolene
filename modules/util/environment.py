@@ -189,6 +189,9 @@ def get_console_url():
     # https://github.com/KTH/docker-generate-npm-authtoken/actions/runs/897291507
     return f'https://github.com/{get_github_repository()}/actions/runs/{get_github_run_id()}'
 
+def get_project_dir():
+    return "/src"
+
 def is_true(env_key):
     return is_true_value(os.environ.get(env_key))
 

@@ -39,15 +39,11 @@ RUN pipenv install
 RUN pipenv install pip
 RUN pip install docker-compose
 
-RUN touch /root/.bash_profile
-RUN touch /root/.bashrc
-RUN touch /root/.profile
-
 RUN mkdir /root/.nvm
 
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
 
-RUN cat /root/.bashrc > /root/.bash_profile > /root/.profile
+RUN cat /root/.bashrc > /root/.profile
 
 COPY ["modules",  "modules"]
 COPY ["run.py", "run.py"]

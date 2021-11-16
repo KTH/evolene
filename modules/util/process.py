@@ -11,7 +11,9 @@ def run_with_output(cmd, log_cmd=False, check=False):
         if log_cmd:
             log.info("Command: '%s'", cmd)
 
-        result = subprocess.run(args = ["/bin/bash", "-i", "-c", cmd],
+        result = subprocess.run(args = cmd,
+                    shell=True,
+                    executable="/bin/bash",
                     capture_output=True,
                     check=check,
                     encoding='utf-8')

@@ -4,6 +4,7 @@ import logging
 import sys
 from modules.pipeline_steps.setup_step import SetupStep
 from modules.pipeline_steps.read_conf_step import ReadConfFileStep
+from modules.pipeline_steps.change_perm_step import ChangePermStep
 from modules.pipeline_steps.npm_build_step import NpmBuildStep
 from modules.pipeline_steps.npm_test_step import NpmTestStep
 from modules.pipeline_steps.npm_login_step import NpmLoginStep
@@ -21,6 +22,7 @@ from modules.pipeline_steps.npm_publish_step import NpmPublishStep
 from modules.pipeline_steps.install_nvm_step import InstallNvmStep
 from modules.pipeline_steps.npm_author_policy import NpmAuthorPolicy
 from modules.pipeline_steps.npm_install_step import NpmInstallStep
+from modules.pipeline_steps.restore_perm_step import RestorePermStep
 from modules.pipeline_steps.done_step import DoneStep
 
 from modules.util.exceptions import PipelineException
@@ -34,6 +36,8 @@ class NpmPipeline(object):
         self.pipeline_steps = pipeline.create_pipeline_from_array([
             # Setup
             SetupStep(),
+            # Set permissions on project dir so npm scripts runs as root
+            ChangePermStep(),
             # Install nvm if not installed already
             InstallNvmStep(),
             # Source nvm.sh and make sure nvm is executable
@@ -70,6 +74,8 @@ class NpmPipeline(object):
             NpmAuditStep(),
             # Publish the package if version has changed
             NpmPublishStep(),
+            # Restore permissions of project directory so GitHub can cleanup
+            RestorePermStep(),
             # Print done
             DoneStep()
         ])

@@ -3,7 +3,7 @@ __author__ = 'tinglev'
 from modules.pipeline_steps.abstract_pipeline_step import AbstractPipelineStep
 from modules.util import environment
 from modules.util.exceptions import PipelineException
-from modules.util import nvm, pipeline_data, process
+from modules.util import nvm, pipeline_data
 
 class NpmTestStep(AbstractPipelineStep):
 
@@ -20,8 +20,6 @@ class NpmTestStep(AbstractPipelineStep):
 
     def run_step(self, data):
         try:
-            result = process.run_with_output(f'chown -hR 0:0 /src')
-            self.log.info('Change ownership: "%s"', result)
             result = nvm.run_npm_script(data, 'test')
         except PipelineException as npm_ex:
             self.handle_step_error(
