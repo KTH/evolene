@@ -25,4 +25,4 @@ class RestorePermStep(AbstractPipelineStep):
 
     def set_dir_owner(self, dir, owner, group):
         result = process.run_with_output(f'chown -hR {owner}:{group} {dir}')
-        self.log.info(f'Change ownership of {dir} to {owner}:{group}: ', result)
+        self.log.info(f'Change ownership of {dir} to {owner}:{group}: {result}')
