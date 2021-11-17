@@ -46,6 +46,8 @@ RUN mkdir /root/.nvm
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 # Fix for not output errors when running nvm in busybox (where ls does not support -q flag)
 RUN sed -i 's/command ls -1qA/command ls -1A/' /root/.nvm/nvm.sh
+# Skip output when initializing nvm
+RUN sed -i 's%# This loads nvm$%2>/dev/null \0%' /root/.bashrc
 
 COPY ["modules",  "modules"]
 COPY ["run.py", "run.py"]
