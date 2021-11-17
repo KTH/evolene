@@ -43,9 +43,9 @@ RUN pip install docker-compose
 RUN touch /root/.bashrc
 RUN mkdir /root/.nvm
 
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
-
-#RUN cat /root/.bashrc > /root/.profile
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+# Fix for not output errors when running nvm in busybox (where ls does not support -q flag)
+RUN sed -i 's/command ls -1qA/command ls -1A/' /root/.nvm/nvm.sh
 
 COPY ["modules",  "modules"]
 COPY ["run.py", "run.py"]
