@@ -15,12 +15,12 @@ class RestorePermStep(AbstractPipelineStep):
 
     def run_step(self, data):
         project_dir = environment.get_project_dir()
-        (owner, group) = self.save_dir_owner(data, project_dir)
+        (owner, group) = self.get_old_dir_owner(data)
         self.set_dir_owner(project_dir, owner, group)
         self.step_ok()
         return data
 
-    def get_old_dir_owner(self, data, project_dir):
+    def get_old_dir_owner(self, data):
         return (data[pipeline_data.PROJECT_FILES_OWNER], data[pipeline_data.PROJECT_FILES_GROUP])
 
     def set_dir_owner(self, dir, owner, group):
