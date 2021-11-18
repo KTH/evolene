@@ -1,6 +1,5 @@
 __author__ = 'tinglev@kth.se'
 
-import os
 from modules.util import pipeline_data
 from modules.util import process
 from modules.util import environment
