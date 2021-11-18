@@ -3,7 +3,7 @@ __author__ = 'tinglev'
 from modules.pipeline_steps.abstract_pipeline_step import AbstractPipelineStep
 from modules.util import environment
 from modules.util.exceptions import PipelineException
-from modules.util import nvm, pipeline_data, process
+from modules.util import nvm, pipeline_data
 
 class NpmBuildStep(AbstractPipelineStep):
 
@@ -20,7 +20,6 @@ class NpmBuildStep(AbstractPipelineStep):
 
     def run_step(self, data):
         try:
-            self.log.info(process.run_with_output(f'id'))   
             result = nvm.run_npm_script(data, 'build')
         except PipelineException as npm_ex:
             self.handle_step_error(
