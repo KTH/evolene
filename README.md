@@ -8,9 +8,11 @@ Evolene uses Convention Over Configuration. That means that Evolene is configure
 
 ### Reference built services:
 **Continuous Delivery Reference Application**
-![Continous Integration](https://github.com/KTH/kth-azure-app/actions/workflows/latest_evolene.yml/badge.svg)  ![Continous Integration](https://github.com/KTH/kth-azure-app/actions/workflows/main.yml/badge.svg)
+
+![Continous Integration](https://github.com/KTH/kth-azure-app/actions/workflows/latest_evolene.yml/badge.svg) ![Continous Integration](https://github.com/KTH/kth-azure-app/actions/workflows/main.yml/badge.svg)
 
 **NPM Template**
+
 ![Continous Integration](https://github.com/KTH/npm-template/actions/workflows/main.yml/badge.svg) ![Continous Integration](https://github.com/KTH/npm-template/actions/workflows/main-latest.yml/badge.svg)
 
 ## Use Evolene CI with Github Actions
