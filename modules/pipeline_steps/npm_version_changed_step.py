@@ -192,7 +192,7 @@ class NpmVersionChangedStep(AbstractPipelineStep):
             # Note! that if there is only on version matching the result will be a
             # string not an array.
             #
-            cli_result = nvm.exec_npm_command(data, f'view {name}@"{major_minor}" version', '-json')
+            cli_result = nvm.exec_npm_command(data, f'view -q {name}@"{major_minor}" version', '-json')
             list_or_string = json.loads(cli_result)
 
             if list_or_string:
@@ -204,7 +204,7 @@ class NpmVersionChangedStep(AbstractPipelineStep):
             self.log.info(
                 "Published versions for npm view %s@'%s' version -json are %s", name, major_minor, result)
 
-        except:
+        except json.decoder.JSONDecodeError:
             self.log.info("Found no previous versions for %s.", major_minor)
 
         return result
