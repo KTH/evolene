@@ -193,6 +193,7 @@ class NpmVersionChangedStep(AbstractPipelineStep):
             # string not an array.
             #
             cli_result = nvm.exec_npm_command(data, f'view -q {name}@"{major_minor}" version', '-json')
+            cli_result = nvm.exec_npm_command(data, f'view -q {name}@"{major_minor}" version', '-json')
             list_or_string = json.loads(cli_result)
 
             if list_or_string:
