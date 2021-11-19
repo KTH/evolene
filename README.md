@@ -1,7 +1,5 @@
 # Evolene CI ![Continous Integration](https://github.com/KTH/evolene/actions/workflows/main.yml/badge.svg)
 
-### Reference built services:
-
 |                                           | Default                                                                                             | Latest                                                                                                        |
 |-------------------------------------------|------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
 | Docker - Continuous Delivery Reference Application | ![Continous Integration](https://github.com/KTH/kth-azure-app/actions/workflows/main.yml/badge.svg)  | ![Continous Integration](https://github.com/KTH/kth-azure-app/actions/workflows/latest_evolene.yml/badge.svg) |
