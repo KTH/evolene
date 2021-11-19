@@ -6,6 +6,11 @@ The main principle for Evolene is  everything that a developer runs on her lapto
 
 Evolene uses Convention Over Configuration. That means that Evolene is configured by following standard naming convensions rather then per project configuration. The Slack integration helps the developers if any configuration is missing or test breaks.
 
+Reference built services:
+**Continuous Delivery Reference Application** ![Continous Integration](https://github.com/KTH/kth-azure-app/actions/workflows/latest_evolene.yml/badge.svg)  ![Continous Integration](https://github.com/KTH/kth-azure-app/actions/workflows/main.yml/badge.svg)
+
+**NPM Template** ![Continous Integration](https://github.com/KTH/npm-template/actions/workflows/main.yml/badge.svg) ![Continous Integration](https://github.com/KTH/npm-template/actions/workflows/main-latest.yml/badge.svg)
+
 ## Use Evolene CI with Github Actions
 
 Add the **Github Action yaml content below** to a the Github Action workflow `.github/workflows/main.yml`. That is it 🎉! 
