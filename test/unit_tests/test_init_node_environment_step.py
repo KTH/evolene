@@ -15,8 +15,10 @@ class InitNodeEnvironmentStepTests(unittest.TestCase):
         step.get_nvm_installed_version = mock.MagicMock()
         step.get_nvm_installed_version.side_effect = PipelineException('N/A\n')
         step.install_version = mock.MagicMock()
+        step.disable_update_notifications = mock.MagicMock()
         step.run_step(data)
         step.install_version.assert_called_with('10.4.5')
+        
         step.install_version.reset_mock()
         step.get_nvm_installed_version.side_effect = PipelineException('Error!\n')
         sys.exit = mock.MagicMock()
