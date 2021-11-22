@@ -40,6 +40,8 @@ class InitNodeEnvironmentStep(AbstractPipelineStep):
                 )
         except:
             self.log(f'Error: {sys.exc_info()[0]}')
+        # Disable notifications about new versions to not mess up output
+        nvm.exec_npm_command("config set update-notifier false")
         self.log.debug('Node version %s installed with nvm', conf_version)
         self.step_ok()
         return data
