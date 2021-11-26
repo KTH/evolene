@@ -64,5 +64,6 @@ class BuildLocalStep(AbstractPipelineStep):
         try:
             image_id = docker.build(build_args=build_args, labels=[lbl_image_name, lbl_image_version])
         except:
-            slack.send(text=f'Faild to build Docker images for {lbl_image_name}:{lbl_image_version}', icon=":no_entry:", username='Docker build failed on Github Actions (Evolene)')
+            slack.send(text=f'Failed to build Docker images for {lbl_image_name}:{lbl_image_version}', icon=":no_entry:", username='Docker build failed on Github Actions (Evolene)')
+            self.handle_step_error(f'Failed to build Docker images for {lbl_image_name}:{lbl_image_version}', sys.exc_info()[0])
         return self.format_image_id(image_id)
