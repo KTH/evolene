@@ -67,7 +67,7 @@ def post_build_done(data, step_status, severity, description = None):
 
 def is_docker_pipeline(data):
     if data is None:
-        return True
+        return False
     if pipeline_data.IMAGE_NAME in data:
         return True
     return False
