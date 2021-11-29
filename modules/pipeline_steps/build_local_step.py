@@ -8,6 +8,7 @@ from modules.util import pipeline_data
 from modules.util import docker
 from modules.util.exceptions import PipelineException
 from modules.util import slack
+from modules.util import ci_status
 
 class BuildLocalStep(AbstractPipelineStep):
 
@@ -23,14 +24,17 @@ class BuildLocalStep(AbstractPipelineStep):
         self.log.info(f'Started building 🐳 docker image {data[pipeline_data.IMAGE_NAME]}:{data[pipeline_data.IMAGE_VERSION]}. This might take some time depending on your what you are doing ...')
         try:
             image_id = self.run_build(data)
-            image_grep_output = self.verify_built_image(image_id)
+            image_grep_output = self.verify_built_image(data, image_id)
             size = self.get_image_size(image_grep_output)
             data[pipeline_data.IMAGE_SIZE] = size
             if size == '0' or size == 'N/A':
-                raise PipelineException('Built image has no size')
+                err = 'Built image has no size'
+                ci_status.post_build_done(data, ci_status.STATUS_ERROR, 10, err)
+                raise PipelineException(err)
             data[pipeline_data.LOCAL_IMAGE_ID] = image_id
             self.log.info('Built image with id "%s" and size "%s"', image_id, size)
-        except: 
+        except:
+            ci_status.post_build_done(data, ci_status.STATUS_ERROR, 10, sys.exc_info()[0])
             self.handle_step_error("Unknown error when building Docker image.", sys.exc_info()[0])
         self.step_ok()
         return data
@@ -40,10 +44,12 @@ class BuildLocalStep(AbstractPipelineStep):
         image_id = image_id.replace('sha256:', '')
         return image_id[:12]
 
-    def verify_built_image(self, image_id):
+    def verify_built_image(self, data, image_id):
         image_grep_output = docker.grep_image_id(image_id)
         if not image_grep_output or image_id not in image_grep_output:
-            self.handle_step_error('Could not find locally built image')
+            err = 'Could not find locally built image'
+            self.handle_step_error(err)
+            ci_status.post_build_done(data, ci_status.STATUS_ERROR, 10, err)
         self.log.debug('Grep for image id returned "%s"', image_grep_output.rstrip())
         return image_grep_output
 
@@ -64,6 +70,7 @@ class BuildLocalStep(AbstractPipelineStep):
         try:
             image_id = docker.build(build_args=build_args, labels=[lbl_image_name, lbl_image_version])
         except:
+            ci_status.post_build_done(data, ci_status.STATUS_ERROR, 10, sys.exc_info()[0])
             slack.send(text=f'Failed to build Docker images for {lbl_image_name}:{lbl_image_version}', icon=":no_entry:", username='Docker build failed on Github Actions (Evolene)')
             self.handle_step_error(f'Failed to build Docker images for {lbl_image_name}:{lbl_image_version}', sys.exc_info()[0])
         return self.format_image_id(image_id)

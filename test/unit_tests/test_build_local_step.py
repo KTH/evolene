@@ -4,7 +4,7 @@ import unittest
 from mock import patch
 from modules.pipeline_steps.build_local_step import BuildLocalStep
 from modules.pipeline_steps.abstract_pipeline_step import AbstractPipelineStep
-from modules.util import docker
+from modules.util import docker, ci_status
 from modules.util import pipeline_data
 
 class BuildLocalStepTests(unittest.TestCase):
@@ -38,18 +38,20 @@ class BuildLocalStepTests(unittest.TestCase):
 
     @patch.object(docker, 'grep_image_id')
     @patch.object(AbstractPipelineStep, 'handle_step_error')
-    def test_verify_built_image(self, mock_handle_error, mock_grep):
+    @patch.object(ci_status, 'post_build_done')
+    def test_verify_built_image(self, mock_ci_status, mock_handle_error, mock_grep):
         bls = BuildLocalStep()
         mock_grep.return_value = ('kthregistryv2.sys.kth.se/kth-azure-app   <none>              '
                                   '0752187c9cce        13 days ago         107MB')
-        result = bls.verify_built_image('0752187c9cce')
+        result = bls.verify_built_image(None, '0752187c9cce')
         mock_grep.assert_called_once()
         self.assertEqual(result, mock_grep.return_value)
         mock_grep.reset_mock()
         mock_grep.return_value = ('kthregistryv2.sys.kth.se/kth-azure-app   <none>              '
                                   '0752187c9cce        13 days ago         107MB')
-        result = bls.verify_built_image('does_not_exist')
+        result = bls.verify_built_image(None, 'does_not_exist')
         mock_handle_error.assert_called_once()
+        mock_ci_status.assert_called_once()
 
     @patch.object(docker, 'build')
     def test_run_build(self, mock_docker_build):
