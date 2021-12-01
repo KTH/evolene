@@ -51,6 +51,10 @@ def post_platform_validation_run(data, step_status, severity, description = None
     if is_docker_pipeline(data):
         post(data, 'PLATFORM_VALIDATION', step_status, severity, description)
 
+def post_local_build(data, step_status, severity, description = None):
+    if is_docker_pipeline(data):
+        post(data, 'LOCAL_BUILD', step_status, severity, description)
+
 def post_ci_environment_run(data, step_status, severity, description = None):
     post(data, 'CI_ENVIRONMENT', step_status, severity, description)
 
