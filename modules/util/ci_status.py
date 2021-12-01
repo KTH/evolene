@@ -15,20 +15,30 @@ log = logging.getLogger("-")
 
 def post(data, step, step_value, severity, description = None):
     log.info(f'Adding {step} with value {step_value} to ci-status dashboard.')
-    base_url = environment.get_ci_status_api_base_url()
-    if base_url is None:
-        return
-    if not base_url.endswith('/'):
-        base_url += '/'
+    url_to_call = create_secure_url()
+    headers = create_headers()
     post_json = create_post_json(data, step, step_value, severity, description)
     try:
-        requests.post(base_url, json=post_json)
+        requests.post(url_to_call, json=post_json, headers=headers)
     except HTTPError as http_ex:
         log.error('ci-status endpoint threw HTTPError with response "%s"', http_ex.response)
     except ConnectTimeout as timeout:
         log.error('Timeout while trying to post to ci-status endpoint: "%s"', timeout)
     except RequestException as req_ex:
         log.error('Exception when trying to post to ci-status endpoint: "%s"', req_ex)
+
+def create_headers():
+    token = environment.get_env(environment.CI_STATUS_HEADER_TOKEN)
+    return {'ci-status-token': token}
+
+def create_secure_url():
+    base_url = environment.get_env(environment.CI_STATUS_API_BASE_URL)
+    if base_url is None:
+        return
+    if not base_url.endswith('/'):
+        base_url += '/'
+    url_suffix = environment.get_env(environment.CI_STATUS_URL_SUFFIX)
+    return base_url + url_suffix
 
 def create_post_json(data, step, step_value, severity, description):
     return {

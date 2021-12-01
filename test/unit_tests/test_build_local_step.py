@@ -51,7 +51,7 @@ class BuildLocalStepTests(unittest.TestCase):
                                   '0752187c9cce        13 days ago         107MB')
         result = bls.verify_built_image(None, 'does_not_exist')
         mock_handle_error.assert_called_once()
-        mock_ci_status.assert_called_once()
+        mock_ci_status.assert_not_called()
 
     @patch.object(docker, 'build')
     def test_run_build(self, mock_docker_build):
