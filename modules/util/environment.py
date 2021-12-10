@@ -54,6 +54,12 @@ CI_STATUS_HEADER_TOKEN = 'CI_STATUS_HEADER_TOKEN'
 def get_ci_status_api_base_url():
     return os.environ.get(CI_STATUS_API_BASE_URL)
 
+def get_ci_status_url_suffix():
+    return os.environ.get(CI_STATUS_URL_SUFFIX)
+
+def get_ci_status_header_token():
+    return os.environ.get(CI_STATUS_HEADER_TOKEN)
+
 def get_slim():
     return os.environ.get(SLIM)
 
@@ -89,7 +95,6 @@ def get_public_registry_password():
 
 def get_public_registry_host():
     return "docker.io/kthse"
-
 
 def get_azure_registry_host():
     return os.environ.get(AZURE_REGISTRY_HOST)
@@ -128,7 +133,6 @@ def get_docker_mount_root():
 
 def is_run_inside_docker():
     return get_github_workspace()
-    
 
 def get_build_number():
     return os.environ.get(BUILD_NUMBER)
@@ -200,10 +204,10 @@ def is_true(env_key):
 def is_true_value(value, true_values=[ "yes", "true" ]):
     if value is None:
         return False
-    
+
     if true_values is None:
         return False
-        
+ 
     if value.lower() in true_values:
         return True
 

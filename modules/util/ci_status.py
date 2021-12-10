@@ -28,16 +28,16 @@ def post(data, step, step_value, severity, description = None):
         log.error('Exception when trying to post to ci-status endpoint: "%s"', req_ex)
 
 def create_headers():
-    token = environment.get_env(environment.CI_STATUS_HEADER_TOKEN)
+    token = environment.get_ci_status_header_token()
     return {'ci-status-token': token}
 
 def create_secure_url():
-    base_url = environment.get_env(environment.CI_STATUS_API_BASE_URL)
+    base_url = environment.get_ci_status_api_base_url()
     if base_url is None:
         return
     if not base_url.endswith('/'):
         base_url += '/'
-    url_suffix = environment.get_env(environment.CI_STATUS_URL_SUFFIX)
+    url_suffix = environment.get_ci_status_url_suffix()
     return base_url + url_suffix
 
 def create_post_json(data, step, step_value, severity, description):
