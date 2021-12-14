@@ -44,6 +44,7 @@ NPM_USER = 'NPM_USER'
 NPM_PASSWORD = 'NPM_PASSWORD'
 NPM_EMAIL = 'NPM_EMAIL'
 NPM_UPDATES_AVAILABLE = 'NPM_UPDATES_AVAILABLE'
+NPM_PUBLISH_TOKEN = 'NPM_PUBLISH_TOKEN'
 DOCKER_BUILD_ARGS = 'DOCKER_BUILD_ARGS'
 SLIM = 'SLIM'
 SLIM_ENV = 'SLIM_ENV'
@@ -68,6 +69,9 @@ def get_slim_env():
 
 def get_npm_email():
     return os.environ.get(NPM_EMAIL)
+
+def get_npm_publish_token():
+    return os.environ.get(NPM_PUBLISH_TOKEN)
 
 def get_npm_user():
     return os.environ.get(NPM_USER)
