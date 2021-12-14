@@ -81,11 +81,7 @@ def run_integration_tests(compose_test_file, data):
 
 def run_dry_run_compose(compose_test_file, data):
     return run_test(compose_test_file, data)
-
-
-def login_private():
-    return login(environment.get_registry_user(), environment.REGISTRY_PASSWORD, environment.get_registry_host())
-
+    
 
 def login_azure():
     return login(environment.get_azure_registry_user(), environment.AZURE_REGISTRY_PASSWORD, environment.get_azure_registry_host())
