@@ -44,8 +44,7 @@ class NpmLoginStep(AbstractPipelineStep):
 
         except PipelineException as docker_ex:
             self.handle_step_error(
-                'NPM login failed. Exception when trying to get auth token from npm via docker',
-                docker_ex
+                'NPM login failed. Exception when trying to get auth token from npm via docker'
             )
         try:
             result = nvm.exec_npm_command(data, 'whoami')
