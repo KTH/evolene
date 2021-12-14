@@ -24,7 +24,8 @@ def run_with_output(cmd, log_cmd=False, check=True):
             return result.stdout
            
     except subprocess.CalledProcessError as cpe:
-        log.info(str(cpe))
+        if log_cmd:
+            log.info(str(cpe))
         raise PipelineException(f'{cpe.output}')
     except:
         raise PipelineException(f'Unhandled exception when execution command.')
