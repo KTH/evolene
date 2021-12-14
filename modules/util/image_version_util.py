@@ -33,4 +33,4 @@ def get_latest_tag(data):
     return '{}:{}'.format(data[pipeline_data.IMAGE_NAME], 'latest')
 
 def prepend_registry(image):
-    return '{}/{}'.format(environment.get_registry_host(), image)
+    return '{}/{}'.format(environment.get_azure_registry_host(), image)

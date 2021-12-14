@@ -84,20 +84,10 @@ def run_dry_run_compose(compose_test_file, data):
 
 
 def login_private():
-    # host = environment.get_registry_host()
-    # user = environment.get_registry_user()
-    # pwd = environment.get_registry_password()
-    # retval = process.run_with_output(f'docker login -u {user} -p {pwd} {host}', log_cmd=False, check=True)
-    # return retval
     return login(environment.get_registry_user(), environment.REGISTRY_PASSWORD, environment.get_registry_host())
 
 
 def login_azure():
-    # host = environment.get_azure_registry_host()
-    # user = environment.get_azure_registry_user()
-    # pwd = environment.get_azure_registry_password()
-    # retval = process.run_with_output(f'docker login -u {user} -p {pwd} {host}', log_cmd=False, check=True)
-    # return retval
     return login(environment.get_azure_registry_user(), environment.AZURE_REGISTRY_PASSWORD, environment.get_azure_registry_host())
 
 

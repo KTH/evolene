@@ -20,10 +20,6 @@ HOME = 'HOME'
 SLACK_WEB_HOOK = 'EVOLENE_SLACK_WEB_HOOK'
 SLACK_CHANNELS = 'SLACK_CHANNELS'
 
-REGISTRY_HOST = 'REGISTRY_HOST'
-REGISTRY_USER = 'REGISTRY_USER'
-REGISTRY_PASSWORD = 'REGISTRY_PASSWORD'
-
 PUBLIC_REGISTRY_HOST = 'PUBLIC_REGISTRY_HOST'
 PUBLIC_REGISTRY_USER = 'PUBLIC_REGISTRY_USER'
 PUBLIC_REGISTRY_PASSWORD = 'PUBLIC_REGISTRY_PASSWORD'
@@ -61,12 +57,6 @@ def get_ci_status_url_suffix():
 def get_ci_status_header_token():
     return os.environ.get(CI_STATUS_HEADER_TOKEN)
 
-def get_slim():
-    return os.environ.get(SLIM)
-
-def get_slim_env():
-    return os.environ.get(SLIM_ENV)
-
 def get_npm_email():
     return os.environ.get(NPM_EMAIL)
 
@@ -78,15 +68,6 @@ def get_npm_user():
 
 def get_npm_password():
     return os.environ.get(NPM_PASSWORD)
-
-def get_registry_host():
-    return os.environ.get(REGISTRY_HOST)
-
-def get_registry_user():
-    return os.environ.get(REGISTRY_USER)
-
-def get_registry_password():
-    return os.environ.get(REGISTRY_PASSWORD)
 
 def get_public_registry_host():
     return os.environ.get(PUBLIC_REGISTRY_HOST)

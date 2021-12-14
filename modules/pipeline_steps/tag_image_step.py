@@ -11,7 +11,7 @@ class TagImageStep(AbstractPipelineStep):
     name = "Tag built Docker image with image versions."
 
     def get_required_env_variables(self): #pragma: no cover
-        return [environment.REGISTRY_HOST]
+        return [environment.AZURE_REGISTRY_HOST]
 
     def get_required_data_keys(self): #pragma: no cover
         return [pipeline_data.LOCAL_IMAGE_ID, pipeline_data.IMAGE_VERSION, pipeline_data.IMAGE_NAME]
