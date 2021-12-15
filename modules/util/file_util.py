@@ -54,3 +54,9 @@ def overwite_absolute(file_path, content):
 
     with open(file_path, 'w+') as output_file:
         output_file.write(content)
+
+def append_absolute(file_path, content):
+    log.debug(f'Absolute path write: {file_path}')
+
+    with open(file_path, 'a') as output_file:
+        output_file.write(content)

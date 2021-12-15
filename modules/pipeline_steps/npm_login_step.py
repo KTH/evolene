@@ -24,7 +24,7 @@ class NpmLoginStep(AbstractPipelineStep):
         return f'{environment.get_home()}/.npmrc'
 
     def write_token_to_disc(self):
-        file_util.overwite_absolute(self.get_output_file(), environment.get_npm_publish_token())
+        file_util.append_absolute(self.get_output_file(), f"//registry.npmjs.org/:_authToken={environment.get_npm_publish_token()}")
 
     def run_step(self, data):
         self.log.debug('Logging in to NPM using token.')
