@@ -48,7 +48,8 @@ def create_post_json(data, step, step_value, severity, description):
         'stepName': step,
         'stepStatus': step_value,
         'severity': severity,
-        'description': description
+        'description': description,
+        'environment': 'all'
     }
 
 def post_unit_tests_run(data, step_status, severity, description = None):
