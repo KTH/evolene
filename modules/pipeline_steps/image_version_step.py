@@ -24,7 +24,7 @@ class ImageVersionStep(AbstractPipelineStep):
 
         data[pipeline_data.IMAGE_VERSION] = self.append_commit_hash(self.get_version(data[pipeline_data.SEM_VER]))
 
-        self.log.info(f'Bransh: {environment.get_git_branch()}')
+        self.log.info(f'Branch: {environment.get_git_branch()}')
         self.log.info(f'SemVer: {data[pipeline_data.SEM_VER]}')
         self.log.info(f'Git commit: {data[pipeline_data.COMMIT_HASH]}')
         self.log.info(f'Final image version: {data[pipeline_data.IMAGE_VERSION]}')
