@@ -16,6 +16,7 @@ autopep8 = "*"
 requests    = ">=2.25"
 coloredlogs = ">=15.0"
 setuptools  = ">=56.0"
+docker-compose = "*"
 
 [requires]
 python_version = "3"

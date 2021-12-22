@@ -25,20 +25,16 @@ RUN apk update && \
         openssh  \
         git  \
         curl  \
-        nodejs  \
-        npm  \
         zip && \
     rm -rf /var/cache/apk/*
         
 COPY Pipfile Pipfile
+COPY Pipfile.lock Pipfile.lock
 
 ENV LANG=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8
 
 RUN pipenv install
-
-RUN pipenv install pip
-RUN pip install docker-compose
 
 # .bashrc must exist for nvm install script to add init lines to it
 RUN touch /root/.bashrc
