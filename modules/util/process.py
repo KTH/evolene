@@ -5,7 +5,7 @@ import logging
 import os
 from modules.util.exceptions import PipelineException
 
-def run_with_output(cmd, log_cmd=True, check=True):
+def run_with_output(cmd, log_cmd=False, check=True):
     log = logging.getLogger("-")
     try:
         if log_cmd:

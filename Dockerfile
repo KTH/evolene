@@ -7,6 +7,7 @@ WORKDIR /repo
 RUN apk update && \
     apk upgrade && \
     apk add --no-cache  \
+        gcompat \
         bash  \
         gcc  \
         libc-dev  \
