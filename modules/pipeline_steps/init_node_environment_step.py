@@ -57,7 +57,7 @@ class InitNodeEnvironmentStep(AbstractPipelineStep):
     def install_version(self, version):
         try:
             self.log.info(f'Installing node {version}')
-            nvm.exec_nvm_command(f'install {version}')
+            nvm.exec_nvm_command(f'install --default {version}')
             
         except PipelineException as pipeline_ex:
             self.handle_step_error(
