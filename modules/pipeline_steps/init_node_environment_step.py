@@ -42,7 +42,7 @@ class InitNodeEnvironmentStep(AbstractPipelineStep):
             self.log(f'Error: {sys.exc_info()[0]}')
         # Disable notifications about new versions to not mess up output
         self.disable_update_notifications(data)
-        result = nvm.exec_nvm_command(f'version')
+        result = nvm.exec_nvm_command(f'list')
         self.log.info(f'Versions according to nvm {result}')
 
         result = nvm.exec_npm_command(data, 'version')
