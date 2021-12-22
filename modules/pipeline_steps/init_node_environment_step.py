@@ -42,6 +42,9 @@ class InitNodeEnvironmentStep(AbstractPipelineStep):
             self.log(f'Error: {sys.exc_info()[0]}')
         # Disable notifications about new versions to not mess up output
         self.disable_update_notifications(data)
+        result = self.install_version("")
+        self.log.info(f'Versions according to nvm {result}')
+
         result = nvm.exec_npm_command(data, 'version')
         self.log.info(f'Installed Node version is {result}')
 
@@ -57,7 +60,8 @@ class InitNodeEnvironmentStep(AbstractPipelineStep):
     def install_version(self, version):
         try:
             self.log.info(f'Installing node {version}')
-            nvm.exec_nvm_command(f'install --default {version}')
+            result = nvm.exec_nvm_command(f'install --default {version}')
+            self.log.info(f'{result}')
             
         except PipelineException as pipeline_ex:
             self.handle_step_error(
