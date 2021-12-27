@@ -64,7 +64,7 @@ class FromImageStep(AbstractPipelineStep):
         from_line = self.get_from_line()
         if self.validate(from_line, data):
             self.log.info("'FROM:' statement '%s' in Dockerfile is valid.", from_line)
-            ci_status.post_platform_validation_run(data, ci_status.STATUS_OK, 0)
+            ci_status.post_platform_validation_run(data, from_line, 0)
             self.step_ok()
         else:
             text = (":warning: *{}'s* Dockerfile is based on an old `{}` image, "
@@ -73,7 +73,7 @@ class FromImageStep(AbstractPipelineStep):
             self.log.warning(text)
             self.step_warning()
             slack.send(text)
-            ci_status.post_platform_validation_run(data, from_line, 7, 'Dockerfile based on old image')
+            ci_status.post_platform_validation_run(data, from_line, 7, 'Dockerfile is based on an old image')
 
         return data
 
