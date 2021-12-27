@@ -24,7 +24,7 @@ class PushPublicImageStep(AbstractPipelineStep):
             if artifact.should_store():
                 self.push_image(data)
                 self.step_ok()
-                ci_status.post_pushed_to(data, f'Public Docker Hub: {{data[pipeline_data.IMAGE_VERSION]}}', 0)
+                ci_status.post_pushed_to(data, f'Public Docker Hub', 0)
             else:
                 self.log.info(
                     'Branch not to be published to Docker Hub.')

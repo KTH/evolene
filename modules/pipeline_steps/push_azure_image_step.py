@@ -24,7 +24,7 @@ class PushAzureImageStep(AbstractPipelineStep):
             if artifact.should_store():
                 self.push_image(data)
                 self.step_ok()
-                ci_status.post_pushed_to(data, f'Private Azure CR: {data[pipeline_data.IMAGE_VERSION]}', 0)
+                ci_status.post_pushed_to(data, f'Private Azure CR', 0)
             else:
                 self.log.info('Branch not to be published to Azure CR.')
                 slack.send((f'The :git: branch *{data[pipeline_data.IMAGE_NAME]}* | '
