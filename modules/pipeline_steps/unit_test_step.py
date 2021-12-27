@@ -22,12 +22,12 @@ class UnitTestStep(AbstractPipelineStep):
             self.log.info('No file named "%s" found. No unit tests will be run.',
                           UnitTestStep.UNIT_TEST_COMPOSE_FILENAME)
             self.step_skipped()
-            ci_status.post_unit_tests_run(data, ci_status.STATUS_MISSING, 5)
+            ci_status.post_unit_tests_run(data, ci_status.STATUS_MISSING, 5, f'No file {UnitTestStep.UNIT_TEST_COMPOSE_FILENAME} in repository.')
             return data
 
         self.run_unit_tests(data)
         self.step_ok()
-        ci_status.post_unit_tests_run(data, ci_status.STATUS_OK, 0)
+        ci_status.post_unit_tests_run(data, "All tests passed", 0)
 
         return data
 
