@@ -32,7 +32,7 @@ class BuildLocalStep(AbstractPipelineStep):
                 ci_status.post_local_build(data, ci_status.STATUS_ERROR, 10, err)
                 raise PipelineException(err)
             data[pipeline_data.LOCAL_IMAGE_ID] = image_id
-            ci_status.post_local_build(data, f'Size: {size}', 0)
+            ci_status.post_local_build(data, f'Size: {size}', 0, 'The Docker image was built successfully from /Dockerfile.')
             self.log.info('Built image with id "%s" and size "%s"', image_id, size)
         except:
             ci_status.post_local_build(data, ci_status.STATUS_ERROR, 10, text_cleaner.clean(sys.exc_info()[0]))

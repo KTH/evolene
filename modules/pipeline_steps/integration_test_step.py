@@ -26,7 +26,7 @@ class IntegrationTestStep(AbstractPipelineStep):
             self.log.info('No file named "%s" found. No integration tests will be run.',
                           IntegrationTestStep.INTEGRATION_TEST_COMPOSE_FILENAME)
             self.step_skipped()
-            ci_status.post_integration_tests_run(data, ci_status.STATUS_MISSING, 5, f'No file {IntegrationTestStep.INTEGRATION_TEST_COMPOSE_FILENAME} in repository.')
+            ci_status.post_integration_tests_run(data, 'No integration tests', 5, f'No file {IntegrationTestStep.INTEGRATION_TEST_COMPOSE_FILENAME} in repository.')
             return data
 
         self.run_integration_tests(data)
