@@ -18,6 +18,7 @@ RUN pipenv install
 
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 
+# Extract nvm init to own file as .bashrc aborts on noninteractive shells
 RUN tail -3 /root/.bashrc > /root/.evolene_bashrc
 
 COPY ["modules",  "modules"]
