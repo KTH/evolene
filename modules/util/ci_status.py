@@ -2,6 +2,7 @@ __author__ = 'paddy@kth.se'
 
 import logging
 import requests
+from modules.util import artifact
 from requests import HTTPError, ConnectTimeout, RequestException
 from modules.util import environment, pipeline_data
 
@@ -14,6 +15,11 @@ STATUS_CI_PLATTFORM_GITHUB = 'Evolene CI - Github'
 log = logging.getLogger("-")
 
 def post(data, step, step_value, severity, description = None):
+
+    if not artifact.should_store():
+        log.info(f'No information about this build will be sent to ci-status.')
+        return
+
     log.info(f'Adding {step} with value {step_value} to ci-status dashboard.')
     url_to_call = create_secure_url()
     headers = create_headers()
