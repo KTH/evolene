@@ -5,7 +5,7 @@ RUN mkdir /repo
 WORKDIR /repo
 
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -yq python3 curl docker gcc git zip && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -yq python3 curl docker.io gcc git zip pipenv && \
     apt-get clean
         
 COPY Pipfile Pipfile
