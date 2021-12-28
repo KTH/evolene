@@ -12,7 +12,7 @@ class InstallNvmStep(AbstractPipelineStep):
 
     def __init__(self):
         AbstractPipelineStep.__init__(self)
-        self.nvm_version = 'v0.34.0'
+        self.nvm_version = 'v0.39.1'
 
     def get_required_env_variables(self):
         return []
