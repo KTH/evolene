@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 DEBUG=True \
 GIT_COMMIT=abc1237XXXXX \

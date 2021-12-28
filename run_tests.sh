@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [[ -n "${UNIT_TESTS_IN_DOCKER}" ]]; then
   echo "Running unit tests from docker-compose-unit-tests.yml"
