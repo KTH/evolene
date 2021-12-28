@@ -91,7 +91,7 @@ class NpmPipeline(object):
         except PipelineException as p_ex:
             self.log.fatal('%s'.encode('UTF-8'), p_ex, exc_info=False)
             slack.send(f'<!here> *{environment.get_github_repository()}*', snippet=p_ex.slack_message, username='Faild to build or test (Evolene)')
-            print_util.red("Such bad, very learning")
+            print_util.red(f"{p_ex} - Such bad, very learning")
             sys.exit(1)
 
     def verify_environment(self):
