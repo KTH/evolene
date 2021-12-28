@@ -16,5 +16,6 @@ class DoneStep(AbstractPipelineStep):
     def run_step(self, data):
         self.log.info(json.dumps(data, indent=4))
         print_util.green("\n🏁 🎉 Built, tested (you do have tests?) and pushed to registry!\n")
-        ci_status.post_build_done(data, f'{data[pipeline_data.IMAGE_VERSION]}', 0)
+        if pipeline_data.IMAGE_VERSION in data:
+            ci_status.post_build_done(data, f'{data[pipeline_data.IMAGE_VERSION]}', 0)
         return data
