@@ -30,7 +30,7 @@ class FromImageStep(AbstractPipelineStep):
             "kth-nodejs": ["14", "16"],
             "kth-play1": ["1.5"],
             "kth-play2": ["2.2"],
-            "kth-python": ["3.10"],
+            "kth-python": ["3.8", "3.10"],
 
             #
             #  Allow all tags for an image.
