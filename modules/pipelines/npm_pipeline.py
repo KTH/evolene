@@ -39,9 +39,9 @@ class NpmPipeline(object):
             # Set permissions on project dir so npm scripts runs as root
             ChangePermStep(),
             # Install nvm if not installed already
-            InstallNvmStep(),
+            # InstallNvmStep(), installed from docker file
             # Source nvm.sh and make sure nvm is executable
-            StartNvmStep(),
+            # StartNvmStep(),
             # Read and parse the package.json file
             LoadPackageJsonStep(),
             # Make sure author exists and has name and email set
