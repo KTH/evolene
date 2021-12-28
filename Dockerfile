@@ -18,6 +18,8 @@ RUN pipenv install
 
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 
+RUN tail -3 /root/.bashrc > /root/.evolene_bashrc'
+
 COPY ["modules",  "modules"]
 COPY ["run.py", "run.py"]
 COPY ["run_github_action.sh", "run_github_action.sh"]

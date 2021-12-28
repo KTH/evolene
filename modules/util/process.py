@@ -11,7 +11,7 @@ def run_with_output(cmd, log_cmd=True, check=True):
         if log_cmd:
             log.info("Command: '%s'", cmd)
 
-        # os.environ["BASH_ENV"] = "/root/.bashrc"
+        os.environ["BASH_ENV"] = "/root/.evolene_bashrc"
         result = subprocess.run(args = cmd,
                     shell=True,
                     executable="/bin/bash",
