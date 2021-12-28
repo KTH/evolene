@@ -4,12 +4,12 @@ from modules.util import pipeline_data
 from modules.util import process
 from modules.util import environment
 
-NVM_DIR = f'{environment.get_home()}/.nvm/nvm.sh'
+NVM_INIT = f'$NVM_DIR/.nvm/nvm.sh'
 
 def get_nvm_source():
     if environment.is_run_inside_docker():
         return ""
-    return f'. {NVM_DIR} && '
+    return f'source {NVM_INIT} && '
 
 
 def get_nvm_exec_base(data):

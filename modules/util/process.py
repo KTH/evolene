@@ -5,13 +5,13 @@ import logging
 import os
 from modules.util.exceptions import PipelineException
 
-def run_with_output(cmd, log_cmd=False, check=True):
+def run_with_output(cmd, log_cmd=True, check=True):
     log = logging.getLogger("-")
     try:
         if log_cmd:
             log.info("Command: '%s'", cmd)
 
-        os.environ["BASH_ENV"] = "/root/.bashrc"
+        # os.environ["BASH_ENV"] = "/root/.bashrc"
         result = subprocess.run(args = cmd,
                     shell=True,
                     executable="/bin/bash",
