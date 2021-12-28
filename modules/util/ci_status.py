@@ -17,7 +17,7 @@ log = logging.getLogger("-")
 def post(data, step, step_value, severity, description = None):
 
     if not artifact.should_store():
-        log.info(f'No information about this build will be sent to ci-status.')
+        log.debug(f'No information about this build will be sent to ci-status.')
         return
 
     log.info(f'Adding {step} with value {step_value} to ci-status dashboard.')
