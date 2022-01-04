@@ -5,6 +5,7 @@ import sys
 import json
 from modules.pipeline_steps.docker_login_step import DockerLoginStep
 from modules.pipeline_steps.docker_version import DockerVersion
+from modules.pipeline_steps.open_source import OpenSourceStep
 from modules.pipeline_steps.setup_step import SetupStep
 from modules.pipeline_steps.read_conf_step import ReadConfFileStep
 from modules.pipeline_steps.image_version_step import ImageVersionStep
@@ -45,6 +46,8 @@ class DockerDeployPipeline(object):
             ImageVersionStep(),
             # Check old dependencies
             DependenciesCheckStep(),
+            # Is the source open?
+            OpenSourceStep(),
             # Check Dockerfile exists
             DockerFileStep(),
             # Check Dockerfiles FROM statement
