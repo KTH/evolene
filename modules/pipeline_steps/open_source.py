@@ -20,6 +20,7 @@ class OpenSourceStep(AbstractPipelineStep):
     def run_step(self, data):
         if self.is_public(data[pipeline_data.IMAGE_NAME]):
             self.log.info('%s is open source on Github.', data[pipeline_data.IMAGE_NAME])
+            self.log.info('Repos name: %s\nImage name: %s', environment.get_github_repository(), environment.get_image_name())
             ci_status.post_open_source(data, 'Open Source', 0)
         else:
             self.log.info('Git repository is closed from public access.')
