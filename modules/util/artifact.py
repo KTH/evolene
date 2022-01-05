@@ -25,7 +25,7 @@ def should_store():
     '''
     if git.is_main_branch():
         log.info(
-            f'Build artefact will be stored in repository since it is {environment.get_git_branch()}.')
+            f'Built artefact will be stored in repository since it is {environment.get_git_branch()}.')
         return True
 
     if branch_starts_with(environment.get_branches_save_starting_with()):
