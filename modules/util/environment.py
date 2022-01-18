@@ -112,6 +112,13 @@ def get_project_root():
 def get_github_workspace():
     return os.environ.get(GITHUB_WORKSPACE)
 
+def is_local_unit_test():
+    # Is test run via ./run_tests.sh
+    if get_project_root() == "./test/data":
+        return True
+    return False
+
+
 def get_docker_mount_root():
     if get_github_workspace():
         return get_github_workspace()

@@ -10,12 +10,15 @@ class OpenSourceStepTest(unittest.TestCase):
 
     def test_closed(self):
         step = OpenSourceStep()
-        self.assertFalse(step.is_public('search-api'))
+        os.environ[environment.GITHUB_REPOSITORY] = "KTH/search-api"
+        self.assertFalse(step.is_public())
 
     def test_closed_when_404(self):
         step = OpenSourceStep()
-        self.assertFalse(step.is_public('none-existing-repo'))
+        os.environ[environment.GITHUB_REPOSITORY] = "KTH/none-existing-repo"
+        self.assertFalse(step.is_public())
 
     def test_open(self):
         step = OpenSourceStep()
-        self.assertTrue(step.is_public('evolene'))
+        os.environ[environment.GITHUB_REPOSITORY] = "KTH/evolene"
+        self.assertTrue(step.is_public())

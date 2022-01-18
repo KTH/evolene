@@ -18,7 +18,7 @@ class OpenSourceStep(AbstractPipelineStep):
         return []
 
     def run_step(self, data):
-        if self.is_public(data[pipeline_data.IMAGE_NAME]):
+        if self.is_public():
             self.log.info('%s is open source on Github.', data[pipeline_data.IMAGE_NAME])
             ci_status.post_open_source(data, 'Open Source', 0)
         else:
@@ -29,9 +29,7 @@ class OpenSourceStep(AbstractPipelineStep):
          
         return data
 
-    def is_public(self, image_name):
-        if not image_name:
-            return False
+    def is_public(self):
         try:
             response = requests.get(f'https://github.com/{environment.get_github_repository()}')
             if response.status_code == 200:
