@@ -100,8 +100,8 @@ def login(user, pwd_env, host=""):
 
 def run_test(compose_test_file, data):
     image_id = data[pipeline_data.LOCAL_IMAGE_ID]
-    cmd = (f'cd {file_util.get_project_root()} && LOCAL_IMAGE_ID={image_id} '
-           f'{environment.get_tests_secrets()} WORKSPACE={environment.get_docker_mount_root()} docker-compose --file {compose_test_file} up '
+    cmd = (f'cd {file_util.get_project_root()} && '
+           f'{environment.get_tests_secrets_export_cmd()} LOCAL_IMAGE_ID={image_id}  WORKSPACE={environment.get_docker_mount_root()} docker-compose --file {compose_test_file} up '
            f'--build '
            f'--no-log-prefix '
            f'--quiet-pull '
@@ -109,7 +109,7 @@ def run_test(compose_test_file, data):
            f'--always-recreate-deps '
            f'--force-recreate')
 
-    output = process.run_with_output(cmd, log_cmd=False, check=True)
+    output = process.run_with_output(cmd, log_cmd=True, check=True)
 
     cmd_clean = (f'docker-compose --file {compose_test_file} down -v')
 
