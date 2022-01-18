@@ -90,6 +90,10 @@ def post_open_source(data, step_status, severity, description = None):
     if is_docker_pipeline(data):
         post(data, 'OPEN_SOURCE', step_status, severity, description)
 
+def post_team(data, step_status, severity, description = None):
+    if is_docker_pipeline(data):
+        post(data, 'TEAM', step_status, severity, description)
+
 def is_docker_pipeline(data):
     if data is None:
         return False

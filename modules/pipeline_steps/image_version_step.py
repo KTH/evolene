@@ -30,11 +30,21 @@ class ImageVersionStep(AbstractPipelineStep):
         self.log.info(f'Final image version: {data[pipeline_data.IMAGE_VERSION]}')
 
         # First place where we have image version need for CI-status
-        ci_status.post_ci_environment_run(data, ci_status.STATUS_CI_PLATTFORM_GITHUB, 0)
+        self.post_to_ci_status(data)    
 
         self.step_ok()
         
         return data
+
+    def post_to_ci_status(self, data):
+        # ENVIRONMENT
+        ci_status.post_ci_environment_run(data, ci_status.STATUS_CI_PLATTFORM_GITHUB, 0)
+
+        # TEAM
+        if environment.get_slack_channels():
+            ci_status.post_team(data, environment.get_slack_channels()[0], 0)
+        else:
+            ci_status.post_team(data, 'Missing SLACK_CHANNELS env', 10)            
 
     def get_patch_version(self, data):
         if pipeline_data.PATCH_VERSION in data:
