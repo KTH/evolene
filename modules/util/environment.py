@@ -212,7 +212,7 @@ def get_tests_secrets_export_cmd():
     file = '/tmp/test_secrets.env'
     secrets = get_tests_secrets()
     if secrets:
-        file_util.overwite(file, secrets.replace('\n', ' '))
+        file_util.overwite_absolute(file, secrets.replace('\n', ' '))
         return f'export $(grep -v "^#" {file} | xargs) && '
     return ""
 
