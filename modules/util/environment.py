@@ -3,7 +3,7 @@ __author__ = 'tinglev'
 import os
 import datetime
 import time
-import file_util
+from modules.util import file_util
 
 IMAGE_NAME = 'IMAGE_NAME'
 PROJECT_ROOT = 'WORKSPACE'
