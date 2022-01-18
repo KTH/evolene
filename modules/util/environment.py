@@ -3,6 +3,7 @@ __author__ = 'tinglev'
 import os
 import datetime
 import time
+import file_util
 
 IMAGE_NAME = 'IMAGE_NAME'
 PROJECT_ROOT = 'WORKSPACE'
@@ -206,6 +207,15 @@ def get_tests_secrets():
     if secrets:
         return secrets.replace('\n', ' ')
     return ""
+
+def get_tests_secrets_export_cmd():
+    file = '/tmp/test_secrets.env'
+    secrets = get_tests_secrets()
+    if secrets:
+        file_util.overwite(file, secrets.replace('\n', ' '))
+        return f'export $(grep -v "^#" {file} | xargs) && '
+    return ""
+
 
 def get_docker_build_args():
     args = os.environ.get(DOCKER_BUILD_ARGS)
