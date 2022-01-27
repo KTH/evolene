@@ -18,8 +18,10 @@ RUN pipenv install
 
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 
+# npm sets npm_config_prefix when running with --prefix which makes nvm init fail for subshells
+RUN echo "unset npm_config_prefix" > /root/.evolene_bashrc
 # Extract nvm init to own file as .bashrc aborts on noninteractive shells
-RUN tail -3 /root/.bashrc > /root/.evolene_bashrc
+RUN tail -3 /root/.bashrc >> /root/.evolene_bashrc
 
 COPY ["modules",  "modules"]
 COPY ["run.py", "run.py"]
