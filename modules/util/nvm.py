@@ -24,7 +24,7 @@ def get_npm_base(data):
     nvm_base = get_nvm_exec_base(data)
     project_path = environment.get_project_root()
     return (
-        f'{nvm_base} npm '
+        f'{nvm_base} npm --prefix {project_path}'
     )
 
 def run_npm_script(data, script_name):
