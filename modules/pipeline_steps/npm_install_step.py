@@ -22,7 +22,7 @@ class NpmInstallStep(AbstractPipelineStep):
     def run_step(self, data):
         try:
             if pipeline_data.NPM_CONF_LEGACY_PEER_DEPS in data:
-                nvm.exec_npm_command(data, '--legacy-peer-deps')
+                nvm.exec_npm_command(data, 'install', '--legacy-peer-deps')
             else:
                 nvm.exec_npm_command(data, 'install')
         except PipelineException as npm_ex:
