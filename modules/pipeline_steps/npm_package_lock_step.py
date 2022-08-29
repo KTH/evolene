@@ -23,11 +23,10 @@ class NpmPackageLockStep(AbstractPipelineStep):
         try:
             nvm.exec_npm_command(data, 'install --package-lock-only')
         except PipelineException as npm_ex:
-            pass
-            # self.handle_step_error(
-            #     'Exception when trying to install package.lock file',
-            #     npm_ex
-            # )
+            self.handle_step_error(
+                'Exception when trying to install package.lock file',
+                npm_ex
+            )
         self.log.debug('Created package lock file')
         self.step_ok()
         return data
