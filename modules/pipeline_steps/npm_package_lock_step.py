@@ -21,7 +21,11 @@ class NpmPackageLockStep(AbstractPipelineStep):
 
     def run_step(self, data):
         try:
-            nvm.exec_npm_command(data, 'install --package-lock-only')
+            if pipeline_data.NPM_CONF_LEGACY_PEER_DEPS in data:
+                nvm.exec_npm_command(
+                    data, 'install', '--package-lock-only --legacy-peer-deps')
+            else:
+                nvm.exec_npm_command(data, 'install --package-lock-only')
         except PipelineException as npm_ex:
             self.handle_step_error(
                 'Exception when trying to install package.lock file',
