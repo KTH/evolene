@@ -15,7 +15,7 @@ from modules.util import ci_status
 
 class InjectNpmWorkspacePackages(AbstractPipelineStep):
 
-    name = "Build Docker image"
+    name = "Injecting Local Workspace Packages"
     def get_required_env_variables(self):
         return [environment.PROJECT_ROOT]
 
