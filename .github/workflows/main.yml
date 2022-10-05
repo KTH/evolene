@@ -1,6 +1,6 @@
 name: Evolene CI
 
-on:  
+on: 
   push:
     paths-ignore:
           - '*.md'
@@ -18,6 +18,8 @@ jobs:
           SLACK_CHANNELS: "#team-pipeline-build"
           BUILD_INFORMATION_OUTPUT_FILE: "/version.conf"
           PUSH_PUBLIC: True
+          BRANCHES_SAVE_STARTING_WITH: 'refs/heads/feature-inject-local-workspace-packages'
+          BRANCHES_TAG_AS_MAIN: 'True'
           EVOLENE_TEST_SECRETS: "${{secrets.EVOLENE_TEST_SECRETS}}"
         run: |
           ${{ secrets.EVOLENE_RUN_COMMAND }}
