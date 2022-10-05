@@ -20,7 +20,7 @@ class InjectNpmWorkspacePackages(AbstractPipelineStep):
         return [environment.PROJECT_ROOT]
 
     def get_required_data_keys(self):
-        return [pipeline_data.IMAGE_VERSION, pipeline_data.IMAGE_NAME]
+        return []
 
     def run_step(self, data):
         try:
