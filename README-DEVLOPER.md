@@ -9,8 +9,8 @@ To run the tests you need pipenv. Install it using the macOS package manager htt
 brew install pipenv
 ```
 
-2. Run tests
+2. Run tests (INSTALL=True is only required on first run)
 
 ```sh
-./run_tests.sh
+INSTALL=True ./run_tests_in_docker.sh
 ```
