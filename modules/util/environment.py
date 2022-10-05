@@ -128,6 +128,8 @@ def get_project_root():
         return os.path.join(os.environ.get(PROJECT_ROOT), os.environ.get(MONOREPO_SUBPATH))
     return os.environ.get(PROJECT_ROOT)
 
+def get_repos_root():
+    return os.environ.get(PROJECT_ROOT)
 
 def get_clone_path():
     return os.environ.get(PROJECT_ROOT)

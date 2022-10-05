@@ -27,7 +27,9 @@ def read_as_string_absolute(file_path):
             return afile.read()
     return None
 
-def get_absolue_path(relative_file_path):
+def get_absolue_path(relative_file_path, from_repos_root=False):
+    if from_repos_root:
+        return '{}{}'.format(get_repos_root(), relative_file_path)
     return '{}{}'.format(get_project_root(), relative_file_path)
 
 def get_docker_mounted_path(relative_file_path):
@@ -35,6 +37,9 @@ def get_docker_mounted_path(relative_file_path):
 
 def get_project_root():
     return environment.get_project_root().rstrip('/')
+
+def get_repos_root():
+    return environment.get_repos_root().rstrip('/')
 
 def is_file(relative_file_path):
     return os.path.isfile(get_absolue_path(relative_file_path))
