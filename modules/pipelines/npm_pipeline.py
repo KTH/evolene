@@ -28,6 +28,7 @@ from modules.pipeline_steps.done_step import DoneStep
 from modules.util.exceptions import PipelineException
 from modules.util import print_util, slack, pipeline_data, pipeline, environment
 
+
 class NpmPipeline(object):
 
     def __init__(self):
@@ -47,7 +48,8 @@ class NpmPipeline(object):
             # Make sure author exists and has name and email set
             NpmAuthorPolicy(),
             # Read and validate the npm.conf file
-            ReadConfFileStep('npm.conf', [pipeline_data.NPM_CONF_NODE_VERSION]),
+            ReadConfFileStep(
+                'npm.conf', [pipeline_data.NPM_CONF_NODE_VERSION]),
             # Install the requested node version if missing in nvm
             InitNodeEnvironmentStep(),
             # Read the npm version from package.json
@@ -57,7 +59,7 @@ class NpmPipeline(object):
             # Check if the latest published version differs from this one
             NpmVersionChangedStep(),
             # Check old dependencies and inform
-            NpmDependenciesStep(),
+            # NpmDependenciesStep(),
             # Run npm install
             NpmInstallStep(),
             # Login to npm
@@ -90,7 +92,8 @@ class NpmPipeline(object):
             data = self.pipeline_steps[0].run_pipeline_step({})
         except PipelineException as p_ex:
             self.log.fatal('%s'.encode('UTF-8'), p_ex, exc_info=False)
-            slack.send(f'<!here> *{environment.get_github_repository()}*', snippet=p_ex.slack_message, username='Faild to build or test (Evolene)')
+            slack.send(f'<!here> *{environment.get_github_repository()}*',
+                       snippet=p_ex.slack_message, username='Faild to build or test (Evolene)')
             print_util.red(f"{p_ex} - Such bad, very learning")
             sys.exit(1)
 
