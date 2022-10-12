@@ -10,6 +10,7 @@ from modules.pipeline_steps.setup_step import SetupStep
 from modules.pipeline_steps.read_conf_step import ReadConfFileStep
 from modules.pipeline_steps.image_version_step import ImageVersionStep
 from modules.pipeline_steps.docker_file_step import DockerFileStep
+from modules.pipeline_steps.inject_npm_workspace_packages import InjectNpmWorkspacePackages
 from modules.pipeline_steps.build_local_step import BuildLocalStep
 from modules.pipeline_steps.build_environment_to_file_step import BuildEnvironmentToFileStep
 from modules.pipeline_steps.test_image_step import TestImageStep
@@ -62,6 +63,8 @@ class DockerDeployPipeline(object):
             RepoSupervisorStep(),
             # Create docker --build-arg
             DockerCreateBuildArgStep(),
+            # Inject local packages from NPM Workspace monorepos
+            InjectNpmWorkspacePackages(),
             # Build the image to local registry
             BuildLocalStep(),
             # It never to late to party
