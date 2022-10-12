@@ -47,6 +47,7 @@ class InjectNpmWorkspacePackages(AbstractPipelineStep):
             # Copy local packages
             for package_name, pkg in local_packages.items():
                 # Need to add leading slash to source path
+                self.log.info(f'Injecting package "{package_name}" from "{pkg["path"]}"')
                 src = file_util.get_absolue_path(f"/{pkg['path']}", from_repos_root=True)
                 dest = file_util.get_absolue_path(f'/evolene_local_packages/{package_name}')
                 shutil.copytree(src, dest, dirs_exist_ok=True)
