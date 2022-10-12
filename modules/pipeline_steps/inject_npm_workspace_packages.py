@@ -30,6 +30,8 @@ class InjectNpmWorkspacePackages(AbstractPipelineStep):
 
             if not has_evolene_local_packages_json:
                 # This app doesn't have local packages to inject
+                self.log.info(f'No evolene-local-packages.json file found.')
+                self.step_skipped()
                 return data
 
             self.log.info(f'Found evolene-local-packages.json, injecting local workspace packages.')
