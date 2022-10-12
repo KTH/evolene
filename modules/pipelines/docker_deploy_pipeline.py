@@ -28,6 +28,7 @@ from modules.util.exceptions import PipelineException
 from modules.util import (environment, print_util, slack,
                           pipeline, pipeline_data, ci_status)
 
+
 class DockerDeployPipeline(object):
 
     def __init__(self):
@@ -41,11 +42,12 @@ class DockerDeployPipeline(object):
             # Login to docker registry
             DockerLoginStep(),
             # Check the content of docker.conf
-            ReadConfFileStep('docker.conf', [environment.IMAGE_NAME, pipeline_data.IMAGE_VERSION]),
+            ReadConfFileStep(
+                'docker.conf', [environment.IMAGE_NAME, pipeline_data.IMAGE_VERSION]),
             # Create new image version major.minor.path_githash
             ImageVersionStep(),
             # Check old dependencies
-            DependenciesCheckStep(),
+            # DependenciesCheckStep(),
             # Is the source open?
             OpenSourceStep(),
             # Check Dockerfile exists
@@ -85,18 +87,19 @@ class DockerDeployPipeline(object):
     def run_steps(self):
         data = {
             pipeline_data.IMAGE_NAME: 'No IMAGE_NAME set yet',
-            pipeline_data.IMAGE_VERSION: 'No IMAGE_VERSION set yet' ,
+            pipeline_data.IMAGE_VERSION: 'No IMAGE_VERSION set yet',
         }
         try:
             self.log.info('Running Docker build pipeline')
             data = self.pipeline_steps[0].run_pipeline_step(data)
         except PipelineException as p_ex:
             self.log.fatal('%s'.encode('UTF-8'), p_ex, exc_info=False)
-            slack.send(f'<!here> *{environment.get_github_repository()}*', snippet=p_ex.slack_message, username='Faild to build or test (Evolene)')
+            slack.send(f'<!here> *{environment.get_github_repository()}*',
+                       snippet=p_ex.slack_message, username='Faild to build or test (Evolene)')
             print_util.red("Such bad, very learning.")
-            ci_status.post_build_done(data, ci_status.STATUS_ERROR, 10, str(p_ex))
+            ci_status.post_build_done(
+                data, ci_status.STATUS_ERROR, 10, str(p_ex))
             sys.exit(1)
-           
 
     def verify_environment(self):
         try:

@@ -59,7 +59,7 @@ class NpmPipeline(object):
             # Check if the latest published version differs from this one
             NpmVersionChangedStep(),
             # Check old dependencies and inform
-            # NpmDependenciesStep(),
+            NpmDependenciesStep(),
             # Run npm install
             NpmInstallStep(),
             # Login to npm
