@@ -87,7 +87,7 @@ class AbstractPipelineStep:
                    username='Build failed on Github Actions (Evolene)')
 
     def run_pipeline_step(self, data):
-        print(f"Running step {type(self).__name__}")
+        self.log.info(f"🪚🔨 Running step {type(self).__name__}")
         if not self.step_environment_ok():
             return data
         if not self.step_data_is_ok(data):
