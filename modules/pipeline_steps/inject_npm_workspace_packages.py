@@ -47,6 +47,7 @@ class InjectNpmWorkspacePackages(AbstractPipelineStep):
                     tmpSubPath = sub_prj["path"].strip('/')
                     self.inject_local_packages(f'/{tmpSubPath}')
             else:
+                self.log.info(f'Checking root of project.')
                 self.inject_local_packages()
 
         except:
