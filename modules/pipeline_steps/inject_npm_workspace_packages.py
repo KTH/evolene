@@ -28,8 +28,8 @@ class InjectNpmWorkspacePackages(AbstractPipelineStep):
             '''
             evolene-sub-projects.json:
             {
-                "[sub-project-name": {
-                    "path": "path/from/project/root"
+                "[sub-project-name]": {
+                    "path": "[path/from/project/root]"
                 }
             }
             NOTE: Project root is the folder containing the Dockerfile
@@ -62,7 +62,7 @@ class InjectNpmWorkspacePackages(AbstractPipelineStep):
             evolene-local-packages.json:
             {
                 "[package-name]": {
-                    "path": "path/from/repos/root"
+                    "path": "[path/from/repos/root]"
                 }
             }
         '''
