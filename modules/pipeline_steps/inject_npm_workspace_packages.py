@@ -24,33 +24,30 @@ class InjectNpmWorkspacePackages(AbstractPipelineStep):
 
     def run_step(self, data):
         try:
-            # Read evolene-local-packages.json
-            evolene_local_packages_json_path = file_util.get_absolue_path('/evolene-local-packages.json')
-            has_evolene_local_packages_json = os.path.isfile(evolene_local_packages_json_path)
+            # Check for evolene-sub-projects.json
+            '''
+            evolene-sub-projects.json:
+            {
+                "[sub-project-name": {
+                    "path": "path/from/project/root"
+                }
+            }
+            NOTE: Project root is the folder containing the Dockerfile
+            '''
+            evolene_sub_projects_json_path = file_util.get_absolue_path('/evolene-sub-projects.json')
+            has_evolene_sub_projects_json = os.path.isfile(evolene_sub_projects_json_path)
 
-            if not has_evolene_local_packages_json:
-                # This app doesn't have local packages to inject
-                self.log.info(f'No evolene-local-packages.json file found.')
-                self.step_skipped()
-                return data
+            if has_evolene_sub_projects_json:
+                self.log.info(f'Found evolene-sub-projects.json, cheking each sub project.')
+                with open(evolene_sub_projects_json_path) as f:
+                    sub_projects = json.load(f)
 
-            self.log.info(f'Found evolene-local-packages.json, injecting local workspace packages.')
-            with open(evolene_local_packages_json_path) as f:
-                local_packages = json.load(f)
-
-            # Check if subdir evolene_local_packages/ exists
-            evolene_local_packages_path = file_util.get_absolue_path('/evolene_local_packages')
-            has_evolene_local_packages = os.path.isdir(evolene_local_packages_path)
-            if not has_evolene_local_packages:
-                os.mkdir(evolene_local_packages_path)
-
-            # Copy local packages
-            for package_name, pkg in local_packages.items():
-                # Need to add leading slash to source path
-                self.log.info(f'Injecting package "{package_name}" from "{pkg["path"]}"')
-                src = file_util.get_absolue_path(f"/{pkg['path']}", from_repos_root=True)
-                dest = file_util.get_absolue_path(f'/evolene_local_packages/{package_name}')
-                shutil.copytree(src, dest, dirs_exist_ok=True)
+                for sub_project_name, sub_prj in sub_projects:
+                    self.log.info(f'Checking sub project "{sub_project_name}" at "{sub_prj["path"]}".')
+                    tmpSubPath = sub_prj["path"].strip('/')
+                    self.inject_local_packages(f'/{tmpSubPath}')
+            else:
+                self.inject_local_packages()
 
         except:
             ci_status.post_local_build(data, ci_status.STATUS_ERROR, 10, text_cleaner.clean(sys.exc_info()[0]))
@@ -58,3 +55,41 @@ class InjectNpmWorkspacePackages(AbstractPipelineStep):
 
         self.step_ok()
         return data
+
+    def inject_local_packages(self, sub_path = ""):
+        # Read evolene-local-packages.json
+        '''
+            evolene-local-packages.json:
+            {
+                "[package-name]": {
+                    "path": "path/from/repos/root"
+                }
+            }
+        '''
+        evolene_local_packages_json_path = file_util.get_absolue_path(f'{sub_path}/evolene-local-packages.json')
+        has_evolene_local_packages_json = os.path.isfile(evolene_local_packages_json_path)
+
+        if not has_evolene_local_packages_json:
+            # This app doesn't have local packages to inject
+            self.log.info(f'No evolene-local-packages.json file found.')
+            self.step_skipped()
+            return
+
+        self.log.info(f'Found evolene-local-packages.json, injecting local workspace packages.')
+        with open(evolene_local_packages_json_path) as f:
+            local_packages = json.load(f)
+
+        # Check if subdir evolene_local_packages/ exists
+        evolene_local_packages_path = file_util.get_absolue_path(f'{sub_path}/evolene_local_packages')
+        has_evolene_local_packages = os.path.isdir(evolene_local_packages_path)
+        if not has_evolene_local_packages:
+            os.mkdir(evolene_local_packages_path)
+
+        # Copy local packages
+        for package_name, pkg in local_packages.items():
+            # Need to add leading slash to source path
+            self.log.info(f'Injecting package "{package_name}" from "{pkg["path"]}"')
+            src = file_util.get_absolue_path(f"/{pkg['path']}", from_repos_root=True)
+            dest = file_util.get_absolue_path(f'{sub_path}/evolene_local_packages/{package_name}')
+            shutil.copytree(src, dest, dirs_exist_ok=True)
+
