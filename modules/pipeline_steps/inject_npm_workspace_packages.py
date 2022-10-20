@@ -42,7 +42,7 @@ class InjectNpmWorkspacePackages(AbstractPipelineStep):
                 with open(evolene_sub_projects_json_path) as f:
                     sub_projects = json.load(f)
 
-                for sub_project_name, sub_prj in sub_projects:
+                for sub_project_name, sub_prj in sub_projects.items():
                     self.log.info(f'Checking sub project "{sub_project_name}" at "{sub_prj["path"]}".')
                     tmpSubPath = sub_prj["path"].strip('/')
                     self.inject_local_packages(f'/{tmpSubPath}')
