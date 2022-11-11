@@ -28,5 +28,8 @@ class CelebrateStep(AbstractPipelineStep):
             return ("<!here> :parrot_party: :parrot_party: :parrot_party: {} build number {}! "
                     "You are worth some :champagne:\nhttps://www.youtube.com/watch?v=eCzhNPSXpfI"
                     .format(data[pipeline_data.IMAGE_NAME], build_nr))
+        if "1337" in str(environment.get_build_number()):
+            return f"<!here> :one::three: :three: :seven: {data[pipeline_data.IMAGE_NAME]} build number {build_nr}!\nYou are worth some Jolt :coke2:\nhttps://www.youtube.com/watch?v=jdulcKB14hs"                
+
         self.step_ok()
         return None
