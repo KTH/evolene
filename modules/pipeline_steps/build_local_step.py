@@ -34,9 +34,9 @@ class BuildLocalStep(AbstractPipelineStep):
             data[pipeline_data.LOCAL_IMAGE_ID] = image_id
             ci_status.post_local_build(data, f'{size}', 0, 'The Docker image was built successfully from /Dockerfile.')
             self.log.info('Built image with id "%s" and size "%s"', image_id, size)
-        except:
+        except Exception as exc:
             ci_status.post_local_build(data, ci_status.STATUS_ERROR, 10, text_cleaner.clean(sys.exc_info()[0]))
-            self.handle_step_error("Unknown error when building Docker image.", sys.exc_info()[0])
+            self.handle_step_error(f"Error when building Docker image {exc}.", sys.exc_info()[0])
         self.step_ok()
         return data
 
@@ -70,8 +70,9 @@ class BuildLocalStep(AbstractPipelineStep):
         build_args = data[pipeline_data.BUILD_ARGS]
         try:
             image_id = docker.build(build_args=build_args, labels=[lbl_image_name, lbl_image_version])
-        except:
+        except Exception as exc:
             ci_status.post_local_build(data, ci_status.STATUS_ERROR, 10, text_cleaner.clean(sys.exc_info()[0]))
             slack.send(text=f'Failed to build Docker images for {lbl_image_name}:{lbl_image_version}', icon=":no_entry:", username='Docker build failed on Github Actions (Evolene)')
-            self.handle_step_error(f'Failed to build Docker images for {lbl_image_name}:{lbl_image_version}', sys.exc_info()[0])
+            self.handle_step_error(f'Failed to build Docker images for {lbl_image_name}:{lbl_image_version} {exc}', sys.exc_info()[0])
+            raise Exception from exc
         return self.format_image_id(image_id)
