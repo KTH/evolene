@@ -94,5 +94,5 @@ class DockerFileTests(unittest.TestCase):
             pipeline_data.IMAGE_NAME: "my-app-pyton38",
             pipeline_data.IMAGE_VERSION: "1.2.3_abcdef"
         }
-        valid = FromImageStep().validate("FROM kthse/kth-python:3.8.0", data)
+        valid = FromImageStep().validate("FROM kthregistry.azurecr.io/kth-python:3.8.0", data)
         self.assertTrue(valid)
