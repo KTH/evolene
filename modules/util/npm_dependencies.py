@@ -12,7 +12,7 @@ from modules.util import slack
 log = logging.getLogger("-")
 
 PACKAGE_JSON = '/package.json'
-IMAGE_NAME = 'kthse/npm-package-available'
+IMAGE_NAME = 'kthregistry.azurecr.io/npm-package-available'
 
 def run(name):
     if file_util.is_file(PACKAGE_JSON):

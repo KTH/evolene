@@ -10,7 +10,7 @@ class NpmDependenciesTests(unittest.TestCase):
         self.assertEqual(npm_dependencies.PACKAGE_JSON, "/package.json")
 
     def test_ncu_package_name(self):
-        self.assertEqual(npm_dependencies.IMAGE_NAME, "kthse/npm-package-available")
+        self.assertEqual(npm_dependencies.IMAGE_NAME, "kthregistry.azurecr.io/npm-package-available")
 
     def test_clean_removes_load_info(self):
 
