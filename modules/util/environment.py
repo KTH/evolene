@@ -26,6 +26,10 @@ PUBLIC_REGISTRY_HOST = 'PUBLIC_REGISTRY_HOST'
 PUBLIC_REGISTRY_USER = 'PUBLIC_REGISTRY_USER'
 PUBLIC_REGISTRY_PASSWORD = 'PUBLIC_REGISTRY_PASSWORD'
 
+GITHUB_REGISTRY_HOST = 'GITHUB_REGISTRY_HOST'
+GITHUB_REGISTRY_USER = 'GITHUB_REGISTRY_USER'
+GITHUB_REGISTRY_PASSWORD = 'GITHUB_REGISTRY_PASSWORD'
+
 AZURE_REGISTRY_HOST = 'AZURE_REGISTRY_HOST'
 AZURE_REGISTRY_USER = 'AZURE_REGISTRY_USER'
 AZURE_REGISTRY_PASSWORD = 'AZURE_REGISTRY_PASSWORD'
@@ -36,6 +40,7 @@ EXPERIMENTAL = 'EXPERIMENTAL'
 SKIP_DRY_RUN = 'SKIP_DRY_RUN'
 PUSH_PUBLIC = 'PUSH_PUBLIC'
 PUSH_AZURE = 'PUSH_AZURE'
+PUSH_GITHUB = 'PUSH_GITHUB'
 BRANCHES_SAVE_STARTING_WITH = 'BRANCHES_SAVE_STARTING_WITH'
 BRANCHES_TAG_AS_MAIN = 'BRANCHES_TAG_AS_MAIN'
 NPM_USER = 'NPM_USER'
@@ -89,6 +94,18 @@ def get_public_registry_user():
 
 def get_public_registry_password():
     return os.environ.get(PUBLIC_REGISTRY_PASSWORD)
+
+
+def get_github_registry_host():
+    return os.environ.get(GITHUB_REGISTRY_HOST)
+
+
+def get_github_registry_user():
+    return os.environ.get(GITHUB_REGISTRY_USER)
+
+
+def get_github_registry_password():
+    return os.environ.get(GITHUB_REGISTRY_PASSWORD)
 
 
 def get_azure_registry_host():
@@ -181,6 +198,10 @@ def get_evolene_directory():
 
 def get_push_public():
     return is_true(PUSH_PUBLIC)
+
+
+def get_push_github():
+    return is_true(PUSH_GITHUB)
 
 
 def get_push_azure():
