@@ -20,9 +20,8 @@ class DockerLoginStep(AbstractPipelineStep):
             self.log.info('Logging in to Docker Hub.')
             docker.login_public()
 
-        if (not environment.get_push_public()):
-            self.log.info('Logging in to Azure Container Registry.')
-            docker.login_azure()
+        self.log.info('Logging in to Azure Container Registry.')
+        docker.login_azure()
 
         self.step_ok()
 
