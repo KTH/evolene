@@ -20,7 +20,6 @@ class PushGithubImageStep(AbstractPipelineStep):
         return [pipeline_data.IMAGE_NAME, pipeline_data.IMAGE_VERSION, pipeline_data.SEM_VER, pipeline_data.IMAGE_TAGS, pipeline_data.LOCAL_IMAGE_ID]
 
     def run_step(self, data):
-        self.log.info(f'PUSH_GITHUB:{os.environ.get("PUSH_GITHUB")}\nENV.GET_PUSH:{environment.get_push_github()}')
         if environment.get_push_github():
             if artifact.should_store():
                 self.push_image(data)

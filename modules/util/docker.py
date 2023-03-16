@@ -91,6 +91,10 @@ def login_public():
     return login(environment.get_public_registry_user(), environment.PUBLIC_REGISTRY_PASSWORD)
 
 
+def login_github():
+    return login(environment.get_github_registry_user(), environment.GITHUB_REGISTRY_PASSWORD, environment.get_github_registry_host())
+
+
 def login(user, pwd_env, host=""):
     # Send password via standard in.
     retval = process.run_with_output(

@@ -20,6 +20,10 @@ class DockerLoginStep(AbstractPipelineStep):
             self.log.info('Logging in to Docker Hub.')
             docker.login_public()
 
+        if environment.get_push_github():
+            self.log.info('Logging in to Github Container Registry.')
+            docker.login_github()
+
         self.log.info('Logging in to Azure Container Registry.')
         docker.login_azure()
 
