@@ -16,7 +16,7 @@ class RepoSupervisorStep(AbstractPipelineStep):
     name = "Scan source code for password and tokens"
 
     SCANIGNORE_FILE = '/.scanignore'
-    REPO_SUPERVISOR_IMAGE_NAME = 'kthse/repo-supervisor:2.0.0'
+    REPO_SUPERVISOR_IMAGE_NAME = 'kthregistry.azurecr.io/repo-supervisor:2.0.0'
     REPO_MOUNTED_DIR = '/opt/scan_me'
     DEFAULT_PATTERNS = [
         '/node_modules/'
